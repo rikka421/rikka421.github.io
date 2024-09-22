@@ -33,17 +33,17 @@
 <meta property="og:site_name" content="RIKKA&#39;s Blog">
 <meta property="og:description" content="记录初探CF竞赛的经历.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2024/09/22/2024-09-22/images/24-09-22-12.png">
-<meta property="og:image" content="http://example.com/2024/09/22/2024-09-22/images/24-09-22-2-2.png">
-<meta property="og:image" content="http://example.com/2024/09/22/2024-09-22/images/24-09-22-2-3.png">
-<meta property="og:image" content="http://example.com/2024/09/22/2024-09-22/images/24-09-22-2-4.png">
-<meta property="og:image" content="http://example.com/2024/09/22/2024-09-22/images/24-09-22-3-0.png">
+<meta property="og:image" content="http://example.com/images/24-09-22-12.png">
+<meta property="og:image" content="http://example.com/images/24-09-22-2-2.png">
+<meta property="og:image" content="http://example.com/images/24-09-22-2-3.png">
+<meta property="og:image" content="http://example.com/images/24-09-22-2-4.png">
+<meta property="og:image" content="http://example.com/images/24-09-22-3-0.png">
 <meta property="article:published_time" content="2024-09-22T12:37:00.542Z">
-<meta property="article:modified_time" content="2024-09-22T14:09:03.820Z">
+<meta property="article:modified_time" content="2024-09-22T14:15:47.381Z">
 <meta property="article:author" content="RIKKA421">
 <meta property="article:tag" content="Codeforces">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2024/09/22/2024-09-22/images/24-09-22-12.png">
+<meta name="twitter:image" content="http://example.com/images/24-09-22-12.png">
   
     <link rel="alternate" href="/atom.xml" title="RIKKA's Blog" type="application/atom+xml">
   
@@ -222,19 +222,22 @@
 <p>在朋友的邀请下开始打Codeforces比赛了, 到目前为止参加了Round 973和974两场. 由于不熟悉赛程什么的, 加上12点左右就要睡觉, 只能打1个半小时左右, 所以成绩不算很好看. 还在修炼当中.</p>
 <h2 id="round-973-div-2"><a class="markdownIt-Anchor" href="#round-973-div-2"></a> Round 973 - Div 2</h2>
 <p>最终的成绩如下:</p>
-<p><img src="images/24-09-22-12.png" alt="" /></p>
+<p><img src="/images/24-09-22-12.png" alt="" /></p>
 <h3 id="a-打卡题-搅拌机榨水果"><a class="markdownIt-Anchor" href="#a-打卡题-搅拌机榨水果"></a> A 打卡题-搅拌机榨水果</h3>
 <p>了解题意后只需要求一个min就可以了.</p>
 <p>用cpp写的时候很不熟悉, 研究缓冲区之类的东西花了些时间, vscode的run code功能还坏掉了. 读题和提交也慢, 所以20多分钟才写完.</p>
 <h3 id="b-拳击手互殴"><a class="markdownIt-Anchor" href="#b-拳击手互殴"></a> B 拳击手互殴</h3>
-<p><img src="images/24-09-22-2-2.png" alt="" /></p>
+<p><img src="/images/24-09-22-2-2.png" alt="" /></p>
+<p>n名拳击手进行n-1场比赛, 右边的拳击手会将左边的拳击手淘汰, 同时自己的数值也降低. 最终剩下的必定是最右边的拳击手. 要求最终的选手的数值最大.</p>
 <p>一开始往贪心和动态规划之类的地方想, 满脑子都是递归之类的东西. 研究了许久之后, 发现了&quot;最后一位&quot;和&quot;倒数第二位&quot;两个位置的奇妙. 于是从数学上想清楚了思路.</p>
 <p>编写代码也很简单, 但是交上去老是过不了. 事后才发现是longlong的问题.</p>
 <blockquote>
 <p>十年OI一场空, 不开longlong见祖宗</p>
 </blockquote>
 <h3 id="c-hacking密码"><a class="markdownIt-Anchor" href="#c-hacking密码"></a> C hacking密码</h3>
-<p><img src="images/24-09-22-2-3.png" alt="" /></p>
+<p><img src="/images/24-09-22-2-3.png" alt="" title="0" /></p>
+<p>需要通过最多2n次&quot;是否包含子列&quot;的询问, 将n位的密码构建出来.<br />
+很有意思的题目. 样例给出来的&quot;询问方式&quot;都是直接问出答案的. 可能是因为正常询问就相当于进行了提示吧.</p>
 <p>一开始往树和信息熵的方面想, 同时尝试分析了几个例子, 却总是不得要领.</p>
 <p>后来打完974的晚上横竖睡不着, 躺在床上把它想了出来.</p>
 <p>核心思想就是, 用至多两次询问, 将&quot;确定的密码位数&quot;增加一位. 例如, 从&quot;0&quot;开始询问. 已知密码内包含串<code>x</code>的情况下, 分别询问<code>x0</code>, <code>x1</code>. 如果其中一个为&quot;包含&quot;, 那么已知的字串长度增加了1; 如果两个都不包含, 说明<code>x</code>一定位于密码末尾, 接下来挨个询问其左边的密码即可. 如此以来, 总能在<code>2n</code>次询问中解决问题.</p>
@@ -242,7 +245,7 @@
 <p>见到题目的第一时间把它想的太复杂了, 思路总是往&quot;形式化分析该问题&quot;上面靠, 导致老是在想&quot;输出的策略本身是一个树, 各种策略在一起又构成一个树&quot;之类的事情. 实际上应该先依靠直觉进行探索.</p>
 </blockquote>
 <h3 id="d-抹平贫富差距"><a class="markdownIt-Anchor" href="#d-抹平贫富差距"></a> D 抹平贫富差距</h3>
-<p><img src="images/24-09-22-2-4.png" alt="" /></p>
+<p><img src="/images/24-09-22-2-4.png" alt="" title="0" /></p>
 <p>类似&quot;流水从左往右冲刷沙堆&quot;的情况, 高度可以&quot;单向进行移动&quot;.</p>
 <p>一开始也是想着动态规划和递归什么的. 后面躺在床上发现了其中玄妙.</p>
 <p>秘诀就是, 从最左边出发, 将&quot;几乎等高&quot;的柱子看成一组, 同时, 组与组之间在某种情况下可以合并.<br />
@@ -261,7 +264,7 @@
 <hr />
 <h2 id="round-974-div-3"><a class="markdownIt-Anchor" href="#round-974-div-3"></a> Round 974 - Div 3</h2>
 <p>最终的成绩如下:</p>
-<p><img src="images/24-09-22-3-0.png" alt="" /></p>
+<p><img src="/images/24-09-22-3-0.png" alt="" title="0" /></p>
 <ul>
 <li>做了1h40min吧, 一直干到了00:30左右.</li>
 <li>最后还剩下20min, 感觉写下去是可以把第4题写出来的, 因为就差最后一点代码了. 但是也许不行.</li>
@@ -348,13 +351,13 @@
     
     <div class="article-nav-link-wrap article-nav-link-right">
       
-        <img data-src="/images/24-09-22-11.png" data-sizes="auto" alt="[读后感] Round 973 &amp;&amp; 974" class="lazyload">
+        <img data-src="/images/24-09-22-11.png" data-sizes="auto" alt="[读后感] 论清野凛为什么是神" class="lazyload">
       
       <a href="/2024/09/18/2024-09-18/"></a>
       <div class="article-nav-caption">后一篇</div>
       <h3 class="article-nav-title">
         
-          [读后感] Round 973 &amp;&amp; 974
+          [读后感] 论清野凛为什么是神
         
       </h3>
     </div>
@@ -482,10 +485,10 @@
       
         <div>
           <span class="icon-brush"></span>
-          8.6k
+          8.7k
           &nbsp;|&nbsp;
           <span class="icon-coffee"></span>
-          00:30
+          00:31
         </div>
       
       
