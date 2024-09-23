@@ -347,7 +347,7 @@
     <div class="post-info">
       <div class="post-meta">
         <span><span class="icon-calendar"></span>2024-09-13</span>
-        <span><span class="icon-pencil"></span>747 字</span>
+        <span><span class="icon-pencil"></span>800 字</span>
         <span><span class="icon-clock"></span>2 分钟</span>
       </div>
       <h2 class="post-title">Hello World -- 基于Hexo和githubio搭建博客的过程</h2>
@@ -615,7 +615,7 @@
       
         <div>
           <span class="icon-brush"></span>
-          10.6k
+          10.7k
           &nbsp;|&nbsp;
           <span class="icon-coffee"></span>
           00:36
@@ -768,6 +768,34 @@
   }
 </script>
 
+
+  
+<script src="https://npm.webcache.cn/valine@1.5.1/dist/Valine.min.js" data-pjax></script>
+
+  <script data-pjax>
+    var GUEST_INFO = ['nick', 'mail', 'link'];
+    var guest_info = 'nick,mail,link'.split(',').filter((item) => {
+      return GUEST_INFO.indexOf(item) > -1
+    });
+    var recordIP = JSON.parse('true');
+    var highlight = JSON.parse('true');
+    var visitor = JSON.parse('false');
+
+    new Valine({
+      el: '.vcomment',
+      appId: "M4jZ0oieL94Oyjqc8LeD1oXz-gzGzoHsz",
+      appKey: "jWmwVfXAV7Iv4Bj9uWLvb4f3",
+      placeholder: "Just go go",
+      pageSize: '10',
+      avatar: 'hide',
+      lang: 'zh-cn',
+      recordIP: recordIP,
+      highlight: highlight,
+      visitor: visitor,
+      requiredFields: guest_info,
+      path: window.location.pathname
+    });
+  </script>
 
 
 

@@ -35,7 +35,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/post.png">
 <meta property="article:published_time" content="2024-09-13T09:41:13.412Z">
-<meta property="article:modified_time" content="2024-09-22T12:58:03.894Z">
+<meta property="article:modified_time" content="2024-09-23T12:50:21.053Z">
 <meta property="article:author" content="RIKKA421">
 <meta property="article:tag" content="博客搭建">
 <meta name="twitter:card" content="summary">
@@ -196,7 +196,7 @@
       <div class="article-date wow slideInLeft">
   <a href="/2024/09/13/2024-09-13/" class="article-date-link">
     <time datetime="2024-09-13T09:41:13.412Z" itemprop="datePublished">2024-09-13</time>
-    <time style="display: none;" id="post-update-time">2024-09-22</time>
+    <time style="display: none;" id="post-update-time">2024-09-23</time>
   </a>
 </div>
 
@@ -238,7 +238,7 @@
 </ul>
 <h3 id="后续可能折腾的功能"><a class="markdownIt-Anchor" href="#后续可能折腾的功能"></a> 后续可能折腾的功能</h3>
 <ul>
-<li>[ ] 主题自带的评论接口. 评论相关需要去注册一些东西, 稍微有些麻烦. 而且这个网站大部分时间应该都没什么访客, 所以目前还没有搞. 后续有时间也许会升级一下? 倘若有联系我的需求就通过邮箱或者私信吧.</li>
+<li>[x] 主题自带的评论接口. 评论相关需要去注册一些东西, 稍微有些麻烦. 而且这个网站大部分时间应该都没什么访客, 所以目前还没有搞. 后续有时间也许会升级一下? 倘若有联系我的需求就通过邮箱或者私信吧.  (2024-09-23 完毕. 采用了Valine, 主要看重了其匿名评论的功能. 其余的一些实现方案要么是外国的, 要么需要github账号, 不方便游客的留言. )</li>
 <li>[ ] live2D小人. 插件自带的接口, 但是对当前的效果不是特别满意. 也许之后会研究一下网页相关的东西, 然后添加一个live2D小人上去?</li>
 <li>[ ] 每日格言接口. 插件没有自带接口. 和live2D小人一样, 每日格言也有实现好的开源内容可以用, 但是需要修修补补才能添加到当前主题中, 所以还需要学习. 问问GPT会不会有指导呢?</li>
 </ul>
@@ -247,6 +247,11 @@
     </div>
     <footer class="article-footer">
       
+      
+        <a href="/2024/09/13/2024-09-13/#comments" class="article-comment-link">
+          <span class="post-comments-count valine-comment-count" data-xid="/2024/09/13/2024-09-13/" itemprop="commentCount"></span>
+          留言
+        </a>
       
       
       
@@ -297,6 +302,8 @@
 
   
 </article>
+
+  <section id="comments" class="vcomment"></section>
 
 
 
@@ -415,7 +422,7 @@
       
         <div>
           <span class="icon-brush"></span>
-          10.6k
+          10.7k
           &nbsp;|&nbsp;
           <span class="icon-coffee"></span>
           00:36
@@ -582,6 +589,34 @@
   }
 </script>
 
+
+  
+<script src="https://npm.webcache.cn/valine@1.5.1/dist/Valine.min.js" data-pjax></script>
+
+  <script data-pjax>
+    var GUEST_INFO = ['nick', 'mail', 'link'];
+    var guest_info = 'nick,mail,link'.split(',').filter((item) => {
+      return GUEST_INFO.indexOf(item) > -1
+    });
+    var recordIP = JSON.parse('true');
+    var highlight = JSON.parse('true');
+    var visitor = JSON.parse('false');
+
+    new Valine({
+      el: '.vcomment',
+      appId: "M4jZ0oieL94Oyjqc8LeD1oXz-gzGzoHsz",
+      appKey: "jWmwVfXAV7Iv4Bj9uWLvb4f3",
+      placeholder: "Just go go",
+      pageSize: '10',
+      avatar: 'hide',
+      lang: 'zh-cn',
+      recordIP: recordIP,
+      highlight: highlight,
+      visitor: visitor,
+      requiredFields: guest_info,
+      path: window.location.pathname
+    });
+  </script>
 
 
 
