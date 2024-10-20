@@ -44,7 +44,7 @@
 <meta property="og:image" content="https://rikka421.github.io/images/24-10-16-14.png">
 <meta property="og:image" content="https://rikka421.github.io/images/24-10-16-08.png">
 <meta property="article:published_time" content="2024-10-16T06:12:53.529Z">
-<meta property="article:modified_time" content="2024-10-16T16:01:28.355Z">
+<meta property="article:modified_time" content="2024-10-19T07:03:34.062Z">
 <meta property="article:author" content="RIKKA421">
 <meta property="article:tag" content="misc, RL">
 <meta name="twitter:card" content="summary">
@@ -203,7 +203,7 @@
       <div class="article-date wow slideInLeft">
   <a href="/2024/10/16/2024-10-16/" class="article-date-link">
     <time datetime="2024-10-16T06:12:53.529Z" itemprop="datePublished">2024-10-16</time>
-    <time style="display: none;" id="post-update-time">2024-10-17</time>
+    <time style="display: none;" id="post-update-time">2024-10-19</time>
   </a>
 </div>
 
@@ -227,8 +227,13 @@
 <p>此为第二讲内容的杂项. 由于两个动态规划算法: 策略迭代算法和价值迭代算法的严格证明内容比较多, 于是将其单独列为一篇Blog记叙于此.</p>
 <p>主要参考的资料为<br />
 <a target="_blank" rel="noopener" href="https://towardsdatascience.com/mathematical-analysis-of-reinforcement-learning-bellman-equation-ac9f0954e19f">Mathematical Analysis of Reinforcement Learning — Bellman Optimality Equation | by Vaibhav Kumar | Towards Data Science</a></p>
+<p>包含此定理在内的其他相关数学证明可以在<br />
+<a target="_blank" rel="noopener" href="https://wnzhang.net/teaching/sjtu-rl-2024/slides/rl-proofs.pdf">rl-proofs.pdf (wnzhang.net)</a><br />
+中找到.</p>
 <span id="more"></span>
 <hr />
+<p>此处, 我们用收缩算子和不动点定理, 证明用<strong>期望算子</strong>不断进行操作最终会得到收敛的解;<br />
+而在实际的通过样本进行操作的算法中, 这个证明就不适用了. 相关的证明需要通过随机逼近的方法完成, 详见pdf, 此处不作赘述.</p>
 <h2 id="存在性证明"><a class="markdownIt-Anchor" href="#存在性证明"></a> 存在性证明:</h2>
 <p>对于给定的MDP:</p>
 <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo>&lt;</mo><mi>S</mi><mo separator="true">,</mo><mi>A</mi><mo separator="true">,</mo><msubsup><mi>P</mi><mrow><mi>s</mi><msup><mi>s</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><mi>a</mi></msubsup><mo separator="true">,</mo><msubsup><mi>R</mi><mi>s</mi><mi>a</mi></msubsup><mo separator="true">,</mo><mi>γ</mi><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&lt;S, A,  P_{ss&#x27;}^{a}, R_s^{a}, \gamma&gt;
@@ -338,6 +343,19 @@ P_{ss&#x27;}^{a}V(s&#x27;)]
     
   <nav id="article-nav" class="wow fadeInUp">
     
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="/images/24-10-16-01.png" data-sizes="auto" alt="[RL] 第三讲: 值函数估计" class="lazyload">
+        
+        <a href="/2024/10/19/2024-10-19/"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">
+          
+            [RL] 第三讲: 值函数估计
+          
+        </h3>
+      </div>
+    
     
     <div class="article-nav-link-wrap article-nav-link-right">
       
@@ -387,7 +405,7 @@ P_{ss&#x27;}^{a}V(s&#x27;)]
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">14</div>
+    <div class="sidebar-state-number">15</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
@@ -477,10 +495,10 @@ P_{ss&#x27;}^{a}V(s&#x27;)]
       
         <div>
           <span class="icon-brush"></span>
-          28.6k
+          30.3k
           &nbsp;|&nbsp;
           <span class="icon-coffee"></span>
-          01:49
+          01:56
         </div>
       
       
@@ -522,7 +540,7 @@ P_{ss&#x27;}^{a}V(s&#x27;)]
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">14</div>
+    <div class="sidebar-state-number">15</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
