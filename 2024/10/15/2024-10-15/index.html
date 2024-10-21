@@ -10,7 +10,7 @@
   
 
   
-  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 MIT 许可协议。转载请注明出处！"}};window.outdate = {"enable":true,"daysAgo":180,"message":"本文最后更新于 {time}，请注意文中内容可能已经发生变化。"};</script>
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
   
   
   <title>
@@ -19,71 +19,61 @@
     RIKKA&#39;s Blog
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic%7CUbuntu%20Mono:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic%7CUbuntu%20Mono:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
   
     <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   
   
+    
 <link rel="stylesheet" href="/css/loader.css">
 
-  <meta name="description" content="基于上海交通大学强化学习课程系列课程学习RL的笔记. SJTU RL Course (wnzhang.net) 此为第二讲的内容, 主要讲述了马尔科夫决策过程MDP的概念, 并给出了策略度量, 策略值函数, 基于值函数进行策略提升的内容.">
+  
+  
+    <meta name="description" content="基于上海交通大学强化学习课程系列课程学习RL的笔记. SJTU RL Course (wnzhang.net) 此为第二讲的内容, 主要讲述了马尔科夫决策过程MDP的概念, 并给出了策略度量, 策略值函数, 基于值函数进行策略提升的内容.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[RL] 第二讲: 马尔科夫决策过程">
 <meta property="og:url" content="https://rikka421.github.io/2024/10/15/2024-10-15/index.html">
 <meta property="og:site_name" content="RIKKA&#39;s Blog">
 <meta property="og:description" content="基于上海交通大学强化学习课程系列课程学习RL的笔记. SJTU RL Course (wnzhang.net) 此为第二讲的内容, 主要讲述了马尔科夫决策过程MDP的概念, 并给出了策略度量, 策略值函数, 基于值函数进行策略提升的内容.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10-15-01.jpg">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10-15-02.png">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10-15-03.png">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10-16-02.png">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10-16-01.png">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10-16-03.png">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10-16-06.png">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10-16-05.png">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10-16-07.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-10/24-10-15-01.jpg">
+<meta property="og:image" content="https://rikka421.github.io/images/24-10/24-10-15-02.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-10/24-10-15-03.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-10/24-10-16-02.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-10/24-10-16-01.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-10/24-10-16-03.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-10/24-10-16-06.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-10/24-10-16-05.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-10/24-10-16-07.png">
 <meta property="article:published_time" content="2024-10-15T14:16:35.807Z">
-<meta property="article:modified_time" content="2024-10-16T16:01:48.741Z">
+<meta property="article:modified_time" content="2024-10-21T09:54:42.931Z">
 <meta property="article:author" content="RIKKA421">
 <meta property="article:tag" content="RL">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://rikka421.github.io/images/24-10-15-01.jpg">
+<meta name="twitter:image" content="https://rikka421.github.io/images/24-10/24-10-15-01.jpg">
+  
   
     <link rel="alternate" href="/atom.xml" title="RIKKA's Blog" type="application/atom+xml">
   
   
-    <link rel="shortcut icon" href="/images/favicon.png">
+    <link rel="shortcut icon" href="/images/favicon.ico">
   
   
 <link rel="stylesheet" href="/css/style.css">
 
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   
-<link rel="stylesheet" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css">
-
+  
+  
   
     
-<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.9/dist/katex.min.css">
-
-  
-  
-  
-  
 <script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
 
   
+  
     
-<link rel="stylesheet" href="https://npm.webcache.cn/wowjs@1.1.3/css/libs/animate.css">
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
 
-    
-<script src="https://npm.webcache.cn/wowjs@1.1.3/dist/wow.min.js"></script>
-
-    <script>
-      new WOW({
-        offset: 0,
-        mobile: true,
-        live: false
-      }).init();
-    </script>
   
 <meta name="generator" content="Hexo 7.3.0"></head>
 
@@ -95,9 +85,9 @@
     <div class="spinner-box">
       <div class="loading-taichi">
         <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
-          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff6e6b" />
-          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z" fill="#fd0d00" />
-          <path d="M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95" fill="#fd0d00" />
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
         </svg>
       </div>
       <div class="loading-word">少女祈祷中...</div>
@@ -139,22 +129,22 @@
   <nav id="main-nav">
     
       <span class="main-nav-link-wrap">
-        <span class="main-nav-icon"></span>
+        <div class="main-nav-icon icon-taichi"></div>
         <a class="main-nav-link" href="/">首页</a>
       </span>
     
       <span class="main-nav-link-wrap">
-        <span class="main-nav-icon"></span>
+        <div class="main-nav-icon icon-taichi"></div>
         <a class="main-nav-link" href="/archives">归档</a>
       </span>
     
       <span class="main-nav-link-wrap">
-        <span class="main-nav-icon"></span>
+        <div class="main-nav-icon icon-taichi"></div>
         <a class="main-nav-link" href="/about">关于</a>
       </span>
     
       <span class="main-nav-link-wrap">
-        <span class="main-nav-icon"></span>
+        <div class="main-nav-icon icon-taichi"></div>
         <a class="main-nav-link" href="/friend">友链</a>
       </span>
     
@@ -170,23 +160,21 @@
 </div>
 <header id="header">
   
-    <img fetchpriority="high" src="/images/24-10-16-01.png" alt="[RL] 第二讲: 马尔科夫决策过程">
+    <img fetchpriority="high" src="/images/24-10/24-10-16-01.png" alt="[RL] 第二讲: 马尔科夫决策过程">
   
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <div id="logo-wrap">
-        
-          
-          
-            <a href="/" id="logo">
-              <h1>[RL] 第二讲: 马尔科夫决策过程</h1>
-            </a>
-          
-        
-      </div>
+  <div id="header-outer">
+    <div id="header-title">
       
         
-        <h2 id="subtitle-wrap">
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">[RL] 第二讲: 马尔科夫决策过程</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
           
         </h2>
       
@@ -194,21 +182,21 @@
   </div>
 </header>
 
-        <div id="content" class="outer">
+        <div id="content">
           
           <section id="main"><article id="post-2024-10-15" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
+  <div class="article-inner" data-aos="fade-up">
     <div class="article-meta">
-      <div class="article-date wow slideInLeft">
-  <a href="/2024/10/15/2024-10-15/" class="article-date-link">
+      <div class="article-date">
+  <a href="/2024/10/15/2024-10-15/" class="article-date-link" data-aos="zoom-in">
     <time datetime="2024-10-15T14:16:35.807Z" itemprop="datePublished">2024-10-15</time>
-    <time style="display: none;" id="post-update-time">2024-10-17</time>
+    <time style="display: none;" id="post-update-time">2024-10-21</time>
   </a>
 </div>
 
       
-  <div class="article-category wow slideInLeft">
-    <a class="article-category-link" href="/categories/Note/">Note</a>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Note/" data-aos="zoom-in">Note</a>
   </div>
 
 
@@ -217,8 +205,6 @@
     
 
     <div class="e-content article-entry" itemprop="articleBody">
-      
-        <blockquote id="outdate-blockquote" style="display: none;"><p></p></blockquote>
       
       
         <p>基于<strong>上海交通大学强化学习课程</strong>系列课程学习RL的笔记.<br />
@@ -314,7 +300,7 @@
 <li>因此, 比起考虑具体数值的性质, 我们更多地考虑它确定的序关系所具有的性质.</li>
 </ul>
 <p>对于序关系, 我们给出如下定理:<br />
-<img src="/images/24-10-15-01.jpg" alt="" /></p>
+<img src="/images/24-10/24-10-15-01.jpg" alt="" /></p>
 <blockquote>
 <p>TODO: 为何选定线性形式呢? 这一点没太想明白, 还需要进一步考虑.</p>
 </blockquote>
@@ -346,7 +332,7 @@
 <blockquote>
 <p>* 此时我们考虑的奖励函数是一个确定性的映射; 对于某些情况, 奖励函数也可以服从一个分布. 此时我们往往考虑当前期望. 例如对于多臂老虎机的奖励建模就是这种情况.</p>
 </blockquote>
-<p><img src="/images/24-10-15-02.png" alt="" /></p>
+<p><img src="/images/24-10/24-10-15-02.png" alt="" /></p>
 <ul>
 <li>对于一个给定的MDP和给定的策略<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mo stretchy="false">(</mo><mi>a</mi><mi mathvariant="normal">∣</mi><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\pi(a|s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">π</span><span class="mopen">(</span><span class="mord mathnormal">a</span><span class="mord">∣</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span>, 所有的随机变量的分布也是完全确定的.</li>
 <li>我们可以通过从初始状态开始, 不断进行转移复合, 来求解所需要求解的随机变量</li>
@@ -363,7 +349,7 @@
 <li>此时, 我们进行采样的分布 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>ρ</mi><mrow><msub><mi>π</mi><mi>θ</mi></msub><mo separator="true">,</mo><mi>E</mi><mi>n</mi><mi>v</mi></mrow></msup></mrow><annotation encoding="application/x-tex">\rho ^{\pi_{\theta}, Env}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.035771em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal">ρ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3487714285714287em;margin-left:-0.03588em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">θ</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15122857142857138em;"><span></span></span></span></span></span></span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.05764em;">E</span><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span></span></span></span></span></span></span></span></span></span></span></span>是不确定的, 随参数不同而变化的, 而要求期望的目标 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo stretchy="false">(</mo><mi>s</mi><mo separator="true">,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">r(s, a)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">a</span><span class="mclose">)</span></span></span></span>是确定性的</li>
 <li>此时对于样本服从的分布 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>ρ</mi><mrow><msub><mi>π</mi><mi>θ</mi></msub><mo separator="true">,</mo><mi>E</mi><mi>n</mi><mi>v</mi></mrow></msup></mrow><annotation encoding="application/x-tex">\rho ^{\pi_{\theta}, Env}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.035771em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal">ρ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3487714285714287em;margin-left:-0.03588em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">θ</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15122857142857138em;"><span></span></span></span></span></span></span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.05764em;">E</span><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span></span></span></span></span></span></span></span></span></span></span></span>, 其中的 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi></mrow><annotation encoding="application/x-tex">\rho</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">ρ</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mi>θ</mi></msub></mrow><annotation encoding="application/x-tex">\pi_{\theta}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">θ</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 往往都是黑盒的. 两层黑盒进行交互, 叠加在一起, 带来了比传统ML更大的挑战</li>
 </ul>
-<p><img src="/images/24-10-15-03.png" alt="" /></p>
+<p><img src="/images/24-10/24-10-15-03.png" alt="" /></p>
 <ul>
 <li>对于给定的MDP, 不同的策略会采样出不同的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>s</mi><mo separator="true">,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(s, a)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">a</span><span class="mclose">)</span></span></span></span>序列对, 策略与序列对在随机变量的意义下一一对应.</li>
 <li>对于某个策略及其采样出的序列对, 我们定义占用度量（Occupancy Measure）对它们进行描述</li>
@@ -446,7 +432,7 @@ TH1根据TH2不难得到;<br />
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.24248em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.99248em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278285714285715em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.801892em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.24248em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.99248em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278285714285715em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7143919999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">π</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">∀</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span></span></p>
 <p>下面, 我们给出策略提升定理, 它告诉我们, 这种局部到全局的最优性转换是成立的.</p>
 <h3 id="策略提升定理policy-improvement-theorem"><a class="markdownIt-Anchor" href="#策略提升定理policy-improvement-theorem"></a> 策略提升定理（Policy Improvement Theorem）</h3>
-<p><img src="/images/24-10-16-02.png" alt="" /></p>
+<p><img src="/images/24-10/24-10-16-02.png" alt="" /></p>
 <ul>
 <li>定理的证明过程反复应用了值函数定义和马尔科夫性质. (有些类似在优化问题中, 凸函数的性质: 局部最优解就是全局最优解. )</li>
 <li>马尔科夫性质:</li>
@@ -460,7 +446,7 @@ TH1根据TH2不难得到;<br />
 <li>根据当前策略价值寻找局部最优解, 获取新策略 (这一步是简单的)</li>
 </ol>
 <p>反复进行, 直至收敛.</p>
-<p><img src="/images/24-10-16-01.png" alt="" /></p>
+<p><img src="/images/24-10/24-10-16-01.png" alt="" /></p>
 <h4 id="策略提升定理-在epsilon-greedy场景下"><a class="markdownIt-Anchor" href="#策略提升定理-在epsilon-greedy场景下"></a> 策略提升定理 - 在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">ϵ</span></span></span></span>-greedy场景下</h4>
 <ul>
 <li>前面的讨论中, 我们考虑的策略是确定性的, 对于给定的状态, 它会确定性地返回某个动作.</li>
@@ -468,7 +454,7 @@ TH1根据TH2不难得到;<br />
 <li>倘若我们采用一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">ϵ</span></span></span></span>-greedy的策略, 它有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">ϵ</span></span></span></span>的概率随机返回动作, 那么情况会不会有变化呢?</li>
 </ul>
 <p>答案是, 在这种新的策略下, 策略提升定理和&quot;评估 - 提升&quot;的范式依然是成立的.<br />
-<img src="/images/24-10-16-03.png" alt="" /></p>
+<img src="/images/24-10/24-10-16-03.png" alt="" /></p>
 <ul>
 <li>证明中, 不等式的那一行, 本质上做了一个加权平均. 显然加权平均得到的结果不会超过最大值.</li>
 <li>延伸: 对于任意的策略, 我们有可能采用更多样的方式去改变策略的动作选择分布, 而不仅仅是移动<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">ϵ</span></span></span></span>-greedy分布中的greedy项.</li>
@@ -492,10 +478,10 @@ TH1根据TH2不难得到;<br />
 <ul>
 <li>价值函数和策略在优化问题上一一对应. 最优策略的值函数一定是最优的; 给定最优的价值函数,  可以采用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>arg</mi><mo>⁡</mo><mi>max</mi><mo>⁡</mo></mrow><annotation encoding="application/x-tex">\arg\max</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mop">ar<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">max</span></span></span></span>的方式导出最优策略</li>
 <li>寻找优化策略的方法有两种：策略迭代和价值迭代<br />
-<img src="/images/24-10-16-06.png" alt="" /></li>
+<img src="/images/24-10/24-10-16-06.png" alt="" /></li>
 </ul>
 <p>此处, 我们先不加证明地给出如下两种方法, 它们都应用了动态规划的方式, 通过策略迭代和价值迭代对最优策略进行求解.</p>
-<p><img src="/images/24-10-16-05.png" alt="" /></p>
+<p><img src="/images/24-10/24-10-16-05.png" alt="" /></p>
 <p>其中</p>
 <ul>
 <li>迭代可能是同步的: 存储两份价值函数; 也可能是异步的: 只存储一份价值函数.</li>
@@ -530,7 +516,7 @@ TH1根据TH2不难得到;<br />
 <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msubsup><mi>R</mi><mi>s</mi><mi>a</mi></msubsup><mo>=</mo><mfrac><mrow><mo>∑</mo><mo stretchy="false">(</mo><msup><mi>r</mi><mo stretchy="false">(</mo></msup><mi>i</mi><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mi>s</mi><mo separator="true">,</mo><mi>a</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><mrow><mi>N</mi><mo stretchy="false">(</mo><mi>s</mi><mo separator="true">,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">R_{s}^{a} = \frac{\sum(r^(i)(s, a))}{N(s, a)}
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9613919999999999em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7143919999999999em;"><span style="top:-2.4530000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">s</span></span></span></span><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">a</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.501em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.565em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">a</span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mopen mtight">(</span></span></span></span></span></span></span></span><span class="mord mathnormal">i</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">a</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
 <h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
-<p><img src="/images/24-10-16-07.png" alt="" /></p>
+<p><img src="/images/24-10/24-10-16-07.png" alt="" /></p>
 <h3 id="whats-more"><a class="markdownIt-Anchor" href="#whats-more"></a> What’s more</h3>
 <p>以上的全部讨论都是基于MDP给定的前提. 而在下面, 我们会考虑MDP未知的情况, 讨论不对MDP建模, 直接依靠episode进行学习的方法, 如</p>
 <ul>
@@ -544,7 +530,7 @@ TH1根据TH2不难得到;<br />
     <footer class="article-footer">
       
       
-        <a href="/2024/10/15/2024-10-15/#comments" class="article-comment-link">
+        <a data-aos="zoom-in" href="/2024/10/15/2024-10-15/#comments" class="article-comment-link">
           <span class="post-comments-count valine-comment-count" data-xid="/2024/10/15/2024-10-15/" itemprop="commentCount"></span>
           留言
         </a>
@@ -554,18 +540,18 @@ TH1根据TH2不难得到;<br />
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RL/" rel="tag">RL</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/RL/" rel="tag">RL</a></li></ul>
 
 
     </footer>
   </div>
   
     
-  <nav id="article-nav" class="wow fadeInUp">
+  <nav id="article-nav" data-aos="fade-up">
     
       <div class="article-nav-link-wrap article-nav-link-left">
         
-          <img data-src="/images/24-10-16-20.jpg" data-sizes="auto" alt="[misc] RL第二讲的相关证明" class="lazyload">
+          <img data-src="/images/24-10/24-10-16-20.jpg" data-sizes="auto" alt="[misc] RL第二讲的相关证明" class="lazyload">
         
         <a href="/2024/10/16/2024-10-16/"></a>
         <div class="article-nav-caption">前一篇</div>
@@ -579,7 +565,7 @@ TH1根据TH2不难得到;<br />
     
     <div class="article-nav-link-wrap article-nav-link-right">
       
-        <img data-src="/images/24-10-11-01.png" data-sizes="auto" alt="[CF记录] VP Round 969" class="lazyload">
+        <img data-src="/images/24-10/24-10-11-01.png" data-sizes="auto" alt="[CF记录] VP Round 969" class="lazyload">
       
       <a href="/2024/10/11/2024-10-11/"></a>
       <div class="article-nav-caption">后一篇</div>
@@ -606,9 +592,10 @@ TH1根据TH2不难得到;<br />
 </section>
           
             <aside id="sidebar">
-  <div class="sidebar-wrap wow fadeInRight wrap-sticky">
-    
-      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
   <h3 class="toc-title">文章目录</h3>
   <div class="sidebar-toc-wrapper toc-div-class" >
       
@@ -617,15 +604,15 @@ TH1根据TH2不难得到;<br />
   </div>
 </div>
 </div>
-      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
-  <img data-src="/avatar/head.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
   <div class="sidebar-author-name">RIKKA421</div>
   <div class="sidebar-description"></div>
 </div>
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">15</div>
+    <div class="sidebar-state-number">16</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
@@ -633,7 +620,7 @@ TH1根据TH2不难得到;<br />
   </div>
   <div class="sidebar-state-tag">
     <div>标签</div>
-    <div class="sidebar-state-number">9</div>
+    <div class="sidebar-state-number">8</div>
   </div>
 </div>
 <div class="sidebar-social">
@@ -655,37 +642,38 @@ TH1根据TH2不难得到;<br />
   
     <div class="sidebar-menu-link-wrap">
       <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
-      <span class="sidebar-menu-icon"></span>
+      <div class="sidebar-menu-icon icon-taichi"></div>
       <div class="sidebar-menu-link">首页</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
       <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
-      <span class="sidebar-menu-icon"></span>
+      <div class="sidebar-menu-icon icon-taichi"></div>
       <div class="sidebar-menu-link">归档</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
       <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
-      <span class="sidebar-menu-icon"></span>
+      <div class="sidebar-menu-icon icon-taichi"></div>
       <div class="sidebar-menu-link">关于</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
       <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
-      <span class="sidebar-menu-icon"></span>
+      <div class="sidebar-menu-icon icon-taichi"></div>
       <div class="sidebar-menu-link">友链</div>
     </div>
   
 </div>
 </div>
-    
-    
-      <div class="sidebar-btn-wrapper" style="position:static">
-        <div class="sidebar-toc-btn current"></div>
-        <div class="sidebar-common-btn"></div>
-      </div>
-    
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
   </div>
 
   
@@ -693,44 +681,42 @@ TH1根据TH2不难得到;<br />
 
           
         </div>
-        <footer id="footer" class="wow fadeInUp">
+        <footer id="footer">
   <div style="width: 100%; overflow: hidden">
     <div class="footer-line"></div>
   </div>
-  <div class="outer">
-    <div id="footer-info">
-      
-      <div>
-        <span class="icon-copyright"></span>
-        2020-2024
-        <span class="footer-info-sep"></span>
-        RIKKA421
-      </div>
-      
-        <div>
-          基于&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;
-          Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" target="_blank">Reimu</a>
-        </div>
-      
-      
-        <div>
-          <span class="icon-brush"></span>
-          30.3k
-          &nbsp;|&nbsp;
-          <span class="icon-coffee"></span>
-          01:56
-        </div>
-      
-      
-        <div>
-          <span class="icon-eye"></span>
-          <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
-          &nbsp;|&nbsp;
-          <span class="icon-user"></span>
-          <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
-        </div>
-      
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2024
+      <span class="footer-info-sep"></span>
+      RIKKA421
     </div>
+    
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        33k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        02:08
+      </div>
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
   </div>
 </footer>
 
@@ -753,14 +739,14 @@ TH1根据TH2不难得到;<br />
 </div>
 </div>
       <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
-  <img data-src="/avatar/head.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
   <div class="sidebar-author-name">RIKKA421</div>
   <div class="sidebar-description"></div>
 </div>
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">15</div>
+    <div class="sidebar-state-number">16</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
@@ -768,7 +754,7 @@ TH1根据TH2不难得到;<br />
   </div>
   <div class="sidebar-state-tag">
     <div>标签</div>
-    <div class="sidebar-state-number">9</div>
+    <div class="sidebar-state-number">8</div>
   </div>
 </div>
 <div class="sidebar-social">
@@ -790,25 +776,25 @@ TH1根据TH2不难得到;<br />
   
     <div class="sidebar-menu-link-wrap">
       <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
-      <span class="sidebar-menu-icon"></span>
+      <div class="sidebar-menu-icon icon-taichi"></div>
       <div class="sidebar-menu-link">首页</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
       <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
-      <span class="sidebar-menu-icon"></span>
+      <div class="sidebar-menu-icon icon-taichi"></div>
       <div class="sidebar-menu-link">归档</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
       <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
-      <span class="sidebar-menu-icon"></span>
+      <div class="sidebar-menu-icon icon-taichi"></div>
       <div class="sidebar-menu-link">关于</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
       <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
-      <span class="sidebar-menu-icon"></span>
+      <div class="sidebar-menu-icon icon-taichi"></div>
       <div class="sidebar-menu-link">友链</div>
     </div>
   
@@ -825,20 +811,7 @@ TH1根据TH2不难得到;<br />
 </nav>
 
     </div>
-    <div class="site-search">
-      <div class="reimu-popup popup">
-        <div class="reimu-search">
-          <div class="reimu-search-input-icon"></div>
-          <div class="reimu-search-input" id="reimu-search-input"></div>
-          <div class="popup-btn-close"></div>
-        </div>
-        <div class="reimu-results">
-          <div id="reimu-stats"></div>
-          <div id="reimu-hits"></div>
-          <div id="reimu-pagination" class="reimu-pagination"></div>
-        </div>
-      </div>
-    </div>
+    
     
 <script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
 
@@ -851,25 +824,46 @@ TH1根据TH2不难得到;<br />
 
 
 
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
 <script src="/js/pjax_script.js" data-pjax></script>
 
 
 <script type="module" data-pjax>
-  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js";
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
   
   const pswp = () => {
     if (_$$('.article-entry a.article-gallery-item').length > 0) {
       new PhotoSwipeLightbox({
         gallery: '.article-entry',
         children: 'a.article-gallery-item',
-        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.js")
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
       }).init();
     }
     if(_$$('.article-gallery a.article-gallery-item').length > 0) {
       new PhotoSwipeLightbox({
         gallery: '.article-gallery',
         children: 'a.article-gallery-item',
-        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.js")
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
       }).init();
     }
     window.lightboxStatus = 'done';
@@ -966,29 +960,10 @@ TH1根据TH2不难得到;<br />
   \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
                                                   
 `,'color: #ff5252;')
-    console.log('%c Theme.Reimu v' + '0.2.4' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
   </script>
   
 
-<script data-pjax>
-  var updateTime = _$('#post-update-time')?.innerHTML;
-
-  if (updateTime) {
-    const update = new Date(updateTime);
-    const now = new Date();
-    const diff = now - update;
-    const days = diff / 86400000;
-    const { daysAgo, message: template } = window.outdate;
-    if (days >= daysAgo) {
-      const message = template.replace(/{time}/, updateTime);
-      const blockquote = _$('#outdate-blockquote');
-      if (blockquote) {
-        blockquote.querySelector('p').innerText = message;
-        blockquote.style.display = 'block';
-      }
-    }
-  }
-</script>
 
 
   

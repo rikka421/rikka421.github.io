@@ -10,7 +10,7 @@
   
 
   
-  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 MIT 许可协议。转载请注明出处！"}};window.outdate = {"enable":true,"daysAgo":180,"message":"本文最后更新于 {time}，请注意文中内容可能已经发生变化。"};</script>
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
   
   
   <title>
@@ -19,68 +19,58 @@
     RIKKA&#39;s Blog
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic%7CUbuntu%20Mono:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic%7CUbuntu%20Mono:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
   
     <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   
   
+    
 <link rel="stylesheet" href="/css/loader.css">
 
-  <meta name="description" content="基于上海交通大学强化学习课程系列课程学习RL的笔记. SJTU RL Course (wnzhang.net) 此为第一讲的内容, 主要对RL做了导论的内容, 同时以多臂老虎机作为例子, 讲述了探索与利用相关的内容.">
+  
+  
+    <meta name="description" content="基于上海交通大学强化学习课程系列课程学习RL的笔记. SJTU RL Course (wnzhang.net) 此为第一讲的内容, 主要对RL做了导论的内容, 同时以多臂老虎机作为例子, 讲述了探索与利用相关的内容.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[RL] 第一讲: 强化学习, 探索与利用">
 <meta property="og:url" content="https://rikka421.github.io/2024/10/05/2024-10-05/index.html">
 <meta property="og:site_name" content="RIKKA&#39;s Blog">
 <meta property="og:description" content="基于上海交通大学强化学习课程系列课程学习RL的笔记. SJTU RL Course (wnzhang.net) 此为第一讲的内容, 主要对RL做了导论的内容, 同时以多臂老虎机作为例子, 讲述了探索与利用相关的内容.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10-05-01.png">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10-05-02.png">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10-05-04.png">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10-05-05.png">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10-07-01.png">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10-07-02.png">
+<meta property="og:image" content="https://rikka421.github.io/2024/10/05/2024-10-05/images/24-10/24-10-05-01.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-10/24-10-05-02.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-10/24-10-05-04.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-10/24-10-05-05.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-10/24-10-07-01.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-10/24-10-07-02.png">
 <meta property="article:published_time" content="2024-10-05T14:28:30.988Z">
-<meta property="article:modified_time" content="2024-10-15T14:18:15.520Z">
+<meta property="article:modified_time" content="2024-10-21T09:55:20.960Z">
 <meta property="article:author" content="RIKKA421">
 <meta property="article:tag" content="RL">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://rikka421.github.io/images/24-10-05-01.png">
+<meta name="twitter:image" content="https://rikka421.github.io/2024/10/05/2024-10-05/images/24-10/24-10-05-01.png">
+  
   
     <link rel="alternate" href="/atom.xml" title="RIKKA's Blog" type="application/atom+xml">
   
   
-    <link rel="shortcut icon" href="/images/favicon.png">
+    <link rel="shortcut icon" href="/images/favicon.ico">
   
   
 <link rel="stylesheet" href="/css/style.css">
 
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   
-<link rel="stylesheet" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css">
-
+  
+  
   
     
-<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.9/dist/katex.min.css">
-
-  
-  
-  
-  
 <script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
 
   
+  
     
-<link rel="stylesheet" href="https://npm.webcache.cn/wowjs@1.1.3/css/libs/animate.css">
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
 
-    
-<script src="https://npm.webcache.cn/wowjs@1.1.3/dist/wow.min.js"></script>
-
-    <script>
-      new WOW({
-        offset: 0,
-        mobile: true,
-        live: false
-      }).init();
-    </script>
   
 <meta name="generator" content="Hexo 7.3.0"></head>
 
@@ -92,9 +82,9 @@
     <div class="spinner-box">
       <div class="loading-taichi">
         <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
-          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff6e6b" />
-          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z" fill="#fd0d00" />
-          <path d="M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95" fill="#fd0d00" />
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
         </svg>
       </div>
       <div class="loading-word">少女祈祷中...</div>
@@ -136,22 +126,22 @@
   <nav id="main-nav">
     
       <span class="main-nav-link-wrap">
-        <span class="main-nav-icon"></span>
+        <div class="main-nav-icon icon-taichi"></div>
         <a class="main-nav-link" href="/">首页</a>
       </span>
     
       <span class="main-nav-link-wrap">
-        <span class="main-nav-icon"></span>
+        <div class="main-nav-icon icon-taichi"></div>
         <a class="main-nav-link" href="/archives">归档</a>
       </span>
     
       <span class="main-nav-link-wrap">
-        <span class="main-nav-icon"></span>
+        <div class="main-nav-icon icon-taichi"></div>
         <a class="main-nav-link" href="/about">关于</a>
       </span>
     
       <span class="main-nav-link-wrap">
-        <span class="main-nav-icon"></span>
+        <div class="main-nav-icon icon-taichi"></div>
         <a class="main-nav-link" href="/friend">友链</a>
       </span>
     
@@ -167,23 +157,21 @@
 </div>
 <header id="header">
   
-    <img fetchpriority="high" src="/images/24-10-05-00.png" alt="[RL] 第一讲: 强化学习, 探索与利用">
+    <img fetchpriority="high" src="/images/24-10/24-10-05-00.png" alt="[RL] 第一讲: 强化学习, 探索与利用">
   
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <div id="logo-wrap">
-        
-          
-          
-            <a href="/" id="logo">
-              <h1>[RL] 第一讲: 强化学习, 探索与利用</h1>
-            </a>
-          
-        
-      </div>
+  <div id="header-outer">
+    <div id="header-title">
       
         
-        <h2 id="subtitle-wrap">
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">[RL] 第一讲: 强化学习, 探索与利用</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
           
         </h2>
       
@@ -191,21 +179,21 @@
   </div>
 </header>
 
-        <div id="content" class="outer">
+        <div id="content">
           
           <section id="main"><article id="post-2024-10-05" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
+  <div class="article-inner" data-aos="fade-up">
     <div class="article-meta">
-      <div class="article-date wow slideInLeft">
-  <a href="/2024/10/05/2024-10-05/" class="article-date-link">
+      <div class="article-date">
+  <a href="/2024/10/05/2024-10-05/" class="article-date-link" data-aos="zoom-in">
     <time datetime="2024-10-05T14:28:30.988Z" itemprop="datePublished">2024-10-05</time>
-    <time style="display: none;" id="post-update-time">2024-10-15</time>
+    <time style="display: none;" id="post-update-time">2024-10-21</time>
   </a>
 </div>
 
       
-  <div class="article-category wow slideInLeft">
-    <a class="article-category-link" href="/categories/Note/">Note</a>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Note/" data-aos="zoom-in">Note</a>
   </div>
 
 
@@ -215,8 +203,6 @@
 
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <blockquote id="outdate-blockquote" style="display: none;"><p></p></blockquote>
-      
       
         <p>基于<strong>上海交通大学强化学习课程</strong>系列课程学习RL的笔记.<br />
 <a target="_blank" rel="noopener" href="https://wnzhang.net/teaching/sjtu-rl-2024/index.html">SJTU RL Course (wnzhang.net)</a></p>
@@ -224,7 +210,7 @@
 <span id="more"></span>
 <hr />
 <p>系列课程的大体结构如下:</p>
-<p><img src="/images/24-10-05-01.png" alt="" /></p>
+<p><img src="images/24-10/24-10-05-01.png" alt="" /></p>
 <p>主要内容</p>
 <ul>
 <li>面向决策任务的人工智能</li>
@@ -253,7 +239,7 @@
 </ul>
 <h3 id="决策智能的任务与技术分类"><a class="markdownIt-Anchor" href="#决策智能的任务与技术分类"></a> 决策智能的任务与技术分类</h3>
 <p>根据决策环境的性质, 可将决策任务大致分为四类:</p>
-<p><img src="/images/24-10-05-02.png" alt="" /></p>
+<p><img src="/images/24-10/24-10-05-02.png" alt="" /></p>
 <p>其中, 对于&quot;白盒环境&quot;中的问题, 即变量与优化目标间的关系可用数学公式具体表述的问题, 我们一般不将其作为RL问题考虑, 而是将其看做优化问题或动态规划问题.</p>
 <p>对于动态环境中的问题, 我们将其作为&quot;序贯决策&quot;Sequential Decision Making来考虑.</p>
 <blockquote>
@@ -319,7 +305,7 @@
 <li>而很多情况下, 离散化的表格无法对价值与策略进行描述</li>
 <li>因此, 我们选择引入神经网络, 对其进行近似</li>
 </ul>
-<p><img src="/images/24-10-05-04.png" alt="" /></p>
+<p><img src="/images/24-10/24-10-05-04.png" alt="" /></p>
 <p>2012年AlexNet在ImageNet比赛中大幅度领先对手获得冠军<br />
 2013年12月, 第一篇深度强化学习论文</p>
 <blockquote>
@@ -330,7 +316,7 @@
 <li>它使得传统方法中的许多特征提取工程变得不必要</li>
 <li>从而使强化学习从实验室中的学术技术变成可应用到工业界的工程技术</li>
 </ul>
-<p><img src="/images/24-10-05-05.png" alt="" /></p>
+<p><img src="/images/24-10/24-10-05-05.png" alt="" /></p>
 <h2 id="探索与利用"><a class="markdownIt-Anchor" href="#探索与利用"></a> 探索与利用</h2>
 <p>探索还是利用? 这是序列决策任务中的一个基本问题.</p>
 <p>策略探索的一些原则:</p>
@@ -347,7 +333,7 @@
 <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">R</mi><mo stretchy="false">(</mo><mi>r</mi><mi mathvariant="normal">∣</mi><msub><mi>a</mi><mi>i</mi></msub><mo stretchy="false">)</mo><mo>=</mo><mi>P</mi><mo stretchy="false">(</mo><mi>r</mi><mi mathvariant="normal">∣</mi><msub><mi>a</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathcal{R}(r|a_i) = P(r|a_i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathcal">R</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></li>
 </ul>
 <p>算法描述:<br />
-<img src="/images/24-10-07-01.png" alt="" /></p>
+<img src="/images/24-10/24-10-07-01.png" alt="" /></p>
 <p>考虑Regret函数:</p>
 <ul>
 <li>决策的期望收益: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo stretchy="false">(</mo><msup><mi>a</mi><mi>i</mi></msup><mo stretchy="false">)</mo><mo>=</mo><msub><mi>E</mi><mrow><mi>r</mi><mo>∼</mo><mi>P</mi><mo stretchy="false">(</mo><mi>r</mi><mi mathvariant="normal">∣</mi><msup><mi>a</mi><mi>i</mi></msup><mo stretchy="false">)</mo></mrow></msub><mo stretchy="false">[</mo><mi>r</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">Q(a^i) = E_{r \sim P(r|a^i)}[r]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0746639999999998em;vertical-align:-0.25em;"></span><span class="mord mathnormal">Q</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.824664em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.11016em;vertical-align:-0.36016em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.34480000000000005em;"><span style="top:-2.51484em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mrel mtight">∼</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mtight">∣</span><span class="mord mtight"><span class="mord mathnormal mtight">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7570857142857143em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span></span></span></span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.36016em;"><span></span></span></span></span></span></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">]</span></span></span></span></li>
@@ -424,7 +410,7 @@ s76,-153,76,-153s77,-151,77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,1
 <li>选择最优动作执行, 更新该动作的分布</li>
 </ul>
 <p>Chapelle, Olivier, and Lihong Li. “An empirical evaluation of thompson sampling.” Advances in neural information processing systems 24 (2011): 2249-2257.</p>
-<p><img src="/images/24-10-07-02.png" alt="" /></p>
+<p><img src="/images/24-10/24-10-07-02.png" alt="" /></p>
 <h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
 <ul>
 <li>探索与利用是强化学习的trial-and-error中的必备技术</li>
@@ -442,7 +428,7 @@ s76,-153,76,-153s77,-151,77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,1
     <footer class="article-footer">
       
       
-        <a href="/2024/10/05/2024-10-05/#comments" class="article-comment-link">
+        <a data-aos="zoom-in" href="/2024/10/05/2024-10-05/#comments" class="article-comment-link">
           <span class="post-comments-count valine-comment-count" data-xid="/2024/10/05/2024-10-05/" itemprop="commentCount"></span>
           留言
         </a>
@@ -452,18 +438,18 @@ s76,-153,76,-153s77,-151,77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,1
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RL/" rel="tag">RL</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/RL/" rel="tag">RL</a></li></ul>
 
 
     </footer>
   </div>
   
     
-  <nav id="article-nav" class="wow fadeInUp">
+  <nav id="article-nav" data-aos="fade-up">
     
       <div class="article-nav-link-wrap article-nav-link-left">
         
-          <img data-src="/images/24-10-05-03.png" data-sizes="auto" alt="[misc] 程序员脑子里的怪东西" class="lazyload">
+          <img data-src="/images/24-10/24-10-05-03.png" data-sizes="auto" alt="[misc] 程序员脑子里的怪东西" class="lazyload">
         
         <a href="/2024/10/05/2024-10-05-1/"></a>
         <div class="article-nav-caption">前一篇</div>
@@ -507,9 +493,10 @@ s76,-153,76,-153s77,-151,77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,1
 </section>
           
             <aside id="sidebar">
-  <div class="sidebar-wrap wow fadeInRight wrap-sticky">
-    
-      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
   <h3 class="toc-title">文章目录</h3>
   <div class="sidebar-toc-wrapper toc-div-class" >
       
@@ -518,15 +505,15 @@ s76,-153,76,-153s77,-151,77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,1
   </div>
 </div>
 </div>
-      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
-  <img data-src="/avatar/head.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
   <div class="sidebar-author-name">RIKKA421</div>
   <div class="sidebar-description"></div>
 </div>
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">15</div>
+    <div class="sidebar-state-number">16</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
@@ -534,7 +521,7 @@ s76,-153,76,-153s77,-151,77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,1
   </div>
   <div class="sidebar-state-tag">
     <div>标签</div>
-    <div class="sidebar-state-number">9</div>
+    <div class="sidebar-state-number">8</div>
   </div>
 </div>
 <div class="sidebar-social">
@@ -556,37 +543,38 @@ s76,-153,76,-153s77,-151,77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,1
   
     <div class="sidebar-menu-link-wrap">
       <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
-      <span class="sidebar-menu-icon"></span>
+      <div class="sidebar-menu-icon icon-taichi"></div>
       <div class="sidebar-menu-link">首页</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
       <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
-      <span class="sidebar-menu-icon"></span>
+      <div class="sidebar-menu-icon icon-taichi"></div>
       <div class="sidebar-menu-link">归档</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
       <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
-      <span class="sidebar-menu-icon"></span>
+      <div class="sidebar-menu-icon icon-taichi"></div>
       <div class="sidebar-menu-link">关于</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
       <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
-      <span class="sidebar-menu-icon"></span>
+      <div class="sidebar-menu-icon icon-taichi"></div>
       <div class="sidebar-menu-link">友链</div>
     </div>
   
 </div>
 </div>
-    
-    
-      <div class="sidebar-btn-wrapper" style="position:static">
-        <div class="sidebar-toc-btn current"></div>
-        <div class="sidebar-common-btn"></div>
-      </div>
-    
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
   </div>
 
   
@@ -594,44 +582,42 @@ s76,-153,76,-153s77,-151,77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,1
 
           
         </div>
-        <footer id="footer" class="wow fadeInUp">
+        <footer id="footer">
   <div style="width: 100%; overflow: hidden">
     <div class="footer-line"></div>
   </div>
-  <div class="outer">
-    <div id="footer-info">
-      
-      <div>
-        <span class="icon-copyright"></span>
-        2020-2024
-        <span class="footer-info-sep"></span>
-        RIKKA421
-      </div>
-      
-        <div>
-          基于&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;
-          Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" target="_blank">Reimu</a>
-        </div>
-      
-      
-        <div>
-          <span class="icon-brush"></span>
-          30.3k
-          &nbsp;|&nbsp;
-          <span class="icon-coffee"></span>
-          01:56
-        </div>
-      
-      
-        <div>
-          <span class="icon-eye"></span>
-          <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
-          &nbsp;|&nbsp;
-          <span class="icon-user"></span>
-          <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
-        </div>
-      
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2024
+      <span class="footer-info-sep"></span>
+      RIKKA421
     </div>
+    
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        33k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        02:08
+      </div>
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
   </div>
 </footer>
 
@@ -654,14 +640,14 @@ s76,-153,76,-153s77,-151,77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,1
 </div>
 </div>
       <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
-  <img data-src="/avatar/head.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
   <div class="sidebar-author-name">RIKKA421</div>
   <div class="sidebar-description"></div>
 </div>
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">15</div>
+    <div class="sidebar-state-number">16</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
@@ -669,7 +655,7 @@ s76,-153,76,-153s77,-151,77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,1
   </div>
   <div class="sidebar-state-tag">
     <div>标签</div>
-    <div class="sidebar-state-number">9</div>
+    <div class="sidebar-state-number">8</div>
   </div>
 </div>
 <div class="sidebar-social">
@@ -691,25 +677,25 @@ s76,-153,76,-153s77,-151,77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,1
   
     <div class="sidebar-menu-link-wrap">
       <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
-      <span class="sidebar-menu-icon"></span>
+      <div class="sidebar-menu-icon icon-taichi"></div>
       <div class="sidebar-menu-link">首页</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
       <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
-      <span class="sidebar-menu-icon"></span>
+      <div class="sidebar-menu-icon icon-taichi"></div>
       <div class="sidebar-menu-link">归档</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
       <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
-      <span class="sidebar-menu-icon"></span>
+      <div class="sidebar-menu-icon icon-taichi"></div>
       <div class="sidebar-menu-link">关于</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
       <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
-      <span class="sidebar-menu-icon"></span>
+      <div class="sidebar-menu-icon icon-taichi"></div>
       <div class="sidebar-menu-link">友链</div>
     </div>
   
@@ -726,20 +712,7 @@ s76,-153,76,-153s77,-151,77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,1
 </nav>
 
     </div>
-    <div class="site-search">
-      <div class="reimu-popup popup">
-        <div class="reimu-search">
-          <div class="reimu-search-input-icon"></div>
-          <div class="reimu-search-input" id="reimu-search-input"></div>
-          <div class="popup-btn-close"></div>
-        </div>
-        <div class="reimu-results">
-          <div id="reimu-stats"></div>
-          <div id="reimu-hits"></div>
-          <div id="reimu-pagination" class="reimu-pagination"></div>
-        </div>
-      </div>
-    </div>
+    
     
 <script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
 
@@ -752,25 +725,46 @@ s76,-153,76,-153s77,-151,77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,1
 
 
 
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
 <script src="/js/pjax_script.js" data-pjax></script>
 
 
 <script type="module" data-pjax>
-  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js";
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
   
   const pswp = () => {
     if (_$$('.article-entry a.article-gallery-item').length > 0) {
       new PhotoSwipeLightbox({
         gallery: '.article-entry',
         children: 'a.article-gallery-item',
-        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.js")
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
       }).init();
     }
     if(_$$('.article-gallery a.article-gallery-item').length > 0) {
       new PhotoSwipeLightbox({
         gallery: '.article-gallery',
         children: 'a.article-gallery-item',
-        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.js")
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
       }).init();
     }
     window.lightboxStatus = 'done';
@@ -867,29 +861,10 @@ s76,-153,76,-153s77,-151,77,-151c0.7,0.7,35.7,202,105,604c67.3,400.7,102,602.7,1
   \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
                                                   
 `,'color: #ff5252;')
-    console.log('%c Theme.Reimu v' + '0.2.4' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
   </script>
   
 
-<script data-pjax>
-  var updateTime = _$('#post-update-time')?.innerHTML;
-
-  if (updateTime) {
-    const update = new Date(updateTime);
-    const now = new Date();
-    const diff = now - update;
-    const days = diff / 86400000;
-    const { daysAgo, message: template } = window.outdate;
-    if (days >= daysAgo) {
-      const message = template.replace(/{time}/, updateTime);
-      const blockquote = _$('#outdate-blockquote');
-      if (blockquote) {
-        blockquote.querySelector('p').innerText = message;
-        blockquote.style.display = 'block';
-      }
-    }
-  }
-</script>
 
 
   
