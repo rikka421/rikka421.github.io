@@ -1,0 +1,743 @@
+
+  <!DOCTYPE html>
+  <html lang="zh_cn"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    wine上使用微信时中文乱码 |
+    
+    RIKKA&#39;s Blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="输入框中文乱码  按照提示做了, 最后还是没成功 不过只是输入框乱码而已, 信息发出去可以正常使用. 所以也许只是微信自己的问题?   24.11.02 忽然自动好了, 输入框里也正常显示中文了. 但是打开小程序之类的还是会乱码. 我猜测是微信自己的问题.  在使用 Wine 时，如果遇到中文乱码的问题，可以尝试以下解决方法：  1. 设置 Wine 的语言环境 确保 Wine 使用正确的语言设">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wine上使用微信时中文乱码">
+<meta property="og:url" content="https://rikka421.github.io/2024/11/02/2024-11/Ubuntu/wine+wechat+Chinese/index.html">
+<meta property="og:site_name" content="RIKKA&#39;s Blog">
+<meta property="og:description" content="输入框中文乱码  按照提示做了, 最后还是没成功 不过只是输入框乱码而已, 信息发出去可以正常使用. 所以也许只是微信自己的问题?   24.11.02 忽然自动好了, 输入框里也正常显示中文了. 但是打开小程序之类的还是会乱码. 我猜测是微信自己的问题.  在使用 Wine 时，如果遇到中文乱码的问题，可以尝试以下解决方法：  1. 设置 Wine 的语言环境 确保 Wine 使用正确的语言设">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-02T06:18:49.911Z">
+<meta property="article:modified_time" content="2024-11-02T07:57:47.440Z">
+<meta property="article:author" content="RIKKA421">
+<meta property="article:tag" content="env">
+<meta property="article:tag" content="Ubuntu">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="RIKKA's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/emoji.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.9/dist/katex.min.css">
+
+    
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+        </svg>
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">Home</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">Archives</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">About</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">Friend</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    <img fetchpriority="high" src="/images/24-11/ubuntu.png" alt="wine上使用微信时中文乱码">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">wine上使用微信时中文乱码</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-2024-11/Ubuntu/wine+wechat+Chinese" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2024/11/02/2024-11/Ubuntu/wine+wechat+Chinese/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2024-11-02T06:18:49.911Z" itemprop="datePublished">2024-11-02</time>
+    <time style="display: none;" id="post-update-time">2024-11-02</time>
+  </a>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Note/" data-aos="zoom-in">Note</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="输入框中文乱码"><a class="markdownIt-Anchor" href="#输入框中文乱码"></a> 输入框中文乱码</h1>
+<blockquote>
+<p>按照提示做了, 最后还是没成功<br />
+不过只是输入框乱码而已, 信息发出去可以正常使用. 所以也许只是微信自己的问题?</p>
+</blockquote>
+<blockquote>
+<p>24.11.02 忽然自动好了, 输入框里也正常显示中文了. 但是打开小程序之类的还是会乱码. 我猜测是微信自己的问题.</p>
+</blockquote>
+<p>在使用 Wine 时，如果遇到中文乱码的问题，可以尝试以下解决方法：</p>
+<h3 id="1-设置-wine-的语言环境"><a class="markdownIt-Anchor" href="#1-设置-wine-的语言环境"></a> 1. <strong>设置 Wine 的语言环境</strong></h3>
+<p>确保 Wine 使用正确的语言设置，可以通过以下命令设置环境变量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> LC_ALL=zh_CN.UTF-8</span><br><span class="line"><span class="built_in">export</span> LANG=zh_CN.UTF-8</span><br></pre></td></tr></table></figure>
+<p>你可以将这些命令添加到你的 <code>.bashrc</code> 文件中，以便每次打开终端时自动设置。</p>
+<h3 id="2-使用-winetricks-安装字体"><a class="markdownIt-Anchor" href="#2-使用-winetricks-安装字体"></a> 2. <strong>使用 <code>winetricks</code> 安装字体</strong></h3>
+<p>安装一些常用的中文字体，可以通过 <code>winetricks</code> 来实现：</p>
+<ol>
+<li>打开终端，输入：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winetricks</span><br></pre></td></tr></table></figure>
+</li>
+<li>选择“安装字体”选项。</li>
+<li>选择“安装 Microsoft YaHei”或其他中文字体（如 SimSun、SimHei）。</li>
+</ol>
+<h3 id="3-修改-wine-配置"><a class="markdownIt-Anchor" href="#3-修改-wine-配置"></a> 3. <strong>修改 Wine 配置</strong></h3>
+<ol>
+<li>运行 <code>winecfg</code> 命令打开 Wine 配置窗口：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winecfg</span><br></pre></td></tr></table></figure>
+</li>
+<li>在“字体”选项卡中，可以选择安装的中文字体，以确保程序可以正确渲染中文。</li>
+</ol>
+<h3 id="4-使用-windows-兼容模式"><a class="markdownIt-Anchor" href="#4-使用-windows-兼容模式"></a> 4. <strong>使用 Windows 兼容模式</strong></h3>
+<p>某些程序在 Wine 下可能需要以不同的 Windows 版本运行。可以通过 <code>winecfg</code> 设置兼容模式：</p>
+<ol>
+<li>打开 <code>winecfg</code>。</li>
+<li>在“应用程序”选项卡中，选择程序的 Windows 版本（如 Windows 7 或 Windows 10）。</li>
+</ol>
+<h3 id="5-确保使用-utf-8-编码"><a class="markdownIt-Anchor" href="#5-确保使用-utf-8-编码"></a> 5. <strong>确保使用 UTF-8 编码</strong></h3>
+<p>确保你的文件和应用程序都使用 UTF-8 编码。如果你是从 Windows 复制文件到 Linux，可能需要确认文件的编码格式。</p>
+<h3 id="6-运行前设置字体环境"><a class="markdownIt-Anchor" href="#6-运行前设置字体环境"></a> 6. <strong>运行前设置字体环境</strong></h3>
+<p>如果以上方法都不奏效，可以尝试在运行程序前设置字体环境：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WINEPREFIX=~/.wine wine your_application.exe</span><br></pre></td></tr></table></figure>
+<h3 id="7-检查具体应用程序的设置"><a class="markdownIt-Anchor" href="#7-检查具体应用程序的设置"></a> 7. <strong>检查具体应用程序的设置</strong></h3>
+<p>有些 Windows 应用程序本身可能提供字体或编码设置，确保在这些应用程序的设置中选择了正确的编码（通常选择 UTF-8）。</p>
+<p>如果问题仍然存在，可能需要查看 Wine 的应用程序数据库（<a target="_blank" rel="noopener" href="https://appdb.winehq.org/">Wine App Database</a>），以获取特定程序的解决方案和用户反馈。</p>
+<hr />
+<h1 id="winecfg中无法更改字体"><a class="markdownIt-Anchor" href="#winecfg中无法更改字体"></a> winecfg中无法更改字体</h1>
+<blockquote>
+<p>按照提示做了, 最后还是没成功</p>
+</blockquote>
+<p>在 <code>winecfg</code> 中，如果字体设置的按钮是灰色的，这通常意味着 Wine 当前的设置不允许你更改字体。这种情况可能是由于以下几个原因导致的：</p>
+<h3 id="1-wine-版本问题"><a class="markdownIt-Anchor" href="#1-wine-版本问题"></a> 1. <strong>Wine 版本问题</strong></h3>
+<p>确保你使用的是最新版本的 Wine，因为某些版本可能会有 bug 或限制。可以使用以下命令更新 Wine：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt upgrade winehq-stable</span><br></pre></td></tr></table></figure>
+<h3 id="2-字体未安装"><a class="markdownIt-Anchor" href="#2-字体未安装"></a> 2. <strong>字体未安装</strong></h3>
+<p>Wine 需要系统中安装所需的字体才能进行配置。如果字体未安装或缺失，字体选项可能会被禁用。你可以安装一些常用的字体，如 <code>Microsoft TrueType Core Fonts</code>，使用 <code>winetricks</code> 来安装它们：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install winetricks</span><br><span class="line">winetricks corefonts</span><br></pre></td></tr></table></figure>
+<h3 id="3-使用的-wine-目录"><a class="markdownIt-Anchor" href="#3-使用的-wine-目录"></a> 3. <strong>使用的 Wine 目录</strong></h3>
+<p>确保你在使用正确的 Wine 目录。你可以尝试在命令行中手动指定 Wine 的配置目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WINEPREFIX=~/.wine winecfg</span><br></pre></td></tr></table></figure>
+<p>如果你使用的是其他的 Wine prefix，替换 <code>~/.wine</code> 为你的 Wine prefix 路径。</p>
+<h3 id="4-修改-~wineuserreg-文件"><a class="markdownIt-Anchor" href="#4-修改-~wineuserreg-文件"></a> 4. <strong>修改 <code>~/.wine/user.reg</code> 文件</strong></h3>
+<p>如果以上方法都无效，可以尝试手动编辑 <code>~/.wine/user.reg</code> 文件，查找和修改字体相关的配置。使用文本编辑器打开该文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano ~/.wine/user.reg</span><br></pre></td></tr></table></figure>
+<p>查找以下部分：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Software\\Microsoft\\Windows NT\\CurrentVersion\\FontSubstitutes]</span><br></pre></td></tr></table></figure>
+<p>在此部分下，添加你需要的字体映射，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;Arial&quot;=&quot;Arial.ttf&quot;</span><br></pre></td></tr></table></figure>
+<p>保存更改后，关闭编辑器，然后重新启动 Wine 应用程序。</p>
+<h3 id="5-使用-wine-运行时的字体配置"><a class="markdownIt-Anchor" href="#5-使用-wine-运行时的字体配置"></a> 5. <strong>使用 Wine 运行时的字体配置</strong></h3>
+<p>确保在 Wine 的配置中选择了合适的 Windows 版本，有时不正确的设置也可能导致字体选项不可用。在 <code>winecfg</code> 的“应用程序”选项卡中，将 Windows 版本设置为 Windows 7 或 Windows 10 可能会有所帮助。</p>
+<h3 id="6-重启-wine"><a class="markdownIt-Anchor" href="#6-重启-wine"></a> 6. <strong>重启 Wine</strong></h3>
+<p>在尝试更改后，重启 Wine 或注销并重新登录系统可能会解决问题。</p>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>如果按钮仍然是灰色的，请仔细检查以上步骤，并确保字体正确安装。如果问题仍然存在，请查看 Wine 的文档或论坛，了解是否有其他用户遇到过类似问题并找到了解决方案。如果需要进一步的帮助，请告诉我！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+        <a data-aos="zoom-in" href="/2024/11/02/2024-11/Ubuntu/wine+wechat+Chinese/#comments" class="article-comment-link">
+          <span class="post-comments-count valine-comment-count" data-xid="/2024/11/02/2024-11/Ubuntu/wine+wechat+Chinese/" itemprop="commentCount"></span>
+          Comments
+        </a>
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/env/" rel="tag">env</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="Ubuntu22.04 截图与录屏" class="lazyload">
+        
+        <a href="/2024/11/02/2024-11/Ubuntu/screenshot/"></a>
+        <div class="article-nav-caption">Newer</div>
+        <h3 class="article-nav-title">
+          
+            Ubuntu22.04 截图与录屏
+          
+        </h3>
+      </div>
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="Ubuntu / linux 常用命令行操作" class="lazyload">
+      
+      <a href="/2024/11/02/2024-11/Ubuntu/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/"></a>
+      <div class="article-nav-caption">Older</div>
+      <h3 class="article-nav-title">
+        
+          Ubuntu / linux 常用命令行操作
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+  <section id="comments" class="vcomment"></section>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%A1%86%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text"> 输入框中文乱码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%AE%BE%E7%BD%AE-wine-%E7%9A%84%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83"><span class="toc-number">1.0.1.</span> <span class="toc-text"> 1. 设置 Wine 的语言环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8-winetricks-%E5%AE%89%E8%A3%85%E5%AD%97%E4%BD%93"><span class="toc-number">1.0.2.</span> <span class="toc-text"> 2. 使用 winetricks 安装字体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BF%AE%E6%94%B9-wine-%E9%85%8D%E7%BD%AE"><span class="toc-number">1.0.3.</span> <span class="toc-text"> 3. 修改 Wine 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8-windows-%E5%85%BC%E5%AE%B9%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.0.4.</span> <span class="toc-text"> 4. 使用 Windows 兼容模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E7%A1%AE%E4%BF%9D%E4%BD%BF%E7%94%A8-utf-8-%E7%BC%96%E7%A0%81"><span class="toc-number">1.0.5.</span> <span class="toc-text"> 5. 确保使用 UTF-8 编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E8%BF%90%E8%A1%8C%E5%89%8D%E8%AE%BE%E7%BD%AE%E5%AD%97%E4%BD%93%E7%8E%AF%E5%A2%83"><span class="toc-number">1.0.6.</span> <span class="toc-text"> 6. 运行前设置字体环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%A3%80%E6%9F%A5%E5%85%B7%E4%BD%93%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.0.7.</span> <span class="toc-text"> 7. 检查具体应用程序的设置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#winecfg%E4%B8%AD%E6%97%A0%E6%B3%95%E6%9B%B4%E6%94%B9%E5%AD%97%E4%BD%93"><span class="toc-number">2.</span> <span class="toc-text"> winecfg中无法更改字体</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-wine-%E7%89%88%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="toc-number">2.0.1.</span> <span class="toc-text"> 1. Wine 版本问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AD%97%E4%BD%93%E6%9C%AA%E5%AE%89%E8%A3%85"><span class="toc-number">2.0.2.</span> <span class="toc-text"> 2. 字体未安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8%E7%9A%84-wine-%E7%9B%AE%E5%BD%95"><span class="toc-number">2.0.3.</span> <span class="toc-text"> 3. 使用的 Wine 目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BF%AE%E6%94%B9-~wineuserreg-%E6%96%87%E4%BB%B6"><span class="toc-number">2.0.4.</span> <span class="toc-text"> 4. 修改 ~&#x2F;.wine&#x2F;user.reg 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%BD%BF%E7%94%A8-wine-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%97%E4%BD%93%E9%85%8D%E7%BD%AE"><span class="toc-number">2.0.5.</span> <span class="toc-text"> 5. 使用 Wine 运行时的字体配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E9%87%8D%E5%90%AF-wine"><span class="toc-number">2.0.6.</span> <span class="toc-text"> 6. 重启 Wine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.0.7.</span> <span class="toc-text"> 总结</span></a></li></ol></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">37</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">2</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">15</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2024
+      <span class="footer-info-sep"></span>
+      RIKKA421
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        61.3k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        03:54
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%A1%86%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text"> 输入框中文乱码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%AE%BE%E7%BD%AE-wine-%E7%9A%84%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83"><span class="toc-number">1.0.1.</span> <span class="toc-text"> 1. 设置 Wine 的语言环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8-winetricks-%E5%AE%89%E8%A3%85%E5%AD%97%E4%BD%93"><span class="toc-number">1.0.2.</span> <span class="toc-text"> 2. 使用 winetricks 安装字体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BF%AE%E6%94%B9-wine-%E9%85%8D%E7%BD%AE"><span class="toc-number">1.0.3.</span> <span class="toc-text"> 3. 修改 Wine 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8-windows-%E5%85%BC%E5%AE%B9%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.0.4.</span> <span class="toc-text"> 4. 使用 Windows 兼容模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E7%A1%AE%E4%BF%9D%E4%BD%BF%E7%94%A8-utf-8-%E7%BC%96%E7%A0%81"><span class="toc-number">1.0.5.</span> <span class="toc-text"> 5. 确保使用 UTF-8 编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E8%BF%90%E8%A1%8C%E5%89%8D%E8%AE%BE%E7%BD%AE%E5%AD%97%E4%BD%93%E7%8E%AF%E5%A2%83"><span class="toc-number">1.0.6.</span> <span class="toc-text"> 6. 运行前设置字体环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%A3%80%E6%9F%A5%E5%85%B7%E4%BD%93%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.0.7.</span> <span class="toc-text"> 7. 检查具体应用程序的设置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#winecfg%E4%B8%AD%E6%97%A0%E6%B3%95%E6%9B%B4%E6%94%B9%E5%AD%97%E4%BD%93"><span class="toc-number">2.</span> <span class="toc-text"> winecfg中无法更改字体</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-wine-%E7%89%88%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="toc-number">2.0.1.</span> <span class="toc-text"> 1. Wine 版本问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AD%97%E4%BD%93%E6%9C%AA%E5%AE%89%E8%A3%85"><span class="toc-number">2.0.2.</span> <span class="toc-text"> 2. 字体未安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8%E7%9A%84-wine-%E7%9B%AE%E5%BD%95"><span class="toc-number">2.0.3.</span> <span class="toc-text"> 3. 使用的 Wine 目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BF%AE%E6%94%B9-~wineuserreg-%E6%96%87%E4%BB%B6"><span class="toc-number">2.0.4.</span> <span class="toc-text"> 4. 修改 ~&#x2F;.wine&#x2F;user.reg 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%BD%BF%E7%94%A8-wine-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%AD%97%E4%BD%93%E9%85%8D%E7%BD%AE"><span class="toc-number">2.0.5.</span> <span class="toc-text"> 5. 使用 Wine 运行时的字体配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E9%87%8D%E5%90%AF-wine"><span class="toc-number">2.0.6.</span> <span class="toc-text"> 6. 重启 Wine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.0.7.</span> <span class="toc-text"> 总结</span></a></li></ol></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">37</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">2</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">15</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+  
+<script src="https://npm.webcache.cn/valine@1.5.1/dist/Valine.min.js" data-pjax></script>
+
+  <script data-pjax>
+    var GUEST_INFO = ['nick', 'mail', 'link'];
+    var guest_info = 'nick,mail,link'.split(',').filter((item) => {
+      return GUEST_INFO.indexOf(item) > -1
+    });
+    var recordIP = JSON.parse('true');
+    var highlight = JSON.parse('true');
+    var visitor = JSON.parse('false');
+
+    new Valine({
+      el: '.vcomment',
+      appId: "M4jZ0oieL94Oyjqc8LeD1oXz-gzGzoHsz",
+      appKey: "jWmwVfXAV7Iv4Bj9uWLvb4f3",
+      placeholder: "Leave your commit ;)",
+      pageSize: '10',
+      avatar: 'retro',
+      lang: 'zh-cn',
+      recordIP: recordIP,
+      highlight: highlight,
+      visitor: visitor,
+      requiredFields: guest_info,
+      path: window.location.pathname
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+

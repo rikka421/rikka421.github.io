@@ -1,0 +1,1780 @@
+
+  <!DOCTYPE html>
+  <html lang="zh_cn"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    
+    RIKKA&#39;s Blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta property="og:type" content="website">
+<meta property="og:title" content="RIKKA&#39;s Blog">
+<meta property="og:url" content="https://rikka421.github.io/index.html">
+<meta property="og:site_name" content="RIKKA&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://rikka421.github.io/images/banner.webp">
+<meta property="article:author" content="RIKKA421">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rikka421.github.io/images/banner.webp">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="RIKKA's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/emoji.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+    
+      <link rel="preload" href="https://npm.webcache.cn/katex@0.16.9/dist/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+        </svg>
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">Home</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">Archives</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">About</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">Friend</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    
+      <img fetchpriority="high" src="/images/banner.png" alt="">
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">RIKKA&#39;s Blog</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main">
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2024/11/02/2024-11/Ubuntu/Lutris/" aria-label="Lutris is not you need: Lutris下载与卸载"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="Lutris is not you need: Lutris下载与卸载" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>141 words</span>
+        <span><span class="icon-clock"></span>1 min</span>
+      </div>
+      <h2 class="post-title">Lutris is not you need: Lutris下载与卸载</h2>
+      <article class="post-article">
+        
+          下载和卸载lutris的过程.
+
+下载过程:
+需要先下载wine. 几乎所有工作通过apt-get完成. 如果apt-get没问题, 那么下载不太可能遇到问题.
+https://linuxconfig.org/install-lutris-on-ubuntu-20-04-focal-fossa-linux
+进入之后尝试了一下, 发现LOL不支持, 貌似支持的steam也不支持, 还报出一些奇怪的错误. 遂卸载之, 打算直接用wine试试了.
+卸载过程:
+直接通过apt. 和普通的包卸载过程一样.
+https://askubuntu.com/questions/1257505/how-can-i
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+    <a class="post-link" href="/2024/11/02/2024-11/Ubuntu/apt-get%20website/" aria-label="apt-get 命令无法正常走代理"></a>
+    
+    <div class="post-cover-right">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="apt-get 命令无法正常走代理" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>2k words</span>
+        <span><span class="icon-clock"></span>7 mins</span>
+      </div>
+      <h2 class="post-title">apt-get 命令无法正常走代理</h2>
+      <article class="post-article">
+        
+          在配置好代理的情况下, apt-get命令无法正常使用代理.
+解决方案是更改apt-get的配置文件. 理论上也可以配置环境变量来完成, 但是在我这里不work
+
+
+解决方案: 引用自:
+https://blog.csdn.net/gong_wejoy/article/details/118545887
+
+apt-get专用代理设置
+这种方法要用到/etc/apt/文件夹下的apt.conf文件。如果您希望apt-get（而不是其他应用程序）一直使用http代理，您可以使用这种方式。
+注意： 某些情况下，系统安装过程中没有建立apt配置文件。下面的操作将视情况修改现有的配置文件或者新建配置文件
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2024/11/02/2024-11/Ubuntu/disk/" aria-label="磁盘自动挂载"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="磁盘自动挂载" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>296 words</span>
+        <span><span class="icon-clock"></span>1 min</span>
+      </div>
+      <h2 class="post-title">磁盘自动挂载</h2>
+      <article class="post-article">
+        
+           磁盘自动挂载
+
+下面这段回答来自GPT
+
+在 Ubuntu 中将磁盘挂载到特定位置，你可以按照以下步骤操作：
+
+
+查找磁盘设备：
+打开终端并运行以下命令来查看所有可用的磁盘和分区：
+1lsblk
+找到你想要挂载的磁盘设备（如 /dev/sdb1）。
+
+
+创建挂载点：
+使用 mkdir 命令创建一个目录作为挂载点，例如：
+1sudo mkdir /mnt/mydisk
+
+
+挂载磁盘：
+使用 mount 命令将磁盘挂载到你创建的目录：
+1sudo mount /dev/sdb1 /mnt/mydisk
+
+
+查看挂载状态：
+运行 df -h 命令，可以查看挂载的磁盘及其使用情况。
+
+
+完成这些步骤
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+    <a class="post-link" href="/2024/11/02/2024-11/Ubuntu/gym/" aria-label="一次绝望的旅途: 在Ubuntu22.04 安装Gym以及mujoco python (以及mojoco_py)"></a>
+    
+    <div class="post-cover-right">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="一次绝望的旅途: 在Ubuntu22.04 安装Gym以及mujoco python (以及mojoco_py)" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>1.4k words</span>
+        <span><span class="icon-clock"></span>5 mins</span>
+      </div>
+      <h2 class="post-title">一次绝望的旅途: 在Ubuntu22.04 安装Gym以及mujoco python (以及mojoco_py)</h2>
+      <article class="post-article">
+        
+          
+
+[!attention]
+先说结论: 如果你想要学习强化学习, 并因此想要配备 gym环境, 那么只用看文章的前面很小一部分就可以了. 后面的绝大部分内容都只是一个走错路的人无用而绝望的记录而已.
+
+gymnasium 的官方文档, 简要记录了其拥有的各种环境, 同时介绍了安装的方法.
+https://github.com/Farama-Foundation/Gymnasium
+用于指导的官方文档
+https://gymnasium.farama.org/environments/mujoco/
+此处采用的系统是 Ubuntu22.04 .
+对于gymnasium本体的安装, 只需要运行命
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2024/11/02/2024-11/Ubuntu/AnaConda/" aria-label="AnaConda的安装与使用简介"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="AnaConda的安装与使用简介" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>1.7k words</span>
+        <span><span class="icon-clock"></span>6 mins</span>
+      </div>
+      <h2 class="post-title">AnaConda的安装与使用简介</h2>
+      <article class="post-article">
+        
+          
+官网的安装文档如下:
+https://docs.anaconda.com/anaconda/install/linux/
+此处安装的版本如下:
+Anaconda3-2024.10-1-Linux-x86_64.sh
+
+以下内容来自GPT
+
+在 Ubuntu 上部署 Conda 环境的步骤如下：
+ 1. 安装 Miniconda 或 Anaconda
+Miniconda 是一个轻量级的 Conda 版本，适合需要自定义环境的用户。你也可以选择安装 Anaconda，它包含了更多预安装的库。
+ 安装 Miniconda：
+打开终端，执行以下命令：
+12wget https://repo.anac
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+    <a class="post-link" href="/2024/11/02/2024-11/Ubuntu/env%20variable/" aria-label="linux系统中, 关于环境变量的那些事"></a>
+    
+    <div class="post-cover-right">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="linux系统中, 关于环境变量的那些事" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>881 words</span>
+        <span><span class="icon-clock"></span>3 mins</span>
+      </div>
+      <h2 class="post-title">linux系统中, 关于环境变量的那些事</h2>
+      <article class="post-article">
+        
+          
+
+以下内容来自GPT
+
+ 查看当前环境变量
+在 Linux 系统中，可以使用以下命令查看当前的环境变量：
+ 1. 使用 printenv 命令
+printenv 命令会列出所有的环境变量及其值：
+1printenv
+如果只想查看特定的环境变量，可以将变量名作为参数传递：
+1printenv VARIABLE_NAME
+将 VARIABLE_NAME 替换为你想要查看的变量名，例如：
+1printenv PATH
+ 2. 使用 env 命令
+env 命令也可以用来显示当前的环境变量：
+1env
+ 3. 使用 set 命令
+set 命令不仅会显示环境变量，还会显示所有的 shell 变量（包括函
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2024/11/02/2024-11/Ubuntu/screenshot/" aria-label="Ubuntu22.04 截图与录屏"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="Ubuntu22.04 截图与录屏" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>600 words</span>
+        <span><span class="icon-clock"></span>2 mins</span>
+      </div>
+      <h2 class="post-title">Ubuntu22.04 截图与录屏</h2>
+      <article class="post-article">
+        
+          在 Linux 中，可以使用多种方法进行屏幕截图，具体取决于你使用的桌面环境。以下是一些常见的屏幕截图工具和方法：
+ 1. 使用键盘快捷键
+
+
+全屏截图：
+
+按 Print Screen（有时标记为 PrtSc）键。这会将整个屏幕的截图保存到你的主目录中的“图片”文件夹。
+
+
+
+当前窗口截图：
+
+按 Alt + Print Screen。这将截取当前活动窗口并保存到你的主目录中的“图片”文件夹。
+
+
+
+选择区域截图：
+
+按 Shift + Print Screen 或 Ctrl + Shift + Print Screen。这会让你选择要截图的区域。
+
+
+
+ 2. 使用 Screenshot 
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+    <a class="post-link" href="/2024/11/02/2024-11/Ubuntu/wine+wechat+Chinese/" aria-label="wine上使用微信时中文乱码"></a>
+    
+    <div class="post-cover-right">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="wine上使用微信时中文乱码" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>1.1k words</span>
+        <span><span class="icon-clock"></span>4 mins</span>
+      </div>
+      <h2 class="post-title">wine上使用微信时中文乱码</h2>
+      <article class="post-article">
+        
+           输入框中文乱码
+
+按照提示做了, 最后还是没成功
+不过只是输入框乱码而已, 信息发出去可以正常使用. 所以也许只是微信自己的问题?
+
+
+24.11.02 忽然自动好了, 输入框里也正常显示中文了. 但是打开小程序之类的还是会乱码. 我猜测是微信自己的问题.
+
+在使用 Wine 时，如果遇到中文乱码的问题，可以尝试以下解决方法：
+ 1. 设置 Wine 的语言环境
+确保 Wine 使用正确的语言设置，可以通过以下命令设置环境变量：
+12export LC_ALL=zh_CN.UTF-8export LANG=zh_CN.UTF-8
+你可以将这些命令添加到你的 .bashrc 文件中，以便每次打
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2024/11/02/2024-11/Ubuntu/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/" aria-label="Ubuntu / linux 常用命令行操作"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="Ubuntu / linux 常用命令行操作" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>595 words</span>
+        <span><span class="icon-clock"></span>2 mins</span>
+      </div>
+      <h2 class="post-title">Ubuntu / linux 常用命令行操作</h2>
+      <article class="post-article">
+        
+           文件操作
+以下是一些常用的 Linux 终端命令，包括创建、重命名文件夹等操作：
+ 文件和文件夹操作
+
+
+创建文件夹：
+1mkdir 文件夹名
+
+
+创建多层文件夹（父文件夹及其子文件夹）：
+1mkdir -p 父文件夹/子文件夹
+
+
+重命名文件夹：
+1mv 旧文件夹名 新文件夹名
+
+
+删除文件夹：
+1rmdir 文件夹名    # 仅在文件夹为空时有效
+或者使用：
+1rm -r 文件夹名    # 删除文件夹及其所有内容
+
+
+查看当前目录：
+1pwd
+
+
+列出当前目录下的文件和文件夹：
+1ls
+添加 -l 参数以查看详细信息：
+1ls -l
+
+
+移动文件或文件夹：
+1mv 源文件或文件夹 目
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+    <a class="post-link" href="/2024/11/02/2024-11/Ubuntu/%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE/" aria-label="Ubuntu, Terminal, edge常用快捷键"></a>
+    
+    <div class="post-cover-right">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="Ubuntu, Terminal, edge常用快捷键" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>573 words</span>
+        <span><span class="icon-clock"></span>2 mins</span>
+      </div>
+      <h2 class="post-title">Ubuntu, Terminal, edge常用快捷键</h2>
+      <article class="post-article">
+        
+           edge 常用快捷键
+
+Ctrl + T - 打开一个新标签页。
+Ctrl + W（或 Ctrl + F4）- 关闭当前标签页。
+Ctrl + Tab - 切换到下一个标签页。使用 Ctrl + Shift + Tab 切换到前一个标签页。
+Ctrl + D - 把当前网站添加到收藏夹或书签。
+Ctrl + J - 打开下载面板。
+Ctrl + H - 打开历史记录面板。
+Ctrl + F（或 F3）- 打开搜索栏，以在当前页面查找内容。
+Alt + 左箭头（或 Backspace）- 返回上一页。Alt + 右箭头 将前进。
+Ctrl + Shift + N - 打开一个新的隐私浏览窗口（
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2024/11/02/2024-11/Ubuntu/Ubuntu%2022.04%20+%20Wine/" aria-label="Ubuntu22.04 配置 Wine"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="Ubuntu22.04 配置 Wine" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>1.5k words</span>
+        <span><span class="icon-clock"></span>6 mins</span>
+      </div>
+      <h2 class="post-title">Ubuntu22.04 配置 Wine</h2>
+      <article class="post-article">
+        
+          遇到任何问题, 都请查看文档:
+https://wiki.ubuntu.com.cn/WineGuide
+
+
+下面内容来自GPT
+
+在 Ubuntu 22.04 上安装 Wine 可以通过以下步骤来完成：
+
+
+启用 32 位支持（适用于运行 32 位应用程序）：
+1sudo dpkg --add-architecture i386
+
+
+添加 WineHQ 仓库的密钥：
+12sudo mkdir -pm755 /etc/apt/keyringssudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+    <a class="post-link" href="/2024/11/02/2024-11/Ubuntu/docker+Alist+rclone/" aria-label="docker+Alist+rclone 将夸克网盘挂载至本地"></a>
+    
+    <div class="post-cover-right">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="docker+Alist+rclone 将夸克网盘挂载至本地" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>1.6k words</span>
+        <span><span class="icon-clock"></span>6 mins</span>
+      </div>
+      <h2 class="post-title">docker+Alist+rclone 将夸克网盘挂载至本地</h2>
+      <article class="post-article">
+        
+           将夸克网盘挂载为本地磁盘
+
+[!todo]
+还没配完.
+
+
+由于夸克网盘好像不支持linux, 而我的文件备份是通过夸克网盘实现的, 因此在寻找使用夸克网盘的方法.
+网页端几乎什么也干不了, 文件夹与稍微大一点的文件都无法下载. 于是试图通过网盘的挂载来完成.
+下面是ChatGPT的回答:
+
+
+在 Ubuntu 上挂载夸克网盘的步骤和 Windows 相似，不过需要将 RaiDrive 替换为 rclone，以下是具体操作步骤：
+ 步骤 1：安装 Docker
+
+
+更新并安装 Docker：
+12sudo apt updatesudo apt install docker.io -y
+
+
+启
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2024/11/02/2024-11/Ubuntu/gnome-software%20explore/" aria-label="Ubuntu22.04 gnome-software explore失效之谜"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="Ubuntu22.04 gnome-software explore失效之谜" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>1.3k words</span>
+        <span><span class="icon-clock"></span>5 mins</span>
+      </div>
+      <h2 class="post-title">Ubuntu22.04 gnome-software explore失效之谜</h2>
+      <article class="post-article">
+        
+          
+发现商店页面无法正常显示各种软件
+尝试完成了如下步骤中, 除了查看系统日志的所有步骤
+
+ gnome-software explore界面无法正常使用
+
+报错为 gs_app_list_length: assertion ‘GS_IS_APP_LIST (list)’ failed
+尝试清除缓存, 重装设置和重启安装器, 更新包和重装软件安装器. 还是没用
+
+这个错误 gs_app_list_length: assertion &#39;GS_IS_APP_LIST (list)&#39; failed 通常表示 GNOME 软件安装器 (gnome-software) 遇到了一些数据或缓存问题。可以尝试以
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+    <a class="post-link" href="/2024/11/02/2024-11/Ubuntu/misc/" aria-label="配置Ubuntu22.04过程中的零散知识"></a>
+    
+    <div class="post-cover-right">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="配置Ubuntu22.04过程中的零散知识" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>2.4k words</span>
+        <span><span class="icon-clock"></span>8 mins</span>
+      </div>
+      <h2 class="post-title">配置Ubuntu22.04过程中的零散知识</h2>
+      <article class="post-article">
+        
+           添加开机自启动
+gnome-tweaks
+ software installer 自动退出
+
+更新系统, 重启软件, 清理缓存, 重置设置之后, 不会自动退出了. 但是现在选择应用的界面出现了两个software installer. 不知道重启有没有用.
+
+如果在使用 Ubuntu 的软件安装器（Software Installer）时遇到自动退出的问题，可以尝试以下解决方案：
+ 1. 更新系统
+确保你的系统和软件包是最新的。打开终端并运行：
+12sudo apt updatesudo apt upgrade
+ 2. 重启软件安装器
+有时候，简单地关闭软件安装器并重新打开就能解决问题。
+ 
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2024/11/02/2024-11/Ubuntu/%E6%8D%A2%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/" aria-label="华硕天选三从win11换系统到Ubuntu22.04记录"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="华硕天选三从win11换系统到Ubuntu22.04记录" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>3.4k words</span>
+        <span><span class="icon-clock"></span>12 mins</span>
+      </div>
+      <h2 class="post-title">华硕天选三从win11换系统到Ubuntu22.04记录</h2>
+      <article class="post-article">
+        
+          !!!注意!!!
+下面的内容中, 有绝大部份(如果不是全部)都来自ChatGPT生成, 本人按照上面的指示解决了问题, 但并不保证其正确性. 因此, 对于那些大段而有条理性的内容, 请自行甄别其对错!!!
+
+
+环境如下
+本机: 华硕天选三
+原系统: windows 11
+新系统: Ubuntun 22.04
+
+简而言之, 本人在配环境的时候不小心把window搞坏了, 刚好最近开发的时候总是遇到各种包不支持windows的痛点. 于是痛定思痛, 决定干脆重装系统换用linux.
+上午11点: 下定决心重装系统, 开始备份各种重要文件. 浏览文件的时候才发现, 电脑上99%的文件都是不需要带走的
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+    <a class="post-link" href="/2024/11/02/2024-10/2024-10-19/" aria-label="[RL] 第三讲: 值函数估计"></a>
+    
+    <div class="post-cover-right">
+      
+        <img data-src="/images/24-10/24-10-16-01.png" data-sizes="auto" alt="[RL] 第三讲: 值函数估计" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>1.6k words</span>
+        <span><span class="icon-clock"></span>7 mins</span>
+      </div>
+      <h2 class="post-title">[RL] 第三讲: 值函数估计</h2>
+      <article class="post-article">
+        
+          <p>基于<strong>上海交通大学强化学习课程</strong>系列课程学习RL的笔记.<br />
+<a target="_blank" rel="noopener" href="https://wnzhang.net/teaching/sjtu-rl-2024/index.html">SJTU RL Course (wnzhang.net)</a></p>
+<p>此为第三讲的内容. 在第二讲中, 我们解释了MDP的概念, 并在MDP处于白盒环境的前提下, 给出了通过期望算子不断进行迭代, 最终得到最优策略的算法. 而在这一讲中, 我们考虑根据一批样本来估计出一个值函数的方法, 包括MC方法和TD方法.</p>
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2024/11/02/2024-10/2024-10-30/" aria-label="[RL] 第五讲: 规划学习"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="/images/24-10/24-10-21-02.png" data-sizes="auto" alt="[RL] 第五讲: 规划学习" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>48 words</span>
+        <span><span class="icon-clock"></span>1 min</span>
+      </div>
+      <h2 class="post-title">[RL] 第五讲: 规划学习</h2>
+      <article class="post-article">
+        
+          <p>基于<strong>上海交通大学强化学习课程</strong>系列课程学习RL的笔记.<br />
+<a target="_blank" rel="noopener" href="https://wnzhang.net/teaching/sjtu-rl-2024/index.html">SJTU RL Course (wnzhang.net)</a></p>
+<p>前面我们讨论了许多黑盒的方法, 在那些方法</p>
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+    <a class="post-link" href="/2024/11/02/2024-10/2024-10-05/" aria-label="[RL] 第一讲: 强化学习, 探索与利用"></a>
+    
+    <div class="post-cover-right">
+      
+        <img data-src="/images/24-10/24-10-05-00.png" data-sizes="auto" alt="[RL] 第一讲: 强化学习, 探索与利用" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>2.8k words</span>
+        <span><span class="icon-clock"></span>11 mins</span>
+      </div>
+      <h2 class="post-title">[RL] 第一讲: 强化学习, 探索与利用</h2>
+      <article class="post-article">
+        
+          <p>基于<strong>上海交通大学强化学习课程</strong>系列课程学习RL的笔记.<br />
+<a target="_blank" rel="noopener" href="https://wnzhang.net/teaching/sjtu-rl-2024/index.html">SJTU RL Course (wnzhang.net)</a></p>
+<p>此为第一讲的内容, 主要对RL做了导论的内容, 同时以多臂老虎机作为例子, 讲述了探索与利用相关的内容.</p>
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2024/11/02/2024-10/2024-10-16/" aria-label="[misc] RL第二讲的相关证明"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="/images/24-10/24-10-16-20.jpg" data-sizes="auto" alt="[misc] RL第二讲的相关证明" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>1.2k words</span>
+        <span><span class="icon-clock"></span>5 mins</span>
+      </div>
+      <h2 class="post-title">[misc] RL第二讲的相关证明</h2>
+      <article class="post-article">
+        
+          <p>基于<strong>上海交通大学强化学习课程</strong>系列课程学习RL的笔记.<br />
+<a target="_blank" rel="noopener" href="https://wnzhang.net/teaching/sjtu-rl-2024/index.html">SJTU RL Course (wnzhang.net)</a></p>
+<p>此为第二讲内容的杂项. 由于两个动态规划算法: 策略迭代算法和价值迭代算法的严格证明内容比较多, 于是将其单独列为一篇Blog记叙于此.</p>
+<p>主要参考的资料为<br />
+<a target="_blank" rel="noopener" href="https://towardsdatascience.com/mathematical-analysis-of-reinforcement-learning-bellman-equation-ac9f0954e19f">Mathematical Analysis of Reinforcement Learning — Bellman Optimality Equation | by Vaibhav Kumar | Towards Data Science</a></p>
+<p>包含此定理在内的其他相关数学证明可以在<br />
+<a target="_blank" rel="noopener" href="https://wnzhang.net/teaching/sjtu-rl-2024/slides/rl-proofs.pdf">rl-proofs.pdf (wnzhang.net)</a><br />
+中找到.</p>
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+    <a class="post-link" href="/2024/11/02/2024-10/2024-10-21/" aria-label="[RL] 第四讲: 无模型控制方法"></a>
+    
+    <div class="post-cover-right">
+      
+        <img data-src="/images/24-10/24-10-21-02.png" data-sizes="auto" alt="[RL] 第四讲: 无模型控制方法" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>2.5k words</span>
+        <span><span class="icon-clock"></span>10 mins</span>
+      </div>
+      <h2 class="post-title">[RL] 第四讲: 无模型控制方法</h2>
+      <article class="post-article">
+        
+          <p>基于<strong>上海交通大学强化学习课程</strong>系列课程学习RL的笔记.<br />
+<a target="_blank" rel="noopener" href="https://wnzhang.net/teaching/sjtu-rl-2024/index.html">SJTU RL Course (wnzhang.net)</a></p>
+<ul>
+<li>在第三讲中, 我们讲述了采样方法下, 对值函数进行估计的办法; 估计完毕值函数之后, 会作策略提升;</li>
+<li>这一讲中, 我们讲直接作价值提升的算法.</li>
+<li>可以理解为贪婪的值函数更新方法, 直接在每一步都对策略进行更新.</li>
+<li>SARSA, Q-learing, 多步自助方法.</li>
+</ul>
+<p>各种方法的三重维度:</p>
+<ul>
+<li>取期望 vs 大数定理采样     (BFS vs DFS)</li>
+<li>多步迭代拟合后提升 vs 一步后直接max作提升    (策略迭代 vs 价值迭代)</li>
+<li>对T步数据进行学习(无偏) vs 对一步数据进行学习(有偏)     (MC vs TD)</li>
+</ul>
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2024/11/02/2024-10/2024-10-05-1/" aria-label="[misc] 程序员脑子里的怪东西"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="/images/24-10/24-10-05-03.png" data-sizes="auto" alt="[misc] 程序员脑子里的怪东西" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>196 words</span>
+        <span><span class="icon-clock"></span>1 min</span>
+      </div>
+      <h2 class="post-title">[misc] 程序员脑子里的怪东西</h2>
+      <article class="post-article">
+        
+          <p>零零散散记录了一些有意思的东西.</p>
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+    <a class="post-link" href="/2024/11/02/2024-10/2024-10-11/" aria-label="[CF记录] VP Round 969"></a>
+    
+    <div class="post-cover-right">
+      
+        <img data-src="/images/24-10/24-10-11-01.png" data-sizes="auto" alt="[CF记录] VP Round 969" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>988 words</span>
+        <span><span class="icon-clock"></span>4 mins</span>
+      </div>
+      <h2 class="post-title">[CF记录] VP Round 969</h2>
+      <article class="post-article">
+        
+          <p>Round 969的VP. 由于前两题之前都已经听过了, 所以做的很快. 最终的成绩是4题左右.</p>
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2024/11/02/2024-10/2024-10-02/" aria-label="[Algorithms] &#39;少即是多&#39;: 只做需要做的事情_CN"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        
+        
+          <img data-src="/covers/emoji.png" data-sizes="auto" alt="[Algorithms] &#39;少即是多&#39;: 只做需要做的事情_CN" class="lazyload">
+        
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>5k words</span>
+        <span><span class="icon-clock"></span>18 mins</span>
+      </div>
+      <h2 class="post-title">[Algorithms] &#39;少即是多&#39;: 只做需要做的事情_CN</h2>
+      <article class="post-article">
+        
+          <p>尝试性地写了一篇算法相关文章.<br />
+一般而言我们会以&quot;某种数据结构&quot;或者&quot;某道题目&quot;作为中心来写东西, 但是这篇文章在包含几道题目的同时, 也并没有用到某个相同的结构 / 算法, 更多的是介绍了某种思维方式或者技巧?<br />
+总之, 大体上是一篇类似心得和感悟的东西, 暂且将其归为others类. 文章主要讲了&quot;前-coding期&quot;的内容, 即对问题进行建模, 思考大致思路的阶段. 将大致思路转换为伪代码, 再将伪代码实现为具体编程语言的过程, 在此不做过多涉及. 同时, 本文主要用中文书写, 英文版将作为TODO, 或许会有.</p>
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+    <a class="post-link" href="/2024/11/02/2024-10/2024-10-23/" aria-label="[ML] 第九章: 聚类"></a>
+    
+    <div class="post-cover-right">
+      
+        <img data-src="/images/24-10/24-10-23-03.png" data-sizes="auto" alt="[ML] 第九章: 聚类" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>2.1k words</span>
+        <span><span class="icon-clock"></span>8 mins</span>
+      </div>
+      <h2 class="post-title">[ML] 第九章: 聚类</h2>
+      <article class="post-article">
+        
+          <p>ML西瓜书第九章的学习笔记. 内容主要是对一些已有方法的推导介绍, 涉及到大量数学相关的知识.</p>
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2024/11/02/2024-10/2024-10-27/" aria-label="[misc] 24-10 那些我看到的"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        
+        
+          <img data-src="/covers/emoji.png" data-sizes="auto" alt="[misc] 24-10 那些我看到的" class="lazyload">
+        
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>845 words</span>
+        <span><span class="icon-clock"></span>2 mins</span>
+      </div>
+      <h2 class="post-title">[misc] 24-10 那些我看到的</h2>
+      <article class="post-article">
+        
+          
+ Novel
+ 黑龙法典
+异界, 西幻, 龙类主角.
+
+前期的大量DND设定挺有意思的, 内容吞噬进化和种田发展势力算是一半一半吧, 但都不是很多.
+对角色的利用率算是蛮高的, 妖精路娜和女王加西亚在很开始的时候就出现了, 一直活到了大结局; 对女儿奥汀和侄女布洛尼亚的描写也很不错
+加隆·奈法狄修斯·坦格里安,  尼禄, 霍格的描写都挺不错的. 算是理想中的下属形象.
+艾琳·布莱克希娅·坦格里安和炼狱领主的性格也很有意思, 有种微妙的傲娇感, 看着非常有趣.
+像是王位之争, 信仰之争, 异体龙的情节都有值得深挖的地方, 但是着笔也不是很多, 有些轻飘飘的感觉. 比起其他女巫和黎明之剑之类的种
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+    <a class="post-link" href="/2024/11/02/2024-10/2024-10-28/" aria-label="[Compilers] Ch2 A Simple Syntax-Directed Translator"></a>
+    
+    <div class="post-cover-right">
+      
+        <img data-src="/images/24-10/24-10-22-03.png" data-sizes="auto" alt="[Compilers] Ch2 A Simple Syntax-Directed Translator" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>516 words</span>
+        <span><span class="icon-clock"></span>2 mins</span>
+      </div>
+      <h2 class="post-title">[Compilers] Ch2 A Simple Syntax-Directed Translator</h2>
+      <article class="post-article">
+        
+          <h1 id="ch2-a-simple-syntax-directed-translator"><a class="markdownIt-Anchor" href="#ch2-a-simple-syntax-directed-translator"></a> Ch2 A Simple Syntax-Directed Translator</h1>
+<p>编译原理的第二章笔记, 描述了一个例子. 讲道理这个例子看得人非常迷惑.</p>
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2024/11/02/2024-10/2024-10-15/" aria-label="[RL] 第二讲: 马尔科夫决策过程"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="/images/24-10/24-10-16-01.png" data-sizes="auto" alt="[RL] 第二讲: 马尔科夫决策过程" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>5.8k words</span>
+        <span><span class="icon-clock"></span>23 mins</span>
+      </div>
+      <h2 class="post-title">[RL] 第二讲: 马尔科夫决策过程</h2>
+      <article class="post-article">
+        
+          <p>基于<strong>上海交通大学强化学习课程</strong>系列课程学习RL的笔记.<br />
+<a target="_blank" rel="noopener" href="https://wnzhang.net/teaching/sjtu-rl-2024/index.html">SJTU RL Course (wnzhang.net)</a></p>
+<p>此为第二讲的内容, 主要讲述了马尔科夫决策过程MDP的概念, 并给出了策略度量, 策略值函数, 基于值函数进行策略提升的内容.</p>
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+    <a class="post-link" href="/2024/11/02/2024-10/2024-10-27-1/" aria-label="[Automata] Ch3 正则表达式与正则语言: Regular Expressions and  Languages"></a>
+    
+    <div class="post-cover-right">
+      
+        <img data-src="/images/misc/auto_ch1.jpg" data-sizes="auto" alt="[Automata] Ch3 正则表达式与正则语言: Regular Expressions and  Languages" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>203 words</span>
+        <span><span class="icon-clock"></span>1 min</span>
+      </div>
+      <h2 class="post-title">[Automata] Ch3 正则表达式与正则语言: Regular Expressions and  Languages</h2>
+      <article class="post-article">
+        
+          <h1 id="ch3-regular-expressions-and-languages"><a class="markdownIt-Anchor" href="#ch3-regular-expressions-and-languages"></a> CH3 Regular Expressions and  Languages</h1>
+<p>学习课程&quot;形式语言与自动机&quot;时做的笔记, 内容主要来自 <em>Automata Theory, Languages, and Computation</em>一书的第三章. 主要是关于RE的内容.</p>
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2024/11/02/2024-09/2024-09-29/" aria-label="[CF记录] Round 975"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="/images/24-09/24-09-29-01.png" data-sizes="auto" alt="[CF记录] Round 975" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>3k words</span>
+        <span><span class="icon-clock"></span>11 mins</span>
+      </div>
+      <h2 class="post-title">[CF记录] Round 975</h2>
+      <article class="post-article">
+        
+          <p>记录CF竞赛的经历.</p>
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+    <a class="post-link" href="/2024/11/02/2024-09/2024-09-23/" aria-label="[Compilers] Ch1 导论: Introduction"></a>
+    
+    <div class="post-cover-right">
+      
+        <img data-src="/images/24-09/24-09-23-01.png" data-sizes="auto" alt="[Compilers] Ch1 导论: Introduction" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2024-11-02</span>
+        <span><span class="icon-pencil"></span>2.1k words</span>
+        <span><span class="icon-clock"></span>8 mins</span>
+      </div>
+      <h2 class="post-title">[Compilers] Ch1 导论: Introduction</h2>
+      <article class="post-article">
+        
+          <h1 id="ch1-introduction"><a class="markdownIt-Anchor" href="#ch1-introduction"></a> CH1 Introduction</h1>
+<p>编译原理一书, Introduction一章的阅读笔记. 因为是introduction所以不用看得那么认真, 随便看看就好. 需要把热情留到后面.<br />
+在写这篇博客时, 对编译原理的整体理解还不是很深入, 因此可能有错漏. 预计会在全部学完之后, 对这篇introduction中的内容进行检查更正.</p>
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+
+
+  <nav id="page-nav" data-aos="fade-up">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper ">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">37</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">2</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">15</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+
+      
+      
+    </div>
+  </div>
+
+  
+    
+      
+  <div class="widget-wrapper">
+    <div class="widget-wrap" data-aos="fade-up">
+      <h3 class="widget-title">Categories</h3>
+      <div class="widget">
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Eassy/">Eassy</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Note/">Note</a></li></ul>
+      </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrapper">
+    <div class="widget-wrap" data-aos="fade-up">
+      <h3 class="widget-title">Tags</h3>
+      <div class="widget">
+        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithms/" rel="tag">Algorithms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Automata/" rel="tag">Automata</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Codeforces/" rel="tag">Codeforces</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Compilers/" rel="tag">Compilers</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lutris/" rel="tag">Lutris</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML/" rel="tag">ML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RL/" rel="tag">RL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/conda/" rel="tag">conda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/env/" rel="tag">env</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/misc/" rel="tag">misc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mujoco-python/" rel="tag">mujoco python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="tag">博客搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E8%89%BA%E4%BD%9C%E5%93%81%E8%A1%A5%E5%AE%8C%E8%AE%A1%E5%88%92/" rel="tag">文艺作品补完计划</a></li></ul>
+      </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrapper">
+    <div class="widget-wrap" data-aos="fade-up">
+      <h3 class="widget-title">Recent Posts</h3>
+      <div class="widget">
+        <ul>
+          
+            <li>
+              <a href="/2024/11/02/2024-11/Ubuntu/Lutris/">Lutris is not you need: Lutris下载与卸载</a>
+            </li>
+          
+            <li>
+              <a href="/2024/11/02/2024-11/Ubuntu/apt-get%20website/">apt-get 命令无法正常走代理</a>
+            </li>
+          
+            <li>
+              <a href="/2024/11/02/2024-11/Ubuntu/disk/">磁盘自动挂载</a>
+            </li>
+          
+            <li>
+              <a href="/2024/11/02/2024-11/Ubuntu/gym/">一次绝望的旅途: 在Ubuntu22.04 安装Gym以及mujoco python (以及mojoco_py)</a>
+            </li>
+          
+            <li>
+              <a href="/2024/11/02/2024-11/Ubuntu/AnaConda/">AnaConda的安装与使用简介</a>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+    
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2024
+      <span class="footer-info-sep"></span>
+      RIKKA421
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        61.3k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        03:54
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">37</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">2</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">15</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+
+    
+  </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+  
+<script src="https://npm.webcache.cn/valine@1.5.1/dist/Valine.min.js" data-pjax></script>
+
+  <script data-pjax>
+    var GUEST_INFO = ['nick', 'mail', 'link'];
+    var guest_info = 'nick,mail,link'.split(',').filter((item) => {
+      return GUEST_INFO.indexOf(item) > -1
+    });
+    var recordIP = JSON.parse('true');
+    var highlight = JSON.parse('true');
+    var visitor = JSON.parse('false');
+
+    new Valine({
+      el: '.vcomment',
+      appId: "M4jZ0oieL94Oyjqc8LeD1oXz-gzGzoHsz",
+      appKey: "jWmwVfXAV7Iv4Bj9uWLvb4f3",
+      placeholder: "Leave your commit ;)",
+      pageSize: '10',
+      avatar: 'retro',
+      lang: 'zh-cn',
+      recordIP: recordIP,
+      highlight: highlight,
+      visitor: visitor,
+      requiredFields: guest_info,
+      path: window.location.pathname
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+

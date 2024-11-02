@@ -1,0 +1,793 @@
+
+  <!DOCTYPE html>
+  <html lang="zh_cn"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    [CF记录] Round 973 &amp;&amp; 974 |
+    
+    RIKKA&#39;s Blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="记录初探CF竞赛的经历.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[CF记录] Round 973 &amp;&amp; 974">
+<meta property="og:url" content="https://rikka421.github.io/2024/11/02/2024-09/2024-09-22/index.html">
+<meta property="og:site_name" content="RIKKA&#39;s Blog">
+<meta property="og:description" content="记录初探CF竞赛的经历.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-22-02.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-22-12.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-22-2-2.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-22-2-3.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-22-2-4.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-22-3-0.png">
+<meta property="article:published_time" content="2024-11-02T06:18:49.900Z">
+<meta property="article:modified_time" content="2024-11-01T03:01:09.789Z">
+<meta property="article:author" content="RIKKA421">
+<meta property="article:tag" content="Codeforces">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rikka421.github.io/images/24-09/24-09-22-02.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="RIKKA's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/emoji.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.9/dist/katex.min.css">
+
+    
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+        </svg>
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">Home</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">Archives</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">About</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">Friend</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    <img fetchpriority="high" src="/images/24-09/24-09-22-cf974.jpg" alt="[CF记录] Round 973 &amp;&amp; 974">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">[CF记录] Round 973 &amp;&amp; 974</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-2024-09/2024-09-22" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2024/11/02/2024-09/2024-09-22/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2024-11-02T06:18:49.900Z" itemprop="datePublished">2024-11-02</time>
+    <time style="display: none;" id="post-update-time">2024-11-01</time>
+  </a>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Note/" data-aos="zoom-in">Note</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <p>记录初探CF竞赛的经历.</p>
+<span id="more"></span>
+<p>在朋友的邀请下开始打Codeforces比赛了, 到目前为止参加了Round 973和974两场. 由于不熟悉赛程什么的, 加上12点左右就要睡觉, 只能打1个半小时左右, 所以成绩不算很好看. 还在修炼当中.</p>
+<p><img src="/images/24-09/24-09-22-02.png" alt="" /></p>
+<h2 id="round-973-div-2"><a class="markdownIt-Anchor" href="#round-973-div-2"></a> Round 973 - Div 2</h2>
+<p>最终的成绩如下:</p>
+<p><img src="/images/24-09/24-09-22-12.png" alt="" /></p>
+<h3 id="a-打卡题-搅拌机榨水果"><a class="markdownIt-Anchor" href="#a-打卡题-搅拌机榨水果"></a> A 打卡题-搅拌机榨水果</h3>
+<p>了解题意后只需要求一个min就可以了.</p>
+<p>用cpp写的时候很不熟悉, 研究缓冲区之类的东西花了些时间, vscode的run code功能还坏掉了. 读题和提交也慢, 所以20多分钟才写完.</p>
+<h3 id="b-拳击手互殴"><a class="markdownIt-Anchor" href="#b-拳击手互殴"></a> B 拳击手互殴</h3>
+<p><img src="/images/24-09/24-09-22-2-2.png" alt="" /></p>
+<p>n名拳击手进行n-1场比赛, 右边的拳击手会将左边的拳击手淘汰, 同时自己的数值也降低. 最终剩下的必定是最右边的拳击手. 要求最终的选手的数值最大.</p>
+<p>一开始往贪心和动态规划之类的地方想, 满脑子都是递归之类的东西. 研究了许久之后, 发现了&quot;最后一位&quot;和&quot;倒数第二位&quot;两个位置的奇妙. 于是从数学上想清楚了思路.</p>
+<p>编写代码也很简单, 但是交上去老是过不了. 事后才发现是longlong的问题.</p>
+<blockquote>
+<p>十年OI一场空, 不开longlong见祖宗</p>
+</blockquote>
+<h3 id="c-hacking密码"><a class="markdownIt-Anchor" href="#c-hacking密码"></a> C hacking密码</h3>
+<p><img src="/images/24-09/24-09-22-2-3.png" alt="" title="0" /></p>
+<p>需要通过最多2n次&quot;是否包含子列&quot;的询问, 将n位的密码构建出来.<br />
+很有意思的题目. 样例给出来的&quot;询问方式&quot;都是直接问出答案的. 可能是因为正常询问就相当于进行了提示吧.</p>
+<p>一开始往树和信息熵的方面想, 同时尝试分析了几个例子, 却总是不得要领.</p>
+<p>后来打完974的晚上横竖睡不着, 躺在床上把它想了出来.</p>
+<p>核心思想就是, 用至多两次询问, 将&quot;确定的密码位数&quot;增加一位. 例如, 从&quot;0&quot;开始询问. 已知密码内包含串<code>x</code>的情况下, 分别询问<code>x0</code>, <code>x1</code>. 如果其中一个为&quot;包含&quot;, 那么已知的字串长度增加了1; 如果两个都不包含, 说明<code>x</code>一定位于密码末尾, 接下来挨个询问其左边的密码即可. 如此以来, 总能在<code>2n</code>次询问中解决问题.</p>
+<blockquote>
+<p>见到题目的第一时间把它想的太复杂了, 思路总是往&quot;形式化分析该问题&quot;上面靠, 导致老是在想&quot;输出的策略本身是一个树, 各种策略在一起又构成一个树&quot;之类的事情. 实际上应该先依靠直觉进行探索.</p>
+</blockquote>
+<h3 id="d-抹平贫富差距"><a class="markdownIt-Anchor" href="#d-抹平贫富差距"></a> D 抹平贫富差距</h3>
+<p><img src="/images/24-09/24-09-22-2-4.png" alt="" title="0" /></p>
+<p>类似&quot;流水从左往右冲刷沙堆&quot;的情况, 高度可以&quot;单向进行移动&quot;.</p>
+<p>一开始也是想着动态规划和递归什么的. 后面躺在床上发现了其中玄妙.</p>
+<p>秘诀就是, 从最左边出发, 将&quot;几乎等高&quot;的柱子看成一组, 同时, 组与组之间在某种情况下可以合并.<br />
+这样一来, 一开始就有n组柱子, 每组含有一个成员.</p>
+<ul>
+<li>当遇到&quot;<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>&lt;</mo><msub><mi>a</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">a_i &lt; a_{i+1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6891em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.638891em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span>&quot;的情况时, 左右无法进行合并.</li>
+<li>当遇到&quot;<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>&gt;</mo><msub><mi>a</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">a_i &gt; a_{i+1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6891em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.638891em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span>&quot;的情况时, 将新出现的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">a_{i+1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.638891em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span>并入<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a_{i}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>中.</li>
+</ul>
+<p>类似递归排序的方法, 总是对&quot;新加入的组&quot;进行判断, 如此反复进行下去. 最终能够用线性的时间解决问题.<br />
+代码编写好像不是那么显然, 但也不算太复杂.</p>
+<h3 id="others"><a class="markdownIt-Anchor" href="#others"></a> Others</h3>
+<ul>
+<li>其他的题目还没有看, 也不打算看了.</li>
+<li>有时间找找jiangly的视频, 学习一下这些题的解法.</li>
+</ul>
+<hr />
+<h2 id="round-974-div-3"><a class="markdownIt-Anchor" href="#round-974-div-3"></a> Round 974 - Div 3</h2>
+<p>最终的成绩如下:</p>
+<p><img src="/images/24-09/24-09-22-3-0.png" alt="" title="0" /></p>
+<ul>
+<li>做了1h40min吧, 一直干到了00:30左右.</li>
+<li>最后还剩下20min, 感觉写下去是可以把第4题写出来的, 因为就差最后一点代码了. 但是也许不行.</li>
+<li>总之最后成绩是3题.</li>
+</ul>
+<h3 id="a-富人全拿走-穷人送一颗-打卡题"><a class="markdownIt-Anchor" href="#a-富人全拿走-穷人送一颗-打卡题"></a> A 富人全拿走, 穷人送一颗 - 打卡题</h3>
+<ul>
+<li>罗宾汉会抢走富人的所有钱, 并送给财产为0的穷人一枚金币.</li>
+<li>给出当前财产情况, 问罗宾汉劫富济贫之后, 财产情况是怎么样的.</li>
+</ul>
+<p>对每个人, 简单进行判断即可. 复杂度是线性的</p>
+<h3 id="b-足够不平等-召唤罗宾汉"><a class="markdownIt-Anchor" href="#b-足够不平等-召唤罗宾汉"></a> B 足够不平等, 召唤罗宾汉</h3>
+<ul>
+<li>给出当前财产情况, 最富有的人会额外得到一笔x的财富</li>
+<li>穷人: “财产严格小于平均水平的一半”</li>
+<li>民心可用: “穷人数量严格大于人数的一半”</li>
+<li>当民心可用时, 罗宾汉就会出现</li>
+</ul>
+<p>问, x最少需要为多少, 才能够召唤罗宾汉? 输出x.</p>
+<ul>
+<li>当罗宾汉无论如何也无法被召唤, 输出-1</li>
+<li>当罗宾汉不需要给予x就已经可以出现, 输出0</li>
+<li>其余情况, 输出那个最小的x</li>
+</ul>
+<p>排序之后求出中位数, 之后做<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span>的计算即可. 以上是最直接的想法.</p>
+<p>想出来没有花时间, 但是写代码的时候处理细节花了很久.</p>
+<p>理论上, 我们可以用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>的算法来求出中位数, 然后进行求解. 从而得到最优的线性解法.</p>
+<blockquote>
+<p>采用大顶小顶两个堆进行求解. 利用&quot;堆的插入操作是对数复杂度&quot;这一性质, 可以形式化证明其复杂度是线性的.</p>
+</blockquote>
+<h3 id="c-叶子生又落-求出奇偶性"><a class="markdownIt-Anchor" href="#c-叶子生又落-求出奇偶性"></a> C 叶子生又落, 求出奇偶性</h3>
+<ul>
+<li>树木在第<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span></span></span></span>天会长出<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>i</mi><mi>i</mi></msup></mrow><annotation encoding="application/x-tex">i^i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.824664em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal">i</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.824664em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span></span></span></span></span></span></span>个叶子</li>
+<li>长出的叶子会在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>天之后凋落</li>
+<li>给出<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo separator="true">,</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">n, k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>, 求出第<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>天时, 树木上叶子数的奇偶性.</li>
+</ul>
+<p>先直接得到奇偶数列&quot;每天长出的叶子&quot;, 然后得到其前n项和的奇偶数列<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">S_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>. <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">S_{n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>的奇偶性是周期的, 可在常数时间内给出. 之后, 对<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mi>n</mi></msub><mo>−</mo><msub><mi>S</mi><mrow><mi>n</mi><mo>−</mo><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">S_n - S_{n - k}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.891661em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span>的奇偶性进行考虑即可.<br />
+最终的复杂度是常数的.</p>
+<p>讨论奇偶性花了和调代码花了不少时间. 教训是在数学上的性质和原理一开始没有想明白, 就急匆匆地去写代码了. 后面才想清楚&quot;前n项和&quot;来简洁表述的想法.</p>
+<h3 id="d-哥哥与姑姑探访-求出最值"><a class="markdownIt-Anchor" href="#d-哥哥与姑姑探访-求出最值"></a> D 哥哥与姑姑探访, 求出最值</h3>
+<ul>
+<li>罗宾汉在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>天内进行<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>次侠盗活动. 每次活动会持续一段时间</li>
+<li>侠盗活动持续时间通过一个区间给出</li>
+<li>哥哥和姑姑分别拜访一段时间, 拜访持续<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span>天</li>
+<li>要求: 哥哥拜访期间, 遇到的侠盗活动尽可能多; 姑姑拜访期间, 遇到的侠盗活动尽可能少.</li>
+<li>给出两人拜访的最佳时间. 若有多种选择, 选择拜访时间最早的选项.</li>
+</ul>
+<p>一开始的思路是: 先将<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>个区间排序, 之后用n的时间扫一遍, 将&quot;每天正在持续的侠盗活动&quot;的数组处理出来. 再之后, 根据单天的时间表, 通过滑窗的方式, 做取最值的处理, 将&quot;区间内持续的侠盗活动&quot;解出来.<br />
+思路和代码都有些繁琐, 写着很不舒服.</p>
+<p>后面看了jiangly的解法, 是先将区间存下来, 再求出前n项和. 其中</p>
+<ul>
+<li>对区间左端点l做&quot;减减&quot;操作</li>
+<li>求出左端点的&quot;后n项和&quot;, 即&quot;从某天起, 还没开始的侠盗活动数目&quot;</li>
+<li>求出右端点的&quot;前n项和&quot;, 即&quot;在某天前, 已经结束的侠盗活动数目&quot;</li>
+<li>将两个前n项和相加, 得到&quot;与当前区间无关的活动的数目&quot;x</li>
+<li>x越大, 说明区间内发生的活动数越少. 根据x确定最佳日期即可.</li>
+</ul>
+<p>这个想法其实略微有点不自然. 最自然的做法应该是&quot;左端点求前n项和, 右端点求后n项和.“, 然后求出&quot;区间内正在进行的侠盗活动数”, 再进行判断.<br />
+不过这些都是细节了. 主要需要学习的是, 通过前n项和的处理, 使得&quot;关于区间数值的求解&quot;变成常数时间操作. 因此, 在遇到与区间有关的题目时, 应该考虑求和操作.</p>
+<p>此外, yp讲述的差分思路也很有意思, 通过类似桶排序的做法, 用<code>O(n)</code>的时间&quot;将k个区间压成了一个区间&quot;, 比我的方法简单且快捷了许多. 虽然这种方法在压完之后, 还是得处理&quot;滑窗&quot;之类的事情, 所以不够简洁优雅.</p>
+<hr />
+<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
+<p>革命尚未成功, 同志们还需努力. 憧憬成为CF高手 😉</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+        <a data-aos="zoom-in" href="/2024/11/02/2024-09/2024-09-22/#comments" class="article-comment-link">
+          <span class="post-comments-count valine-comment-count" data-xid="/2024/11/02/2024-09/2024-09-22/" itemprop="commentCount"></span>
+          Comments
+        </a>
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/Codeforces/" rel="tag">Codeforces</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="/images/24-09/24-09-23-01.png" data-sizes="auto" alt="[Compilers] Ch1 导论: Introduction" class="lazyload">
+        
+        <a href="/2024/11/02/2024-09/2024-09-23/"></a>
+        <div class="article-nav-caption">Newer</div>
+        <h3 class="article-nav-title">
+          
+            [Compilers] Ch1 导论: Introduction
+          
+        </h3>
+      </div>
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="/covers/emoji.png" data-sizes="auto" alt="文艺作品补完计划: 那些&#34;必看的&#34;书籍电影" class="lazyload">
+        
+      
+      <a href="/2024/11/02/2024-09/2024-09-24/"></a>
+      <div class="article-nav-caption">Older</div>
+      <h3 class="article-nav-title">
+        
+          文艺作品补完计划: 那些&#34;必看的&#34;书籍电影
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+  <section id="comments" class="vcomment"></section>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#round-973-div-2"><span class="toc-number">1.</span> <span class="toc-text"> Round 973 - Div 2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#a-%E6%89%93%E5%8D%A1%E9%A2%98-%E6%90%85%E6%8B%8C%E6%9C%BA%E6%A6%A8%E6%B0%B4%E6%9E%9C"><span class="toc-number">1.1.</span> <span class="toc-text"> A 打卡题-搅拌机榨水果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b-%E6%8B%B3%E5%87%BB%E6%89%8B%E4%BA%92%E6%AE%B4"><span class="toc-number">1.2.</span> <span class="toc-text"> B 拳击手互殴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#c-hacking%E5%AF%86%E7%A0%81"><span class="toc-number">1.3.</span> <span class="toc-text"> C hacking密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#d-%E6%8A%B9%E5%B9%B3%E8%B4%AB%E5%AF%8C%E5%B7%AE%E8%B7%9D"><span class="toc-number">1.4.</span> <span class="toc-text"> D 抹平贫富差距</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#others"><span class="toc-number">1.5.</span> <span class="toc-text"> Others</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#round-974-div-3"><span class="toc-number">2.</span> <span class="toc-text"> Round 974 - Div 3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#a-%E5%AF%8C%E4%BA%BA%E5%85%A8%E6%8B%BF%E8%B5%B0-%E7%A9%B7%E4%BA%BA%E9%80%81%E4%B8%80%E9%A2%97-%E6%89%93%E5%8D%A1%E9%A2%98"><span class="toc-number">2.1.</span> <span class="toc-text"> A 富人全拿走, 穷人送一颗 - 打卡题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b-%E8%B6%B3%E5%A4%9F%E4%B8%8D%E5%B9%B3%E7%AD%89-%E5%8F%AC%E5%94%A4%E7%BD%97%E5%AE%BE%E6%B1%89"><span class="toc-number">2.2.</span> <span class="toc-text"> B 足够不平等, 召唤罗宾汉</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#c-%E5%8F%B6%E5%AD%90%E7%94%9F%E5%8F%88%E8%90%BD-%E6%B1%82%E5%87%BA%E5%A5%87%E5%81%B6%E6%80%A7"><span class="toc-number">2.3.</span> <span class="toc-text"> C 叶子生又落, 求出奇偶性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#d-%E5%93%A5%E5%93%A5%E4%B8%8E%E5%A7%91%E5%A7%91%E6%8E%A2%E8%AE%BF-%E6%B1%82%E5%87%BA%E6%9C%80%E5%80%BC"><span class="toc-number">2.4.</span> <span class="toc-text"> D 哥哥与姑姑探访, 求出最值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text"> 总结</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">37</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">2</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">15</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2024
+      <span class="footer-info-sep"></span>
+      RIKKA421
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        61.3k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        03:54
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#round-973-div-2"><span class="toc-number">1.</span> <span class="toc-text"> Round 973 - Div 2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#a-%E6%89%93%E5%8D%A1%E9%A2%98-%E6%90%85%E6%8B%8C%E6%9C%BA%E6%A6%A8%E6%B0%B4%E6%9E%9C"><span class="toc-number">1.1.</span> <span class="toc-text"> A 打卡题-搅拌机榨水果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b-%E6%8B%B3%E5%87%BB%E6%89%8B%E4%BA%92%E6%AE%B4"><span class="toc-number">1.2.</span> <span class="toc-text"> B 拳击手互殴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#c-hacking%E5%AF%86%E7%A0%81"><span class="toc-number">1.3.</span> <span class="toc-text"> C hacking密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#d-%E6%8A%B9%E5%B9%B3%E8%B4%AB%E5%AF%8C%E5%B7%AE%E8%B7%9D"><span class="toc-number">1.4.</span> <span class="toc-text"> D 抹平贫富差距</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#others"><span class="toc-number">1.5.</span> <span class="toc-text"> Others</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#round-974-div-3"><span class="toc-number">2.</span> <span class="toc-text"> Round 974 - Div 3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#a-%E5%AF%8C%E4%BA%BA%E5%85%A8%E6%8B%BF%E8%B5%B0-%E7%A9%B7%E4%BA%BA%E9%80%81%E4%B8%80%E9%A2%97-%E6%89%93%E5%8D%A1%E9%A2%98"><span class="toc-number">2.1.</span> <span class="toc-text"> A 富人全拿走, 穷人送一颗 - 打卡题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b-%E8%B6%B3%E5%A4%9F%E4%B8%8D%E5%B9%B3%E7%AD%89-%E5%8F%AC%E5%94%A4%E7%BD%97%E5%AE%BE%E6%B1%89"><span class="toc-number">2.2.</span> <span class="toc-text"> B 足够不平等, 召唤罗宾汉</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#c-%E5%8F%B6%E5%AD%90%E7%94%9F%E5%8F%88%E8%90%BD-%E6%B1%82%E5%87%BA%E5%A5%87%E5%81%B6%E6%80%A7"><span class="toc-number">2.3.</span> <span class="toc-text"> C 叶子生又落, 求出奇偶性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#d-%E5%93%A5%E5%93%A5%E4%B8%8E%E5%A7%91%E5%A7%91%E6%8E%A2%E8%AE%BF-%E6%B1%82%E5%87%BA%E6%9C%80%E5%80%BC"><span class="toc-number">2.4.</span> <span class="toc-text"> D 哥哥与姑姑探访, 求出最值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text"> 总结</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">37</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">2</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">15</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+  
+<script src="https://npm.webcache.cn/valine@1.5.1/dist/Valine.min.js" data-pjax></script>
+
+  <script data-pjax>
+    var GUEST_INFO = ['nick', 'mail', 'link'];
+    var guest_info = 'nick,mail,link'.split(',').filter((item) => {
+      return GUEST_INFO.indexOf(item) > -1
+    });
+    var recordIP = JSON.parse('true');
+    var highlight = JSON.parse('true');
+    var visitor = JSON.parse('false');
+
+    new Valine({
+      el: '.vcomment',
+      appId: "M4jZ0oieL94Oyjqc8LeD1oXz-gzGzoHsz",
+      appKey: "jWmwVfXAV7Iv4Bj9uWLvb4f3",
+      placeholder: "Leave your commit ;)",
+      pageSize: '10',
+      avatar: 'retro',
+      lang: 'zh-cn',
+      recordIP: recordIP,
+      highlight: highlight,
+      visitor: visitor,
+      requiredFields: guest_info,
+      path: window.location.pathname
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+

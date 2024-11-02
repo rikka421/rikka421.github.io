@@ -1,0 +1,837 @@
+
+  <!DOCTYPE html>
+  <html lang="zh_cn"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    [Compilers] Ch1 导论: Introduction |
+    
+    RIKKA&#39;s Blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="CH1 Introduction 编译原理一书, Introduction一章的阅读笔记. 因为是introduction所以不用看得那么认真, 随便看看就好. 需要把热情留到后面. 在写这篇博客时, 对编译原理的整体理解还不是很深入, 因此可能有错漏. 预计会在全部学完之后, 对这篇introduction中的内容进行检查更正.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Compilers] Ch1 导论: Introduction">
+<meta property="og:url" content="https://rikka421.github.io/2024/11/02/2024-09/2024-09-23/index.html">
+<meta property="og:site_name" content="RIKKA&#39;s Blog">
+<meta property="og:description" content="CH1 Introduction 编译原理一书, Introduction一章的阅读笔记. 因为是introduction所以不用看得那么认真, 随便看看就好. 需要把热情留到后面. 在写这篇博客时, 对编译原理的整体理解还不是很深入, 因此可能有错漏. 预计会在全部学完之后, 对这篇introduction中的内容进行检查更正.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-23-02.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-23-03.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-23-04.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-23-05.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-23-06.png">
+<meta property="article:published_time" content="2024-11-02T06:18:49.903Z">
+<meta property="article:modified_time" content="2024-11-01T03:01:10.054Z">
+<meta property="article:author" content="RIKKA421">
+<meta property="article:tag" content="Compilers">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rikka421.github.io/images/24-09/24-09-23-02.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="RIKKA's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/emoji.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.9/dist/katex.min.css">
+
+    
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+        </svg>
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">Home</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">Archives</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">About</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">Friend</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    <img fetchpriority="high" src="/images/24-09/24-09-23-01.png" alt="[Compilers] Ch1 导论: Introduction">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">[Compilers] Ch1 导论: Introduction</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-2024-09/2024-09-23" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2024/11/02/2024-09/2024-09-23/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2024-11-02T06:18:49.903Z" itemprop="datePublished">2024-11-02</time>
+    <time style="display: none;" id="post-update-time">2024-11-01</time>
+  </a>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Note/" data-aos="zoom-in">Note</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="ch1-introduction"><a class="markdownIt-Anchor" href="#ch1-introduction"></a> CH1 Introduction</h1>
+<p>编译原理一书, Introduction一章的阅读笔记. 因为是introduction所以不用看得那么认真, 随便看看就好. 需要把热情留到后面.<br />
+在写这篇博客时, 对编译原理的整体理解还不是很深入, 因此可能有错漏. 预计会在全部学完之后, 对这篇introduction中的内容进行检查更正.</p>
+<span id="more"></span>
+<h2 id="language-processors"><a class="markdownIt-Anchor" href="#language-processors"></a> Language Processors</h2>
+<p>编译器(complier)是一类Language Processors, 它接受源程序(source program)作为输入, 并将目标程序作为输出(target program). 之后, target program会完成将input转换为output的任务.</p>
+<p>而解释器(interpreter)是另一类Language Processors. 它同时接受source program和input作为输入, 并得到output作为输出.</p>
+<p>两者对比:</p>
+<ul>
+<li>编译器生成的目标程序, 往往经过更好的优化, 在运行速度上具有优势</li>
+<li>解释器则具有更强的灵活性, 不需要在每次运行前进行编译工作, 能够更快速地进行测试和debug</li>
+</ul>
+<p>有的高级语言使用编译器, 有的则使用解释器, 而有的语言则使用两者的结合, 如JAVA.</p>
+<p><img src="/images/24-09/24-09-23-02.png" alt="" /></p>
+<h2 id="the-structure-of-a-complier"><a class="markdownIt-Anchor" href="#the-structure-of-a-complier"></a> The Structure of a Complier</h2>
+<ul>
+<li>大致介绍了Complier的内部结构.</li>
+<li>可将Complier的工作大致分为analysis与synthesis两部分</li>
+<li>analysis过程, 对原语言进行分析, 得到各种结构化的符号与信息, 如符号表(Symbol Table); synthesis过程利用这些信息, 构建出目标语言, 如机器代码.</li>
+<li>更具体地, 可按照Complier的工作流对其进行拆分, 大致结构如下图:</li>
+</ul>
+<p><img src="/images/24-09/24-09-23-03.png" alt="" /></p>
+<p>由于可得, Complier会对源程序进行词法分析, 语法分析, 语义分析等, 得到Symbol Table, syntax tree等结构化的信息, 然后生成运行在虚拟机上的intermediate Code, 最终生成目标机器代码.</p>
+<p>各环节完成的工作大致如下:<br />
+<img src="/images/24-09/24-09-23-04.png" alt="" /></p>
+<h3 id="lexical-anlysis"><a class="markdownIt-Anchor" href="#lexical-anlysis"></a> Lexical Anlysis</h3>
+<p>将 the stream of characters 转换为 meaningful sequences - lexemes.</p>
+<p>lexemes具有如下结构<br />
+<code>&lt;token-name, attribute-value&gt;</code></p>
+<p>这一步将字节流转换为 lexemes的序列.</p>
+<h3 id="syntax-analysis"><a class="markdownIt-Anchor" href="#syntax-analysis"></a> Syntax Analysis</h3>
+<p>这一步将lexemes的序列转换为lexemes的树, 从而包含了优先级.</p>
+<h3 id="semantic-analysis"><a class="markdownIt-Anchor" href="#semantic-analysis"></a> Semantic Analysis</h3>
+<p>这一步进行了语义上的分析, 丰富了lexemes的意义.<br />
+这一步会完成一个很重要的工作: 类型检查(type checking). 编译器会确认变量的类型, 将其存储到Symbol Table中, 进行类型合法性的检查, 并完成隐式的类型转换(如将int 转换为 float)</p>
+<h3 id="intermediate-code-generation"><a class="markdownIt-Anchor" href="#intermediate-code-generation"></a> Intermediate Code Generation</h3>
+<p>根据已有的结构化信息, 如Symbol Table和lexemes, 生成抽象的中间代码, 如生成three-address code. 这些代码与指令序列很类似, 但是是指令集无关的.</p>
+<h3 id="code-optimization"><a class="markdownIt-Anchor" href="#code-optimization"></a> Code Optimization</h3>
+<p>对代码进行优化. 代码优化是一门很大的学问, 有着各种各样的trick, ch8会详细展开.</p>
+<h3 id="code-generation"><a class="markdownIt-Anchor" href="#code-generation"></a> Code Generation</h3>
+<p>将中间代码转为某个具体指令集上的代码.</p>
+<h3 id="symbol-table-management"><a class="markdownIt-Anchor" href="#symbol-table-management"></a> Symbol-Table Management</h3>
+<p>符号表存储了每个name的各种attributes.<br />
+如, 对于一般的变量, 存储了</p>
+<ul>
+<li>its name</li>
+<li>its type</li>
+<li>its scope<br />
+对于procedure names, 存储了</li>
+<li>its name</li>
+<li>the number and type of its arguments</li>
+<li>the method of passing each argument</li>
+<li>the type returned</li>
+</ul>
+<p>符号表应当能够高效地存储和访问各项信息, 具体在ch2讨论.</p>
+<h3 id="the-grouping-of-phases-into-passes"><a class="markdownIt-Anchor" href="#the-grouping-of-phases-into-passes"></a> The Grouping of Phases into Passes</h3>
+<p>对于各种Phases, 可以将它们作为一个整体看待, 这个整体会完成某些特定的功能, 从而进一步提高抽象层次.</p>
+<h3 id="compiler-construction-tools"><a class="markdownIt-Anchor" href="#compiler-construction-tools"></a> Compiler-Construction Tools</h3>
+<p>各种&quot;生成编译器的工具&quot;. 如果不是用于教学, 或者用于发展自己创建的某门语言的话, 应该没有什么机会用到这些工具.</p>
+<h2 id="the-evolution-of-programming-languages"><a class="markdownIt-Anchor" href="#the-evolution-of-programming-languages"></a> The Evolution of Programming Languages</h2>
+<p>CS编年史的部分.<br />
+曾经, 我们的计算机体积庞大, 要占据一整栋楼, 所能行使的功能也只有纯粹的计算. 程序员需要手搓机器码, 并将其变成各种开关的闭合 / 电线的拔插 / 纸带的打孔. 这样写出的程序, 可读性和可维护性都差的惊人, 程序的编写和运行也是一种惭愧的折磨. 向前辈们致敬! (双手合十)</p>
+<h3 id="the-move-to-higer-level-languages"><a class="markdownIt-Anchor" href="#the-move-to-higer-level-languages"></a> The Move to Higer-level Languages</h3>
+<p>随着时代的演进, 各种各样的高级语言出现了.</p>
+<p>从时间或代际上划分, 可分为:</p>
+<ul>
+<li>第一代: 机器语言</li>
+<li>第二代: 汇编语言</li>
+<li>第三代: Fortran, Cobol, Lisp, C, C++, C#, Java等高级通用语言</li>
+<li>第四代: NOMAD, SQL, Postscript等专门化的语言</li>
+<li>第五代: Prolog, OPS5等基于逻辑和约束规划的语言</li>
+</ul>
+<p>从编程范式上划分, 可分为:</p>
+<ul>
+<li>imperative / how to do: 命令式, 如C, C++, C#, 考虑各种变量与状态, 并通过运算改变它们, 来得到需要的结果.</li>
+<li>declarative / what to do: 陈述式, 如ML, Haskell等Functional languages, 以及ML, Prolog等constraint logic languages, 考虑各种函数过程</li>
+</ul>
+<p>von Neumann language: 计算模型是基于von Neumann computer的语言. 大部分语言都属于此类.</p>
+<p>object-oriented language: 面向对象的语言. 通过描述各种object以及它们的互动来完成计算任务.</p>
+<h3 id="impacts-on-compilers"><a class="markdownIt-Anchor" href="#impacts-on-compilers"></a> Impacts on Compilers</h3>
+<p>讲述了编程语言发展对compiler产生的影响.</p>
+<h2 id="the-science-of-building-a-complier"><a class="markdownIt-Anchor" href="#the-science-of-building-a-complier"></a> The Science of Building a Complier</h2>
+<p>宏观上的一些指导思想.</p>
+<p>编译器设计的过程是&quot;抽象并解决某个现实问题&quot;的经典实例:</p>
+<ul>
+<li>take a problem,</li>
+<li>formulate a mathematical abstraction that captures the key characteristics,</li>
+<li>and solve it using mathematical techniques<br />
+这个思想有些类似数学建模, 都是理论工具与实际问题相遇时发生的碰撞.</li>
+</ul>
+<h3 id="modeling-in-compiler-design-and-implementation"><a class="markdownIt-Anchor" href="#modeling-in-compiler-design-and-implementation"></a> Modeling in Compiler Design and Implementation</h3>
+<p>Compiler Design的抽象与建模过程运用了许多数学理论, 如Finite-state machines, regular expressions, context-free grammars, trees等等. 这些理论能够帮助我们描述与处理各种对象.</p>
+<h3 id="the-science-of-code-optimization"><a class="markdownIt-Anchor" href="#the-science-of-code-optimization"></a> The Science of Code Optimization</h3>
+<p>对程序进行优化需要有一套完备的理论作为支撑, 如graphs, matrices, and linear programs<br />
+同时, 仅仅有理论是不够的, 因为我们在优化过程中遇到的许多问题都不可判定. 因此, 权衡和妥协是必须的.</p>
+<h2 id="applications-of-compiler-technology"><a class="markdownIt-Anchor" href="#applications-of-compiler-technology"></a> Applications of Compiler Technology</h2>
+<p>编译器技术不止用于编译器</p>
+<h3 id="implementations-of-high-level-programming-languages"><a class="markdownIt-Anchor" href="#implementations-of-high-level-programming-languages"></a> Implementations of High-Level Programming Languages</h3>
+<h3 id="optimizations-for-computer-architectures"><a class="markdownIt-Anchor" href="#optimizations-for-computer-architectures"></a> Optimizations for Computer Architectures</h3>
+<ul>
+<li>Parallelism</li>
+<li>Memory Hierarchies</li>
+<li>Database Query Interpreters</li>
+</ul>
+<h3 id="design-of-new-computer-architectures"><a class="markdownIt-Anchor" href="#design-of-new-computer-architectures"></a> Design of New Computer Architectures</h3>
+<ul>
+<li>RISC (Compared with CISC)</li>
+<li>Specialized Architectures</li>
+<li>Compiled Simulation</li>
+</ul>
+<h3 id="program-translations"><a class="markdownIt-Anchor" href="#program-translations"></a> Program Translations</h3>
+<ul>
+<li>Bianry Translation</li>
+<li>Hardware Synthesis</li>
+<li>Database Query Interpreters</li>
+<li>Compiled Simulation</li>
+</ul>
+<h3 id="software-productivity-tools"><a class="markdownIt-Anchor" href="#software-productivity-tools"></a> Software Productivity Tools</h3>
+<ul>
+<li>Type Checking</li>
+<li>Bounds Checking</li>
+<li>Memory-ManagementTools</li>
+</ul>
+<h2 id="programming-language-basics"><a class="markdownIt-Anchor" href="#programming-language-basics"></a> Programming Language Basics</h2>
+<p>在编译器技术的介绍中, 会涉及到的与Programming Language有关的一些特性</p>
+<h3 id="the-staticdynamic-distinction"><a class="markdownIt-Anchor" href="#the-staticdynamic-distinction"></a> The Static/Dynamic Distinction</h3>
+<p>此处的&quot;静态/动态&quot;是相对于整个语言而言.</p>
+<ul>
+<li>Most languages, such as C and Java, use static scope<br />
+针对&quot;编译器是否能在程序运行前找到变量所处的地址&quot;而言. 例如对于全局变量和静态变量, 在运行前地址就已经确定; 而对于临时变量与局部变量, 它们的位置则处于栈或堆中, 需要在程序运行的过程中动态确认.</li>
+</ul>
+<h3 id="environments-and-states"><a class="markdownIt-Anchor" href="#environments-and-states"></a> Environments and States</h3>
+<p><img src="/images/24-09/24-09-23-05.png" alt="" /></p>
+<p>对于某个name, 需要先根据环境(如当前作用域等)确定其地址, 再根据地址中的状态, 获取其具体的值.<br />
+Env: 代表了从name到locations的映射.</p>
+<h3 id="static-scope-and-block-structure"><a class="markdownIt-Anchor" href="#static-scope-and-block-structure"></a> Static Scope and Block Structure</h3>
+<p>显式地事先声明了变量的作用域(Scope)和代码的作用区间(Block Structure), 分别通过<code>public, private, and protected</code>等关键字以及<code>&#123; and &#125;</code>等符号.</p>
+<p><img src="/images/24-09/24-09-23-06.png" alt="" /></p>
+<h3 id="explicit-access-control"><a class="markdownIt-Anchor" href="#explicit-access-control"></a> Explicit Access Control</h3>
+<p>如C中的<code>public, private, and protected</code>, 用于限定对象属性的访问权限进行规定.</p>
+<h3 id="dynamic-scope"><a class="markdownIt-Anchor" href="#dynamic-scope"></a> Dynamic Scope</h3>
+<p>对于name到variable的映射, 取决于最近的procedure中的declaration.<br />
+如, 对于C中的宏定义代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> a (x+1)</span></span><br></pre></td></tr></table></figure>
+<p>此时变量a就拥有动态的Scope. 它的具体值取决于<code>x</code>的最近的declaration, 而无法静态的在编译时给出. 是个非常有趣的特性.</p>
+<h3 id="parameter-passing-mechanisms"><a class="markdownIt-Anchor" href="#parameter-passing-mechanisms"></a> Parameter Passing Mechanisms</h3>
+<ul>
+<li>Call-by-Value 值传递</li>
+<li>Call-by-Reference 地址传递</li>
+<li>Call-by-name 早期语言的一个机制.</li>
+</ul>
+<h2 id="aliasing"><a class="markdownIt-Anchor" href="#aliasing"></a> Aliasing</h2>
+<p>如, 对于形如<code>q(x, y)</code>的函数, 进行如<code>q(a, a)</code>的调用. 那么, 此时的函数内部的<code>x,y</code>变量互为alises.</p>
+<hr />
+<h2 id="summary-of-chapter-1"><a class="markdownIt-Anchor" href="#summary-of-chapter-1"></a> Summary of Chapter 1</h2>
+<p>内容很多很杂, 有许多背景性的知识与总体性的概况.</p>
+<p>大致了解即可, 尤其是1.4和1.5的部分, 很多都是一些总结性的语言. 这些语言对于我们学习编译器的具体原理没有什么帮助, 但是作为对一门学科的整体性描述而言是必须的. 所以随便看看即可.</p>
+<p>各方面细节会在后面详细介绍.</p>
+<pre><code>大致编写用时: 2h
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+        <a data-aos="zoom-in" href="/2024/11/02/2024-09/2024-09-23/#comments" class="article-comment-link">
+          <span class="post-comments-count valine-comment-count" data-xid="/2024/11/02/2024-09/2024-09-23/" itemprop="commentCount"></span>
+          Comments
+        </a>
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/Compilers/" rel="tag">Compilers</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="/images/24-09/24-09-29-01.png" data-sizes="auto" alt="[CF记录] Round 975" class="lazyload">
+        
+        <a href="/2024/11/02/2024-09/2024-09-29/"></a>
+        <div class="article-nav-caption">Newer</div>
+        <h3 class="article-nav-title">
+          
+            [CF记录] Round 975
+          
+        </h3>
+      </div>
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        <img data-src="/images/24-09/24-09-22-cf974.jpg" data-sizes="auto" alt="[CF记录] Round 973 &amp;&amp; 974" class="lazyload">
+      
+      <a href="/2024/11/02/2024-09/2024-09-22/"></a>
+      <div class="article-nav-caption">Older</div>
+      <h3 class="article-nav-title">
+        
+          [CF记录] Round 973 &amp;&amp; 974
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+  <section id="comments" class="vcomment"></section>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ch1-introduction"><span class="toc-number">1.</span> <span class="toc-text"> CH1 Introduction</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#language-processors"><span class="toc-number">1.1.</span> <span class="toc-text"> Language Processors</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-structure-of-a-complier"><span class="toc-number">1.2.</span> <span class="toc-text"> The Structure of a Complier</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#lexical-anlysis"><span class="toc-number">1.2.1.</span> <span class="toc-text"> Lexical Anlysis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#syntax-analysis"><span class="toc-number">1.2.2.</span> <span class="toc-text"> Syntax Analysis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#semantic-analysis"><span class="toc-number">1.2.3.</span> <span class="toc-text"> Semantic Analysis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#intermediate-code-generation"><span class="toc-number">1.2.4.</span> <span class="toc-text"> Intermediate Code Generation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#code-optimization"><span class="toc-number">1.2.5.</span> <span class="toc-text"> Code Optimization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#code-generation"><span class="toc-number">1.2.6.</span> <span class="toc-text"> Code Generation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#symbol-table-management"><span class="toc-number">1.2.7.</span> <span class="toc-text"> Symbol-Table Management</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#the-grouping-of-phases-into-passes"><span class="toc-number">1.2.8.</span> <span class="toc-text"> The Grouping of Phases into Passes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#compiler-construction-tools"><span class="toc-number">1.2.9.</span> <span class="toc-text"> Compiler-Construction Tools</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-evolution-of-programming-languages"><span class="toc-number">1.3.</span> <span class="toc-text"> The Evolution of Programming Languages</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#the-move-to-higer-level-languages"><span class="toc-number">1.3.1.</span> <span class="toc-text"> The Move to Higer-level Languages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#impacts-on-compilers"><span class="toc-number">1.3.2.</span> <span class="toc-text"> Impacts on Compilers</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-science-of-building-a-complier"><span class="toc-number">1.4.</span> <span class="toc-text"> The Science of Building a Complier</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#modeling-in-compiler-design-and-implementation"><span class="toc-number">1.4.1.</span> <span class="toc-text"> Modeling in Compiler Design and Implementation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#the-science-of-code-optimization"><span class="toc-number">1.4.2.</span> <span class="toc-text"> The Science of Code Optimization</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#applications-of-compiler-technology"><span class="toc-number">1.5.</span> <span class="toc-text"> Applications of Compiler Technology</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#implementations-of-high-level-programming-languages"><span class="toc-number">1.5.1.</span> <span class="toc-text"> Implementations of High-Level Programming Languages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#optimizations-for-computer-architectures"><span class="toc-number">1.5.2.</span> <span class="toc-text"> Optimizations for Computer Architectures</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#design-of-new-computer-architectures"><span class="toc-number">1.5.3.</span> <span class="toc-text"> Design of New Computer Architectures</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#program-translations"><span class="toc-number">1.5.4.</span> <span class="toc-text"> Program Translations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#software-productivity-tools"><span class="toc-number">1.5.5.</span> <span class="toc-text"> Software Productivity Tools</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#programming-language-basics"><span class="toc-number">1.6.</span> <span class="toc-text"> Programming Language Basics</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#the-staticdynamic-distinction"><span class="toc-number">1.6.1.</span> <span class="toc-text"> The Static&#x2F;Dynamic Distinction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#environments-and-states"><span class="toc-number">1.6.2.</span> <span class="toc-text"> Environments and States</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#static-scope-and-block-structure"><span class="toc-number">1.6.3.</span> <span class="toc-text"> Static Scope and Block Structure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#explicit-access-control"><span class="toc-number">1.6.4.</span> <span class="toc-text"> Explicit Access Control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dynamic-scope"><span class="toc-number">1.6.5.</span> <span class="toc-text"> Dynamic Scope</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#parameter-passing-mechanisms"><span class="toc-number">1.6.6.</span> <span class="toc-text"> Parameter Passing Mechanisms</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#aliasing"><span class="toc-number">1.7.</span> <span class="toc-text"> Aliasing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#summary-of-chapter-1"><span class="toc-number">1.8.</span> <span class="toc-text"> Summary of Chapter 1</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">37</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">2</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">15</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2024
+      <span class="footer-info-sep"></span>
+      RIKKA421
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        61.3k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        03:54
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ch1-introduction"><span class="toc-number">1.</span> <span class="toc-text"> CH1 Introduction</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#language-processors"><span class="toc-number">1.1.</span> <span class="toc-text"> Language Processors</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-structure-of-a-complier"><span class="toc-number">1.2.</span> <span class="toc-text"> The Structure of a Complier</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#lexical-anlysis"><span class="toc-number">1.2.1.</span> <span class="toc-text"> Lexical Anlysis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#syntax-analysis"><span class="toc-number">1.2.2.</span> <span class="toc-text"> Syntax Analysis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#semantic-analysis"><span class="toc-number">1.2.3.</span> <span class="toc-text"> Semantic Analysis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#intermediate-code-generation"><span class="toc-number">1.2.4.</span> <span class="toc-text"> Intermediate Code Generation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#code-optimization"><span class="toc-number">1.2.5.</span> <span class="toc-text"> Code Optimization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#code-generation"><span class="toc-number">1.2.6.</span> <span class="toc-text"> Code Generation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#symbol-table-management"><span class="toc-number">1.2.7.</span> <span class="toc-text"> Symbol-Table Management</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#the-grouping-of-phases-into-passes"><span class="toc-number">1.2.8.</span> <span class="toc-text"> The Grouping of Phases into Passes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#compiler-construction-tools"><span class="toc-number">1.2.9.</span> <span class="toc-text"> Compiler-Construction Tools</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-evolution-of-programming-languages"><span class="toc-number">1.3.</span> <span class="toc-text"> The Evolution of Programming Languages</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#the-move-to-higer-level-languages"><span class="toc-number">1.3.1.</span> <span class="toc-text"> The Move to Higer-level Languages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#impacts-on-compilers"><span class="toc-number">1.3.2.</span> <span class="toc-text"> Impacts on Compilers</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-science-of-building-a-complier"><span class="toc-number">1.4.</span> <span class="toc-text"> The Science of Building a Complier</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#modeling-in-compiler-design-and-implementation"><span class="toc-number">1.4.1.</span> <span class="toc-text"> Modeling in Compiler Design and Implementation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#the-science-of-code-optimization"><span class="toc-number">1.4.2.</span> <span class="toc-text"> The Science of Code Optimization</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#applications-of-compiler-technology"><span class="toc-number">1.5.</span> <span class="toc-text"> Applications of Compiler Technology</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#implementations-of-high-level-programming-languages"><span class="toc-number">1.5.1.</span> <span class="toc-text"> Implementations of High-Level Programming Languages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#optimizations-for-computer-architectures"><span class="toc-number">1.5.2.</span> <span class="toc-text"> Optimizations for Computer Architectures</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#design-of-new-computer-architectures"><span class="toc-number">1.5.3.</span> <span class="toc-text"> Design of New Computer Architectures</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#program-translations"><span class="toc-number">1.5.4.</span> <span class="toc-text"> Program Translations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#software-productivity-tools"><span class="toc-number">1.5.5.</span> <span class="toc-text"> Software Productivity Tools</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#programming-language-basics"><span class="toc-number">1.6.</span> <span class="toc-text"> Programming Language Basics</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#the-staticdynamic-distinction"><span class="toc-number">1.6.1.</span> <span class="toc-text"> The Static&#x2F;Dynamic Distinction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#environments-and-states"><span class="toc-number">1.6.2.</span> <span class="toc-text"> Environments and States</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#static-scope-and-block-structure"><span class="toc-number">1.6.3.</span> <span class="toc-text"> Static Scope and Block Structure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#explicit-access-control"><span class="toc-number">1.6.4.</span> <span class="toc-text"> Explicit Access Control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dynamic-scope"><span class="toc-number">1.6.5.</span> <span class="toc-text"> Dynamic Scope</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#parameter-passing-mechanisms"><span class="toc-number">1.6.6.</span> <span class="toc-text"> Parameter Passing Mechanisms</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#aliasing"><span class="toc-number">1.7.</span> <span class="toc-text"> Aliasing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#summary-of-chapter-1"><span class="toc-number">1.8.</span> <span class="toc-text"> Summary of Chapter 1</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">37</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">2</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">15</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+  
+<script src="https://npm.webcache.cn/valine@1.5.1/dist/Valine.min.js" data-pjax></script>
+
+  <script data-pjax>
+    var GUEST_INFO = ['nick', 'mail', 'link'];
+    var guest_info = 'nick,mail,link'.split(',').filter((item) => {
+      return GUEST_INFO.indexOf(item) > -1
+    });
+    var recordIP = JSON.parse('true');
+    var highlight = JSON.parse('true');
+    var visitor = JSON.parse('false');
+
+    new Valine({
+      el: '.vcomment',
+      appId: "M4jZ0oieL94Oyjqc8LeD1oXz-gzGzoHsz",
+      appKey: "jWmwVfXAV7Iv4Bj9uWLvb4f3",
+      placeholder: "Leave your commit ;)",
+      pageSize: '10',
+      avatar: 'retro',
+      lang: 'zh-cn',
+      recordIP: recordIP,
+      highlight: highlight,
+      visitor: visitor,
+      requiredFields: guest_info,
+      path: window.location.pathname
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+

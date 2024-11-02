@@ -1,0 +1,844 @@
+
+  <!DOCTYPE html>
+  <html lang="zh_cn"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    [Compilers] Ch3 词汇分析: Lexical Analysis |
+    
+    RIKKA&#39;s Blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="Ch3 Lexical Analysis 编译原理的第三章笔记, 讲述了词法分析器的内容.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Compilers] Ch3 词汇分析: Lexical Analysis">
+<meta property="og:url" content="https://rikka421.github.io/2024/11/02/2024-09/2024-09-24-1/index.html">
+<meta property="og:site_name" content="RIKKA&#39;s Blog">
+<meta property="og:description" content="Ch3 Lexical Analysis 编译原理的第三章笔记, 讲述了词法分析器的内容.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-24-03.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-24-04.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-24-05.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-24-06.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-24-07.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-09/24-09-24-08.png">
+<meta property="article:published_time" content="2024-11-02T06:18:49.899Z">
+<meta property="article:modified_time" content="2024-11-01T03:01:09.600Z">
+<meta property="article:author" content="RIKKA421">
+<meta property="article:tag" content="Compilers">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rikka421.github.io/images/24-09/24-09-24-03.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="RIKKA's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/emoji.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.9/dist/katex.min.css">
+
+    
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+        </svg>
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">Home</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">Archives</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">About</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">Friend</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    <img fetchpriority="high" src="/images/24-09/24-09-24-03.png" alt="[Compilers] Ch3 词汇分析: Lexical Analysis">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">[Compilers] Ch3 词汇分析: Lexical Analysis</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-2024-09/2024-09-24-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2024/11/02/2024-09/2024-09-24-1/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2024-11-02T06:18:49.899Z" itemprop="datePublished">2024-11-02</time>
+    <time style="display: none;" id="post-update-time">2024-11-01</time>
+  </a>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Note/" data-aos="zoom-in">Note</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="ch3-lexical-analysis"><a class="markdownIt-Anchor" href="#ch3-lexical-analysis"></a> Ch3 Lexical Analysis</h1>
+<p>编译原理的第三章笔记, 讲述了词法分析器的内容.</p>
+<span id="more"></span>
+<hr />
+<h2 id="the-role-of-the-lexical-analyzer"><a class="markdownIt-Anchor" href="#the-role-of-the-lexical-analyzer"></a> The Role of the Lexical Analyzer</h2>
+<p>词法分析器将字节流转换为tokens, 同时将一些变量信息保存在Symbol Table中.</p>
+<ul>
+<li>Scanning</li>
+<li>Lexical analysis</li>
+</ul>
+<p><img src="/images/24-09/24-09-24-03.png" alt="" /></p>
+<h3 id="lexical-analysis-versus-parsing"><a class="markdownIt-Anchor" href="#lexical-analysis-versus-parsing"></a> Lexical Analysis Versus Parsing</h3>
+<p>为何要将词法分析与解析(语法分析)显式地区分为两个环节?</p>
+<ul>
+<li>Simplicity: 细分使得两个环节的设计都变得更简单.</li>
+<li>Compiler effciency: 在lexical的环节, 可以用一些特别的技术, 来提高效率, 如buffer相关的技术.</li>
+<li>Compiler portability: 提高可移植性. Lexical analyzer可以是设备相关的.</li>
+</ul>
+<h3 id="tokens-patterns-and-lexemes"><a class="markdownIt-Anchor" href="#tokens-patterns-and-lexemes"></a> Tokens, Patterns, and Lexemes</h3>
+<ul>
+<li>A token is a pair consisting of a token name and an optional attribute value.</li>
+<li>A pattern is a description of the form that the lexemes of a token may take.</li>
+<li>A lexeme is a sequence of characters in the source program that matches the pattern for a token and is identified by the lexical analyzer as an instance of that token</li>
+</ul>
+<p>Token类似类名, 它所包含的特性为pattern, 它的实例为许许多多的lexemes.</p>
+<p><img src="/images/24-09/24-09-24-04.png" alt="" /></p>
+<p>大部分语言中, token分为如下几类</p>
+<ul>
+<li>关键字token: <code>if, else, then</code>等</li>
+<li>操作符token: <code>comparison</code>等, 实例为<code>&gt;, &lt; =</code>等</li>
+<li>identifiers token: <code>id</code>, 实例为各种变量名, 函数名</li>
+<li>constant number token: <code>number</code>, 实例为<code>0, 0.1, 3.14</code>等</li>
+<li>文本信息: <code>literal</code>等, 实例为<code>// some word, &quot;some string&quot;</code>等</li>
+<li>punctuation symbol tokens: 各种标点符号token.</li>
+</ul>
+<h3 id="attributes-for-tokens"><a class="markdownIt-Anchor" href="#attributes-for-tokens"></a> Attributes for Tokens</h3>
+<p>对于每一个token, 它们的lexeme都可以有很多个. 为了区分它们, 我们将其与一些info组合在一起, 这些info可能是包含许多信息的结构.<br />
+对于某些只可能含单个lexeme的token, 它们的info就不需要保存.</p>
+<p>各个token的info各不相同, 例如id的info就是一个指向Symbol Table的指针, 而number则指向常量所在的地址.</p>
+<h3 id="lexical-errors"><a class="markdownIt-Anchor" href="#lexical-errors"></a> Lexical Errors</h3>
+<p>一般无法在lexical的环节出现error. 如果出现了, 常见的处理方法是对剩余的input作delete / insert / replace / transpose操作, 直到遇到新的token.</p>
+<h2 id="input-buffering"><a class="markdownIt-Anchor" href="#input-buffering"></a> Input Buffering</h2>
+<p>在扫描输入的时候, 我们总是需要读到下一个token的一部分内容, 才能确定当前的token已经结束. 因此, 我们采用two-buffer scheme 以及<br />
+&quot;sentinels&quot;的impove, 来更好地处理这种情况.</p>
+<h3 id="buffer-pairs"><a class="markdownIt-Anchor" href="#buffer-pairs"></a> Buffer Pairs</h3>
+<ul>
+<li>两个buffer: 为了应对某个lexeme刚好处在buffer分界线的情况. (我们不考虑某个lexeme占据了整个buffer的情况)</li>
+<li>两个指针: forward指针, 指向当前的index; lexemeBegin指针, 指向当前正在判断的lexeme的起始位置.</li>
+</ul>
+<h3 id="sentinels"><a class="markdownIt-Anchor" href="#sentinels"></a> Sentinels</h3>
+<p>为了一致性, 我们将判断当前buffer是否结束的工作和判断当前读入的char的工作合并起来, 即添加特殊字符eof作为buffer结束的标志.</p>
+<h2 id="specification-of-tokens"><a class="markdownIt-Anchor" href="#specification-of-tokens"></a> Specification of Tokens</h2>
+<h3 id="strings-and-languages"><a class="markdownIt-Anchor" href="#strings-and-languages"></a> Strings and Languages</h3>
+<p>与Automata中的内容相同, 此次只是简单罗列出定义.</p>
+<ul>
+<li>An alphabet is any finite set of symbols</li>
+<li>A string over an alphabet is a finite sequence of symbols drawn from that alphabet.</li>
+<li>A language is any countable set of strings over some fixed alphabet.</li>
+</ul>
+<blockquote>
+<p>substring and subsequence</p>
+<ul>
+<li>substring: 字符串s删除任意前缀 / 后缀所得到的串</li>
+<li>subsequence: 字符串删除0个或多个不一定连续的位所得到的串</li>
+</ul>
+</blockquote>
+<h3 id="operations-on-languages"><a class="markdownIt-Anchor" href="#operations-on-languages"></a> Operations on Languages</h3>
+<p>Languages上的一些操作. 由于languages是字符串的集合, 所以这些都是特殊的集合操作.</p>
+<p><img src="/images/24-09/24-09-24-05.png" alt="" /></p>
+<h3 id="regular-expressions"><a class="markdownIt-Anchor" href="#regular-expressions"></a> Regular Expressions</h3>
+<p>有了如上的集合操作作基础, 我们很容易就能得到正则表达式的形式化描述:<br />
+以某些字母表作为基础, 反复进行union, concatenation和Kleene closure操作而得到的新语言.</p>
+<p>递归定义如下:<br />
+BASIS:</p>
+<ol>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">ϵ</span></span></span></span>是正则表达式, 同时<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>ϵ</mi><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">{</mo><mi>ϵ</mi><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">L(\epsilon) = \{\epsilon\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mopen">(</span><span class="mord mathnormal">ϵ</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathnormal">ϵ</span><span class="mclose">}</span></span></span></span>是只含空串的空语言</li>
+<li>如果<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">a</span></span></span></span>是字母表<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Σ</mi></mrow><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord">Σ</span></span></span></span>中的符号, 那么<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">a</span></span></span></span>是正则表达式, 且<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>a</mi><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">{</mo><mi>a</mi><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">L(a) = \{a\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mopen">(</span><span class="mord mathnormal">a</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathnormal">a</span><span class="mclose">}</span></span></span></span>.</li>
+</ol>
+<p>INDUCTION:<br />
+如果<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo separator="true">,</mo><mi>s</mi></mrow><annotation encoding="application/x-tex">r, s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">s</span></span></span></span>是正则表达式, 且对应的语言为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>r</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>L</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L(r), L(s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">L</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span>, 那么</p>
+<ol>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>r</mi><mo stretchy="false">)</mo><mi mathvariant="normal">∣</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(r) | (s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">)</span><span class="mord">∣</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span>是对应于语言<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>r</mi><mo stretchy="false">)</mo><mo>∪</mo><mi>L</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L(r) \cup L(s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∪</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span>的正则表达式</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>r</mi><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(r)(s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span>是对应于语言<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>r</mi><mo stretchy="false">)</mo><mi>L</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L(r)L(s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">)</span><span class="mord mathnormal">L</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span>的正则表达式</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>r</mi><msup><mo stretchy="false">)</mo><mo>∗</mo></msup></mrow><annotation encoding="application/x-tex">(r)^*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span></span></span></span>是对应于语言<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>L</mi><mo stretchy="false">(</mo><mi>r</mi><mo stretchy="false">)</mo><msup><mo stretchy="false">)</mo><mo>∗</mo></msup></mrow><annotation encoding="application/x-tex">(L(r))^*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">L</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">)</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span></span></span></span>的正则表达式</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(r)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">)</span></span></span></span>是对应于语言<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>r</mi><mo stretchy="false">)</mo><mo>∪</mo><mi>L</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L(r) \cup L(s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∪</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span>的正则表达式, 表明单纯添加括号不改变正则表达式所表示的语言</li>
+</ol>
+<p>通过确定符号的优先级(如闭包操作优先级最高, 连接操作次之, 并操作优先级最低), 我们可以获得不含括号的正则表达式.</p>
+<p>regular set: 能够被regular expression表示的语言.<br />
+若两个regular expression的regular set相等, 则称regular expression相等.<br />
+由此可以获得一些基本的代数性质:<br />
+<img src="/images/24-09/24-09-24-06.png" alt="" /></p>
+<h3 id="regular-definitions"><a class="markdownIt-Anchor" href="#regular-definitions"></a> Regular Definitions</h3>
+<p>通过右箭头的方式, 来给某个正则表达式命名, 并通过已经命名的正则表达式不断向上构建, 最终得到包含复杂结构的式子.</p>
+<h3 id="extensions-of-regular-expressions"><a class="markdownIt-Anchor" href="#extensions-of-regular-expressions"></a> Extensions of Regular Expressions</h3>
+<ol>
+<li>One or more instances. <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>r</mi><mo>∗</mo></msup><mo>=</mo><msup><mi>r</mi><mo>+</mo></msup><mi mathvariant="normal">∣</mi><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">r^* = r^+ | \epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.688696em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span><span class="mord">∣</span><span class="mord mathnormal">ϵ</span></span></span></span></li>
+<li>Zero or one instance. <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo stretchy="false">?</mo><mo>=</mo><mi>r</mi><mi mathvariant="normal">∣</mi><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">r? = r|\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">?</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord">∣</span><span class="mord mathnormal">ϵ</span></span></span></span></li>
+<li>Character classes. <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><msub><mi>a</mi><mn>1</mn></msub><msub><mi>a</mi><mn>2</mn></msub><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><msub><mi>a</mi><mi>n</mi></msub><mo stretchy="false">]</mo><mo>=</mo><msub><mi>a</mi><mn>1</mn></msub><mi mathvariant="normal">∣</mi><msub><mi>a</mi><mn>2</mn></msub><mi mathvariant="normal">∣</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">∣</mi><msub><mi>a</mi><mi>n</mi></msub><mo>=</mo><mo stretchy="false">[</mo><msub><mi>a</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">[a_1a_2...a_n] = a_1|a_2|...|a_n = [a_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">∣</span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>-<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>n</mi></msub><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">a_n]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">]</span></span></span></span></li>
+</ol>
+<h2 id="recognition-of-tokens"><a class="markdownIt-Anchor" href="#recognition-of-tokens"></a> Recognition of Tokens</h2>
+<p>定义了一个例子语言, 包括其pattern和tokens.</p>
+<p><img src="/images/24-09/24-09-24-07.png" alt="" /></p>
+<h3 id="transition-diagrams"><a class="markdownIt-Anchor" href="#transition-diagrams"></a> Transition Diagrams</h3>
+<p>一个DFA. 描述了例子语言的辨别token过程.</p>
+<p><img src="/images/24-09/24-09-24-08.png" alt="" /></p>
+<h3 id="recognition-of-reserved-words-and-identifiers"><a class="markdownIt-Anchor" href="#recognition-of-reserved-words-and-identifiers"></a> Recognition of Reserved Words and Identifiers</h3>
+<p>有两种方案:</p>
+<ol>
+<li>预先将保留字保存到变量表中. 于是, 那些新加入的token就不可能是保留字, 只可能是<code>id</code></li>
+<li>单独为保留字建立transition diagrams</li>
+</ol>
+<h3 id="completion-of-the-running-example"><a class="markdownIt-Anchor" href="#completion-of-the-running-example"></a> Completion of the Running Example</h3>
+<p>建立了unsigned numbers和whitespace的transition diagram</p>
+<h3 id="architecture-of-a-transition-diagram-based-lexical-analyzer"><a class="markdownIt-Anchor" href="#architecture-of-a-transition-diagram-based-lexical-analyzer"></a> Architecture of a Transition-Diagram-Based Lexical Analyzer</h3>
+<ul>
+<li>对于单个transition diagram, 我们可以通过仔细的编排, 将其包装为一个函数.</li>
+<li>为了用上每个transition diagram, 有如下的几种方案:</li>
+</ul>
+<ol>
+<li>线性地, 一个接一个地尝试每个token, 在fail了之后将指针指向string头部, 并尝试下一个</li>
+<li>并行化的, 将每个读入的字符同时输入给所有函数. 此时我们需要处理那些类似&quot;thennextvalue&quot;的问题, 即某些较短的token可能提前结束.</li>
+<li>将所有transition diagrams合并为一个. 即将它们合并为一个巨大的DFA.</li>
+</ol>
+<h2 id="the-lexical-analyzer-generator-lex"><a class="markdownIt-Anchor" href="#the-lexical-analyzer-generator-lex"></a> The Lexical-Analyzer Generator Lex</h2>
+<h3 id="use-of-lex"><a class="markdownIt-Anchor" href="#use-of-lex"></a> Use of Lex</h3>
+<h3 id="structure-of-lex-programs"><a class="markdownIt-Anchor" href="#structure-of-lex-programs"></a> Structure of Lex Programs</h3>
+<h3 id="conflict-resolution-in-lex"><a class="markdownIt-Anchor" href="#conflict-resolution-in-lex"></a> Conflict Resolution in Lex</h3>
+<h3 id="the-lookahead-operator"><a class="markdownIt-Anchor" href="#the-lookahead-operator"></a> The Lookahead Operator</h3>
+<h2 id="finite-automata"><a class="markdownIt-Anchor" href="#finite-automata"></a> Finite Automata</h2>
+<p>有穷自动机类似transition diagrams, 但是有一些不同</p>
+<ol>
+<li>Finite Automata对于每个输入string, 只返回&quot;yes&quot; or “no”</li>
+<li>Finite Automata有两类, NFA和DFA.</li>
+</ol>
+<p>如下是关于NFA和DFA的一些形式化定义, 在Automata中已经给出, 此处不再赘述. 详见</p>
+<p><a href="https://rikka421.github.io/2024/09/23/2024-09-23/">[Compilers] Ch1 导论: Introduction | RIKKA’s Blog (rikka421.github.io)</a></p>
+<h3 id="nondeterministic-finite-automata"><a class="markdownIt-Anchor" href="#nondeterministic-finite-automata"></a> Nondeterministic Finite Automata</h3>
+<h3 id="transition-tables"><a class="markdownIt-Anchor" href="#transition-tables"></a> Transition Tables</h3>
+<h3 id="acceptance-of-input-strings-by-automata"><a class="markdownIt-Anchor" href="#acceptance-of-input-strings-by-automata"></a> Acceptance of Input Strings by Automata</h3>
+<h3 id="deterministic-finite-automata"><a class="markdownIt-Anchor" href="#deterministic-finite-automata"></a> Deterministic Finite Automata</h3>
+<h2 id="from-regular-expressions-to-automata"><a class="markdownIt-Anchor" href="#from-regular-expressions-to-automata"></a> From Regular Expressions to Automata</h2>
+<h3 id="conversion-of-an-nfa-to-a-dfa"><a class="markdownIt-Anchor" href="#conversion-of-an-nfa-to-a-dfa"></a> Conversion of an NFA to a DFA</h3>
+<h3 id="simulation-of-an-nfa"><a class="markdownIt-Anchor" href="#simulation-of-an-nfa"></a> Simulation of an NFA</h3>
+<h3 id="effciency-of-nfa-simulation"><a class="markdownIt-Anchor" href="#effciency-of-nfa-simulation"></a> Effciency of NFA Simulation</h3>
+<h3 id="construction-of-an-nfa-from-a-regular-expression"><a class="markdownIt-Anchor" href="#construction-of-an-nfa-from-a-regular-expression"></a> Construction of an NFA from a Regular Expression</h3>
+<p>给出一个将正则表达式转换为NFA的算法.</p>
+<pre><code>The McNaughton-Yamada-Thompson algorithm to convert a regular expression to an NFA.
+</code></pre>
+<p>这个算法根据正则表达式的归纳定义, 同样的归纳进行构造, 很容易理解.</p>
+<p>BASIS: 对于正则不等式<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">ϵ</span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">a</span></span></span></span>, 分别构造仅含两个状态的NFA.</p>
+<p>INDUCTION: 对于并集, 拼接, 闭包操作, 分别构造特定结构的NFA.</p>
+<h3 id="effciency-of-string-processing-algorithms"><a class="markdownIt-Anchor" href="#effciency-of-string-processing-algorithms"></a> Effciency of String-Processing Algorithms</h3>
+<h2 id="design-of-a-lexical-analyzer-generator"><a class="markdownIt-Anchor" href="#design-of-a-lexical-analyzer-generator"></a> Design of a Lexical-Analyzer Generator</h2>
+<h3 id="the-structure-of-the-generated-analyzer"><a class="markdownIt-Anchor" href="#the-structure-of-the-generated-analyzer"></a> The Structure of the Generated Analyzer</h3>
+<h3 id="pattern-matching-based-on-nfas"><a class="markdownIt-Anchor" href="#pattern-matching-based-on-nfas"></a> Pattern Matching Based on NFA’s</h3>
+<h3 id="dfas-for-lexical-analyzers"><a class="markdownIt-Anchor" href="#dfas-for-lexical-analyzers"></a> DFA’s for Lexical Analyzers</h3>
+<h3 id="implementing-the-lookahead-operator"><a class="markdownIt-Anchor" href="#implementing-the-lookahead-operator"></a> Implementing the Lookahead Operator</h3>
+<h2 id="optimization-of-dfa-based-pattern-matchers"><a class="markdownIt-Anchor" href="#optimization-of-dfa-based-pattern-matchers"></a> Optimization of DFA-Based Pattern Matchers</h2>
+<h3 id="important-states-of-an-nfa"><a class="markdownIt-Anchor" href="#important-states-of-an-nfa"></a> Important States of an NFA</h3>
+<h3 id="functions-computed-from-the-syntax-tree"><a class="markdownIt-Anchor" href="#functions-computed-from-the-syntax-tree"></a> Functions Computed From the Syntax Tree</h3>
+<h3 id="computing-nullable-firstpos-and-lastpos"><a class="markdownIt-Anchor" href="#computing-nullable-firstpos-and-lastpos"></a> Computing nullable, firstpos, and lastpos</h3>
+<h3 id="computing-followpos"><a class="markdownIt-Anchor" href="#computing-followpos"></a> Computing followpos</h3>
+<h3 id="converting-a-regular-expression-directly-to-a-dfa"><a class="markdownIt-Anchor" href="#converting-a-regular-expression-directly-to-a-dfa"></a> Converting a Regular Expression Directly to a DFA</h3>
+<h3 id="minimizing-the-number-of-states-of-a-dfa"><a class="markdownIt-Anchor" href="#minimizing-the-number-of-states-of-a-dfa"></a> Minimizing the Number of States of a DFA</h3>
+<h3 id="state-minimization-in-lexical-analyzers"><a class="markdownIt-Anchor" href="#state-minimization-in-lexical-analyzers"></a> State Minimization in Lexical Analyzers</h3>
+<h3 id="trading-time-for-space-in-dfa-simulation"><a class="markdownIt-Anchor" href="#trading-time-for-space-in-dfa-simulation"></a> Trading Time for Space in DFA Simulation</h3>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+        <a data-aos="zoom-in" href="/2024/11/02/2024-09/2024-09-24-1/#comments" class="article-comment-link">
+          <span class="post-comments-count valine-comment-count" data-xid="/2024/11/02/2024-09/2024-09-24-1/" itemprop="commentCount"></span>
+          Comments
+        </a>
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/Compilers/" rel="tag">Compilers</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="/images/misc/auto_ch1.jpg" data-sizes="auto" alt="[Automata] Ch1 导论: The Methods and the Madness" class="lazyload">
+        
+        <a href="/2024/11/02/2024-09/2024-09-14/"></a>
+        <div class="article-nav-caption">Newer</div>
+        <h3 class="article-nav-title">
+          
+            [Automata] Ch1 导论: The Methods and the Madness
+          
+        </h3>
+      </div>
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        <img data-src="/images/misc/auto_ch2.jpg" data-sizes="auto" alt="[Automata] Ch2 有穷自动机: Finite Automata" class="lazyload">
+      
+      <a href="/2024/11/02/2024-09/2024-09-25/"></a>
+      <div class="article-nav-caption">Older</div>
+      <h3 class="article-nav-title">
+        
+          [Automata] Ch2 有穷自动机: Finite Automata
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+  <section id="comments" class="vcomment"></section>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ch3-lexical-analysis"><span class="toc-number">1.</span> <span class="toc-text"> Ch3 Lexical Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#the-role-of-the-lexical-analyzer"><span class="toc-number">1.1.</span> <span class="toc-text"> The Role of the Lexical Analyzer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#lexical-analysis-versus-parsing"><span class="toc-number">1.1.1.</span> <span class="toc-text"> Lexical Analysis Versus Parsing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tokens-patterns-and-lexemes"><span class="toc-number">1.1.2.</span> <span class="toc-text"> Tokens, Patterns, and Lexemes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#attributes-for-tokens"><span class="toc-number">1.1.3.</span> <span class="toc-text"> Attributes for Tokens</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lexical-errors"><span class="toc-number">1.1.4.</span> <span class="toc-text"> Lexical Errors</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#input-buffering"><span class="toc-number">1.2.</span> <span class="toc-text"> Input Buffering</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#buffer-pairs"><span class="toc-number">1.2.1.</span> <span class="toc-text"> Buffer Pairs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sentinels"><span class="toc-number">1.2.2.</span> <span class="toc-text"> Sentinels</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#specification-of-tokens"><span class="toc-number">1.3.</span> <span class="toc-text"> Specification of Tokens</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#strings-and-languages"><span class="toc-number">1.3.1.</span> <span class="toc-text"> Strings and Languages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#operations-on-languages"><span class="toc-number">1.3.2.</span> <span class="toc-text"> Operations on Languages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#regular-expressions"><span class="toc-number">1.3.3.</span> <span class="toc-text"> Regular Expressions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#regular-definitions"><span class="toc-number">1.3.4.</span> <span class="toc-text"> Regular Definitions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#extensions-of-regular-expressions"><span class="toc-number">1.3.5.</span> <span class="toc-text"> Extensions of Regular Expressions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#recognition-of-tokens"><span class="toc-number">1.4.</span> <span class="toc-text"> Recognition of Tokens</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#transition-diagrams"><span class="toc-number">1.4.1.</span> <span class="toc-text"> Transition Diagrams</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#recognition-of-reserved-words-and-identifiers"><span class="toc-number">1.4.2.</span> <span class="toc-text"> Recognition of Reserved Words and Identifiers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#completion-of-the-running-example"><span class="toc-number">1.4.3.</span> <span class="toc-text"> Completion of the Running Example</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#architecture-of-a-transition-diagram-based-lexical-analyzer"><span class="toc-number">1.4.4.</span> <span class="toc-text"> Architecture of a Transition-Diagram-Based Lexical Analyzer</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-lexical-analyzer-generator-lex"><span class="toc-number">1.5.</span> <span class="toc-text"> The Lexical-Analyzer Generator Lex</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#use-of-lex"><span class="toc-number">1.5.1.</span> <span class="toc-text"> Use of Lex</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#structure-of-lex-programs"><span class="toc-number">1.5.2.</span> <span class="toc-text"> Structure of Lex Programs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#conflict-resolution-in-lex"><span class="toc-number">1.5.3.</span> <span class="toc-text"> Conflict Resolution in Lex</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#the-lookahead-operator"><span class="toc-number">1.5.4.</span> <span class="toc-text"> The Lookahead Operator</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#finite-automata"><span class="toc-number">1.6.</span> <span class="toc-text"> Finite Automata</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nondeterministic-finite-automata"><span class="toc-number">1.6.1.</span> <span class="toc-text"> Nondeterministic Finite Automata</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#transition-tables"><span class="toc-number">1.6.2.</span> <span class="toc-text"> Transition Tables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#acceptance-of-input-strings-by-automata"><span class="toc-number">1.6.3.</span> <span class="toc-text"> Acceptance of Input Strings by Automata</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deterministic-finite-automata"><span class="toc-number">1.6.4.</span> <span class="toc-text"> Deterministic Finite Automata</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#from-regular-expressions-to-automata"><span class="toc-number">1.7.</span> <span class="toc-text"> From Regular Expressions to Automata</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#conversion-of-an-nfa-to-a-dfa"><span class="toc-number">1.7.1.</span> <span class="toc-text"> Conversion of an NFA to a DFA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#simulation-of-an-nfa"><span class="toc-number">1.7.2.</span> <span class="toc-text"> Simulation of an NFA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#effciency-of-nfa-simulation"><span class="toc-number">1.7.3.</span> <span class="toc-text"> Effciency of NFA Simulation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#construction-of-an-nfa-from-a-regular-expression"><span class="toc-number">1.7.4.</span> <span class="toc-text"> Construction of an NFA from a Regular Expression</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#effciency-of-string-processing-algorithms"><span class="toc-number">1.7.5.</span> <span class="toc-text"> Effciency of String-Processing Algorithms</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#design-of-a-lexical-analyzer-generator"><span class="toc-number">1.8.</span> <span class="toc-text"> Design of a Lexical-Analyzer Generator</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#the-structure-of-the-generated-analyzer"><span class="toc-number">1.8.1.</span> <span class="toc-text"> The Structure of the Generated Analyzer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pattern-matching-based-on-nfas"><span class="toc-number">1.8.2.</span> <span class="toc-text"> Pattern Matching Based on NFA’s</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dfas-for-lexical-analyzers"><span class="toc-number">1.8.3.</span> <span class="toc-text"> DFA’s for Lexical Analyzers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#implementing-the-lookahead-operator"><span class="toc-number">1.8.4.</span> <span class="toc-text"> Implementing the Lookahead Operator</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#optimization-of-dfa-based-pattern-matchers"><span class="toc-number">1.9.</span> <span class="toc-text"> Optimization of DFA-Based Pattern Matchers</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#important-states-of-an-nfa"><span class="toc-number">1.9.1.</span> <span class="toc-text"> Important States of an NFA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#functions-computed-from-the-syntax-tree"><span class="toc-number">1.9.2.</span> <span class="toc-text"> Functions Computed From the Syntax Tree</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#computing-nullable-firstpos-and-lastpos"><span class="toc-number">1.9.3.</span> <span class="toc-text"> Computing nullable, firstpos, and lastpos</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#computing-followpos"><span class="toc-number">1.9.4.</span> <span class="toc-text"> Computing followpos</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#converting-a-regular-expression-directly-to-a-dfa"><span class="toc-number">1.9.5.</span> <span class="toc-text"> Converting a Regular Expression Directly to a DFA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#minimizing-the-number-of-states-of-a-dfa"><span class="toc-number">1.9.6.</span> <span class="toc-text"> Minimizing the Number of States of a DFA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#state-minimization-in-lexical-analyzers"><span class="toc-number">1.9.7.</span> <span class="toc-text"> State Minimization in Lexical Analyzers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#trading-time-for-space-in-dfa-simulation"><span class="toc-number">1.9.8.</span> <span class="toc-text"> Trading Time for Space in DFA Simulation</span></a></li></ol></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">37</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">2</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">15</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2024
+      <span class="footer-info-sep"></span>
+      RIKKA421
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        61.3k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        03:54
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ch3-lexical-analysis"><span class="toc-number">1.</span> <span class="toc-text"> Ch3 Lexical Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#the-role-of-the-lexical-analyzer"><span class="toc-number">1.1.</span> <span class="toc-text"> The Role of the Lexical Analyzer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#lexical-analysis-versus-parsing"><span class="toc-number">1.1.1.</span> <span class="toc-text"> Lexical Analysis Versus Parsing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tokens-patterns-and-lexemes"><span class="toc-number">1.1.2.</span> <span class="toc-text"> Tokens, Patterns, and Lexemes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#attributes-for-tokens"><span class="toc-number">1.1.3.</span> <span class="toc-text"> Attributes for Tokens</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lexical-errors"><span class="toc-number">1.1.4.</span> <span class="toc-text"> Lexical Errors</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#input-buffering"><span class="toc-number">1.2.</span> <span class="toc-text"> Input Buffering</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#buffer-pairs"><span class="toc-number">1.2.1.</span> <span class="toc-text"> Buffer Pairs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sentinels"><span class="toc-number">1.2.2.</span> <span class="toc-text"> Sentinels</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#specification-of-tokens"><span class="toc-number">1.3.</span> <span class="toc-text"> Specification of Tokens</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#strings-and-languages"><span class="toc-number">1.3.1.</span> <span class="toc-text"> Strings and Languages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#operations-on-languages"><span class="toc-number">1.3.2.</span> <span class="toc-text"> Operations on Languages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#regular-expressions"><span class="toc-number">1.3.3.</span> <span class="toc-text"> Regular Expressions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#regular-definitions"><span class="toc-number">1.3.4.</span> <span class="toc-text"> Regular Definitions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#extensions-of-regular-expressions"><span class="toc-number">1.3.5.</span> <span class="toc-text"> Extensions of Regular Expressions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#recognition-of-tokens"><span class="toc-number">1.4.</span> <span class="toc-text"> Recognition of Tokens</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#transition-diagrams"><span class="toc-number">1.4.1.</span> <span class="toc-text"> Transition Diagrams</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#recognition-of-reserved-words-and-identifiers"><span class="toc-number">1.4.2.</span> <span class="toc-text"> Recognition of Reserved Words and Identifiers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#completion-of-the-running-example"><span class="toc-number">1.4.3.</span> <span class="toc-text"> Completion of the Running Example</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#architecture-of-a-transition-diagram-based-lexical-analyzer"><span class="toc-number">1.4.4.</span> <span class="toc-text"> Architecture of a Transition-Diagram-Based Lexical Analyzer</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-lexical-analyzer-generator-lex"><span class="toc-number">1.5.</span> <span class="toc-text"> The Lexical-Analyzer Generator Lex</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#use-of-lex"><span class="toc-number">1.5.1.</span> <span class="toc-text"> Use of Lex</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#structure-of-lex-programs"><span class="toc-number">1.5.2.</span> <span class="toc-text"> Structure of Lex Programs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#conflict-resolution-in-lex"><span class="toc-number">1.5.3.</span> <span class="toc-text"> Conflict Resolution in Lex</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#the-lookahead-operator"><span class="toc-number">1.5.4.</span> <span class="toc-text"> The Lookahead Operator</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#finite-automata"><span class="toc-number">1.6.</span> <span class="toc-text"> Finite Automata</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nondeterministic-finite-automata"><span class="toc-number">1.6.1.</span> <span class="toc-text"> Nondeterministic Finite Automata</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#transition-tables"><span class="toc-number">1.6.2.</span> <span class="toc-text"> Transition Tables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#acceptance-of-input-strings-by-automata"><span class="toc-number">1.6.3.</span> <span class="toc-text"> Acceptance of Input Strings by Automata</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deterministic-finite-automata"><span class="toc-number">1.6.4.</span> <span class="toc-text"> Deterministic Finite Automata</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#from-regular-expressions-to-automata"><span class="toc-number">1.7.</span> <span class="toc-text"> From Regular Expressions to Automata</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#conversion-of-an-nfa-to-a-dfa"><span class="toc-number">1.7.1.</span> <span class="toc-text"> Conversion of an NFA to a DFA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#simulation-of-an-nfa"><span class="toc-number">1.7.2.</span> <span class="toc-text"> Simulation of an NFA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#effciency-of-nfa-simulation"><span class="toc-number">1.7.3.</span> <span class="toc-text"> Effciency of NFA Simulation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#construction-of-an-nfa-from-a-regular-expression"><span class="toc-number">1.7.4.</span> <span class="toc-text"> Construction of an NFA from a Regular Expression</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#effciency-of-string-processing-algorithms"><span class="toc-number">1.7.5.</span> <span class="toc-text"> Effciency of String-Processing Algorithms</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#design-of-a-lexical-analyzer-generator"><span class="toc-number">1.8.</span> <span class="toc-text"> Design of a Lexical-Analyzer Generator</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#the-structure-of-the-generated-analyzer"><span class="toc-number">1.8.1.</span> <span class="toc-text"> The Structure of the Generated Analyzer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pattern-matching-based-on-nfas"><span class="toc-number">1.8.2.</span> <span class="toc-text"> Pattern Matching Based on NFA’s</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dfas-for-lexical-analyzers"><span class="toc-number">1.8.3.</span> <span class="toc-text"> DFA’s for Lexical Analyzers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#implementing-the-lookahead-operator"><span class="toc-number">1.8.4.</span> <span class="toc-text"> Implementing the Lookahead Operator</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#optimization-of-dfa-based-pattern-matchers"><span class="toc-number">1.9.</span> <span class="toc-text"> Optimization of DFA-Based Pattern Matchers</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#important-states-of-an-nfa"><span class="toc-number">1.9.1.</span> <span class="toc-text"> Important States of an NFA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#functions-computed-from-the-syntax-tree"><span class="toc-number">1.9.2.</span> <span class="toc-text"> Functions Computed From the Syntax Tree</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#computing-nullable-firstpos-and-lastpos"><span class="toc-number">1.9.3.</span> <span class="toc-text"> Computing nullable, firstpos, and lastpos</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#computing-followpos"><span class="toc-number">1.9.4.</span> <span class="toc-text"> Computing followpos</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#converting-a-regular-expression-directly-to-a-dfa"><span class="toc-number">1.9.5.</span> <span class="toc-text"> Converting a Regular Expression Directly to a DFA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#minimizing-the-number-of-states-of-a-dfa"><span class="toc-number">1.9.6.</span> <span class="toc-text"> Minimizing the Number of States of a DFA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#state-minimization-in-lexical-analyzers"><span class="toc-number">1.9.7.</span> <span class="toc-text"> State Minimization in Lexical Analyzers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#trading-time-for-space-in-dfa-simulation"><span class="toc-number">1.9.8.</span> <span class="toc-text"> Trading Time for Space in DFA Simulation</span></a></li></ol></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">37</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">2</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">15</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+  
+<script src="https://npm.webcache.cn/valine@1.5.1/dist/Valine.min.js" data-pjax></script>
+
+  <script data-pjax>
+    var GUEST_INFO = ['nick', 'mail', 'link'];
+    var guest_info = 'nick,mail,link'.split(',').filter((item) => {
+      return GUEST_INFO.indexOf(item) > -1
+    });
+    var recordIP = JSON.parse('true');
+    var highlight = JSON.parse('true');
+    var visitor = JSON.parse('false');
+
+    new Valine({
+      el: '.vcomment',
+      appId: "M4jZ0oieL94Oyjqc8LeD1oXz-gzGzoHsz",
+      appKey: "jWmwVfXAV7Iv4Bj9uWLvb4f3",
+      placeholder: "Leave your commit ;)",
+      pageSize: '10',
+      avatar: 'retro',
+      lang: 'zh-cn',
+      recordIP: recordIP,
+      highlight: highlight,
+      visitor: visitor,
+      requiredFields: guest_info,
+      path: window.location.pathname
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+
