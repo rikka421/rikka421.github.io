@@ -1,0 +1,919 @@
+
+  <!DOCTYPE html>
+  <html lang="zh_cn"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    华硕天选三从win11换系统到Ubuntu22.04记录 |
+    
+    RIKKA&#39;s Blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="换系统配环境的折腾之旅">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华硕天选三从win11换系统到Ubuntu22.04记录">
+<meta property="og:url" content="https://rikka421.github.io/2024/11/02/Ubuntu/%E6%8D%A2%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/index.html">
+<meta property="og:site_name" content="RIKKA&#39;s Blog">
+<meta property="og:description" content="换系统配环境的折腾之旅">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-02T06:18:49.910Z">
+<meta property="article:modified_time" content="2024-11-03T14:51:33.101Z">
+<meta property="article:author" content="RIKKA421">
+<meta property="article:tag" content="Ubuntu">
+<meta property="article:tag" content="env">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="RIKKA's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/emoji.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.9/dist/katex.min.css">
+
+    
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+        </svg>
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">Home</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">Archives</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">About</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">Friend</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    <img fetchpriority="high" src="/images/24-11/ubuntu.png" alt="华硕天选三从win11换系统到Ubuntu22.04记录">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">华硕天选三从win11换系统到Ubuntu22.04记录</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-Ubuntu/换系统日志" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2024/11/02/Ubuntu/%E6%8D%A2%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2024-11-02T06:18:49.910Z" itemprop="datePublished">2024-11-02</time>
+    <time style="display: none;" id="post-update-time">2024-11-03</time>
+  </a>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/WorkLog/" data-aos="zoom-in">WorkLog</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <p>换系统配环境的折腾之旅</p>
+<span id="more"></span>
+<p><strong>!!!注意!!!</strong><br />
+下面的内容中, 有绝大部份(如果不是全部)都来自ChatGPT生成, 本人按照上面的指示解决了问题, 但并不保证其正确性. 因此, 对于那些大段而有条理性的内容, 请自行甄别其对错!!!</p>
+<hr />
+<blockquote>
+<p>环境如下<br />
+本机: 华硕天选三<br />
+原系统: windows 11<br />
+新系统: Ubuntun 22.04</p>
+</blockquote>
+<p>简而言之, 本人在配环境的时候不小心把window搞坏了, 刚好最近开发的时候总是遇到各种包不支持windows的痛点. 于是痛定思痛, 决定干脆重装系统换用linux.</p>
+<p>上午11点: 下定决心重装系统, 开始备份各种重要文件. 浏览文件的时候才发现, 电脑上99%的文件都是不需要带走的, 类似搬家时可以丢弃的垃圾. 对于各种编写的代码和学习的资料, 平时就已经备份到了夸克网盘上; 对于各种环境, 本来也就无法带走. 到头来, 只备份了一些图片和文档. 其他几百G的游戏和软件都打算丢弃.</p>
+<p>下午2点: 正式开始着手换系统. 根据GPT的指导开始下载Ubuntu镜像源, 并搞好了引导盘.</p>
+<p>之后按部就班地走:</p>
+<ol>
+<li>重启并进入BIOS中完成相关设置: 重启时, U盘需要插在电脑上, 并且最好在重启开始的时候就按住F2不放, 直到进入 BIOS中. BIOS内, 将引导盘调整至原本BIOS的上面, 使得系统启动的时候优先通过引导盘来启动. 此为华硕的操作, 其他机器上具体按键可能不一样.</li>
+<li>设置完成后, 退出并重启, 进入Ubuntu系统安装界面: 根据引导程序按部就班一路确认即可.</li>
+</ol>
+<p>下载好本体系统这一点没什么好说的, 不会遇到什么问题.</p>
+<p>* 值得一提的是, 一开始我把镜像文件下错了. 本来应该下 Ubuntu Desktop 版本的, 但是我以为 Ubuntu Sever 才是我想要的. 结果一进去对着命令行窗口傻眼了. 只好借朋友的电脑重新刻录了一遍引导盘, 把命令行系统换成了图形化界面的系统.</p>
+<hr />
+<p>装上系统本体很简单, 接下来就是重头戏了. 我开始了各种环境的配置与软件的安装. 具体罗列如下:</p>
+<ol>
+<li>中文输入法的安装. 这一点花了很多时间, 网上有许多教程, 但是按照教程做下来却并不管用. 最终下了Fcitx5, 并折腾了好一会才解决了问题. 顺便还配了一个好看舒服的输入法主题 😄</li>
+<li>clash的下载. 没花什么功夫. clash本身就支持linux. 但是帮助却很大, 例如没有科学上网的能力, 没有办法用GPT, github很多时候都登不上去, apt的更新也会报错&quot;网站无法访问&quot;. 在拥有clash, 并更改了apt工具所使用的镜像源之后, apt终于可以正常使用了.</li>
+<li>edge, google 的下载. 根据官网的 .deb文件直接安装完成.</li>
+<li>vscode, vim等工具的下载. 直接完成, 没有什么困难.</li>
+<li>pycharm下载. 首先得到了一个压缩包, 解压之后出现了一个引导文件. 于是开始通过引导文件的指导进行操作. 总体上压缩包里的东西就是全部了, 可以通过一个命令行直接运行. 之后登陆了帐号获取通行许可, 然后把设置快捷的启动方式, 并添加环境变量 <code>export PATH=&quot;$PATH:/home/username/pycharm-2024.2.4/bin&quot;</code>. 这个Path需要根据自己的文件位置来加.</li>
+</ol>
+<p><strong>!!再次提醒!!</strong><br />
+从下面开始, 几乎所有的内容都来自ChatGPT! 请谨慎甄别!</p>
+<h1 id="不通过命令行-而是通过图标启动pychram"><a class="markdownIt-Anchor" href="#不通过命令行-而是通过图标启动pychram"></a> 不通过命令行, 而是通过图标启动pychram</h1>
+<blockquote>
+<p>可以通过.desktop的方式来完成 (把图标的接口都显式提供了, 真是厉害啊, linux)<br />
+这样的方法同样也可以用于 AppImage. 不过对于AppImage, 貌似还是AppImageLauncher比较好用.<br />
+以下内容来自GPT:</p>
+</blockquote>
+<p>要通过图标方式启动 PyCharm，可以在 Ubuntu 上创建一个桌面快捷方式。以下是具体步骤：</p>
+<h3 id="步骤-1创建-desktop-文件"><a class="markdownIt-Anchor" href="#步骤-1创建-desktop-文件"></a> 步骤 1：创建 <code>.desktop</code> 文件</h3>
+<ol>
+<li>
+<p><strong>打开终端</strong>，并使用文本编辑器创建一个新的 <code>.desktop</code> 文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano ~/.local/share/applications/pycharm.desktop</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>在文件中输入以下内容</strong>（根据你的安装路径调整 <code>Exec</code> 和 <code>Icon</code>）：</p>
+</li>
+</ol>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Desktop Entry]</span></span><br><span class="line"><span class="attr">Version</span>=<span class="number">1.0</span></span><br><span class="line"><span class="attr">Type</span>=Application</span><br><span class="line"><span class="attr">Name</span>=PyCharm</span><br><span class="line"><span class="attr">Icon</span>=/home/username/pycharm-<span class="number">2023.1</span>/bin/pycharm.png</span><br><span class="line"><span class="attr">Exec</span>=<span class="string">&quot;/home/username/pycharm-2023.1/bin/pycharm.sh&quot;</span> %f</span><br><span class="line"><span class="attr">Comment</span>=Python IDE</span><br><span class="line"><span class="attr">Categories</span>=Development<span class="comment">;IDE;</span></span><br><span class="line"><span class="attr">Terminal</span>=<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p>请确保将 <code>/home/username/pycharm-2023.1</code> 替换为你实际的安装路径。</p>
+<ol start="3">
+<li><strong>保存并退出</strong>（在 nano 中使用 <code>Ctrl + O</code> 保存，<code>Ctrl + X</code> 退出）。</li>
+</ol>
+<h3 id="步骤-2设置可执行权限"><a class="markdownIt-Anchor" href="#步骤-2设置可执行权限"></a> 步骤 2：设置可执行权限</h3>
+<p>在终端中运行以下命令，为 <code>.desktop</code> 文件设置可执行权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x ~/.local/share/applications/pycharm.desktop</span><br></pre></td></tr></table></figure>
+<h3 id="步骤-3查找图标"><a class="markdownIt-Anchor" href="#步骤-3查找图标"></a> 步骤 3：查找图标</h3>
+<ul>
+<li>你可以在应用程序菜单中搜索“PyCharm”，如果没有显示，尝试注销或重启系统。</li>
+</ul>
+<h3 id="步骤-4将图标固定到启动器可选"><a class="markdownIt-Anchor" href="#步骤-4将图标固定到启动器可选"></a> 步骤 4：将图标固定到启动器（可选）</h3>
+<ul>
+<li>找到 PyCharm 的图标后，右键点击图标并选择“添加到收藏夹”或“固定到启动器”，这样你就可以更方便地访问它。</li>
+</ul>
+<p>完成后，你就可以通过图标方式启动 PyCharm 了！</p>
+<h1 id="关于appimage文件"><a class="markdownIt-Anchor" href="#关于appimage文件"></a> 关于.AppImage文件</h1>
+<blockquote>
+<p>对于Ubuntu系统, 它的很多软件通过.AppImage文件的方式下载安装. 这种文件格式类似 windows 中的 .exe文件.</p>
+<p>下面是GPT关于这种文件格式的说明.</p>
+</blockquote>
+<hr />
+<p>在 Ubuntu 上运行 AppImage 文件非常简单，通常只需更改文件权限即可。以下是操作步骤：</p>
+<h3 id="1-下载-appimage-文件"><a class="markdownIt-Anchor" href="#1-下载-appimage-文件"></a> 1. 下载 AppImage 文件</h3>
+<p>首先，从官网或其他可信来源下载所需的 AppImage 文件。</p>
+<h3 id="2-授予执行权限"><a class="markdownIt-Anchor" href="#2-授予执行权限"></a> 2. 授予执行权限</h3>
+<p>下载完成后，打开终端并导航到文件所在目录，或者右键文件所在位置直接用终端打开：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /path/to/your/AppImage</span><br></pre></td></tr></table></figure>
+<p>然后，使用以下命令授予执行权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x your_app.AppImage</span><br></pre></td></tr></table></figure>
+<h3 id="3-运行-appimage"><a class="markdownIt-Anchor" href="#3-运行-appimage"></a> 3. 运行 AppImage</h3>
+<p>现在，直接运行 AppImage 文件即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./your_app.AppImage</span><br></pre></td></tr></table></figure>
+<p>或者双击文件运行。</p>
+<h3 id="4-可选创建快捷方式"><a class="markdownIt-Anchor" href="#4-可选创建快捷方式"></a> 4. （可选）创建快捷方式</h3>
+<p>如果你想在应用菜单中添加该程序的快捷方式，可以使用 AppImageLauncher 或手动创建 <code>.desktop</code> 文件：</p>
+<ul>
+<li><strong>使用 AppImageLauncher</strong>：AppImageLauncher 可以自动为 AppImage 程序创建快捷方式，并将其整合到系统菜单中。安装方式如下：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> add-apt-repository ppa:appimagelauncher-team/stable</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install appimagelauncher</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>安装完成后，打开 AppImage 文件时，AppImageLauncher 会提示是否将程序集成到系统菜单。</p>
+<p>通过这些步骤，你就可以方便地运行和管理 AppImage 应用了。</p>
+<h2 id="报错-appimages-require-fuse-to-run"><a class="markdownIt-Anchor" href="#报错-appimages-require-fuse-to-run"></a> 报错: AppImages require FUSE to run.</h2>
+<p>确实，一些 AppImage 运行时需要 FUSE（Filesystem in Userspace）来挂载和管理文件系统。如果你的系统没有安装或配置 FUSE，可以按照以下步骤来安装并配置它：</p>
+<h3 id="1-安装-fuse"><a class="markdownIt-Anchor" href="#1-安装-fuse"></a> 1. 安装 FUSE</h3>
+<p>在终端中运行以下命令来安装 FUSE：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install fuse</span><br></pre></td></tr></table></figure>
+<h3 id="2-确认-fuse-是否正确安装"><a class="markdownIt-Anchor" href="#2-确认-fuse-是否正确安装"></a> 2. 确认 FUSE 是否正确安装</h3>
+<p>安装后，可以使用以下命令检查 FUSE 是否已安装并正常工作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fusermount --version</span><br></pre></td></tr></table></figure>
+<p>这应该会显示 FUSE 的版本信息，例如 <code>fusermount version: 2.9.9</code>（版本可能会不同）。</p>
+<h3 id="3-配置权限如果需要"><a class="markdownIt-Anchor" href="#3-配置权限如果需要"></a> 3. 配置权限（如果需要）</h3>
+<p>有时可能需要重新配置权限来允许非 root 用户使用 FUSE。编辑 FUSE 的配置文件 <code>/etc/fuse.conf</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/fuse.conf</span><br></pre></td></tr></table></figure>
+<p>确保取消以下行的注释（去掉行首的 <code>#</code>）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user_allow_other</span><br></pre></td></tr></table></figure>
+<p>这将允许非 root 用户挂载文件系统。</p>
+<h3 id="4-使用-fuse2旧版-appimage-需求"><a class="markdownIt-Anchor" href="#4-使用-fuse2旧版-appimage-需求"></a> 4. 使用 FUSE2（旧版 AppImage 需求）</h3>
+<p>一些旧版的 AppImage 可能需要 FUSE2，而不是 FUSE3。Ubuntu 22.04 及更高版本可能默认安装的是 FUSE3，可以手动安装 FUSE2：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install fuse2</span><br></pre></td></tr></table></figure>
+<h3 id="5-重新启动系统如有需要"><a class="markdownIt-Anchor" href="#5-重新启动系统如有需要"></a> 5. 重新启动系统（如有需要）</h3>
+<p>部分情况下，安装或重新配置 FUSE 之后可能需要重新启动系统，确保所有配置生效。</p>
+<p>完成以上步骤后，AppImage 文件应该可以正常运行。如果仍然无法启动，可能是该 AppImage 的特定要求导致的，可以考虑下载更新版本的 AppImage 或检查具体的依赖关系。</p>
+<h2 id="appimage的启动每次都需要命令行吗"><a class="markdownIt-Anchor" href="#appimage的启动每次都需要命令行吗"></a> AppImage的启动每次都需要命令行吗</h2>
+<p>不需要每次都通过命令行启动 AppImage 文件！你可以设置它们像普通应用一样直接双击启动，甚至将它们集成到应用菜单中。以下是两种常用的方式：</p>
+<h3 id="方法-1直接双击启动"><a class="markdownIt-Anchor" href="#方法-1直接双击启动"></a> 方法 1：直接双击启动</h3>
+<p>只要给 AppImage 文件设置了执行权限，就可以直接双击启动它。具体步骤如下：</p>
+<ol>
+<li><strong>设置执行权限</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x your_app.AppImage</span><br></pre></td></tr></table></figure>
+</li>
+<li><strong>双击启动</strong>：在文件管理器中找到 AppImage 文件，然后双击它即可直接运行。</li>
+</ol>
+<h3 id="方法-2集成到应用菜单"><a class="markdownIt-Anchor" href="#方法-2集成到应用菜单"></a> 方法 2：集成到应用菜单</h3>
+<p>如果希望 AppImage 应用出现在系统的应用菜单中，可以手动创建一个 <code>.desktop</code> 文件来实现，也可以使用 AppImageLauncher。</p>
+<h4 id="1-使用-appimagelauncher推荐"><a class="markdownIt-Anchor" href="#1-使用-appimagelauncher推荐"></a> 1. <strong>使用 AppImageLauncher</strong>（推荐）</h4>
+<ul>
+<li><strong>安装 AppImageLauncher</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> add-apt-repository ppa:appimagelauncher-team/stable</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install appimagelauncher</span><br></pre></td></tr></table></figure>
+</li>
+<li>安装完成后，打开 AppImage 文件时，AppImageLauncher 会提示是否将该应用集成到系统菜单中。选择集成后，AppImage 应用就会显示在应用菜单中，并且可以直接启动。</li>
+</ul>
+<h4 id="2-手动创建-desktop-文件"><a class="markdownIt-Anchor" href="#2-手动创建-desktop-文件"></a> 2. <strong>手动创建 <code>.desktop</code> 文件</strong></h4>
+<ul>
+<li>打开终端，导航到 <code>~/.local/share/applications/</code> 文件夹：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/.local/share/applications</span><br><span class="line"><span class="built_in">cd</span> ~/.local/share/applications</span><br></pre></td></tr></table></figure>
+</li>
+<li>创建一个 <code>.desktop</code> 文件，例如 <code>myapp.desktop</code>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano myapp.desktop</span><br></pre></td></tr></table></figure>
+</li>
+<li>在文件中添加以下内容（替换 <code>Name</code> 和 <code>Exec</code> 路径）：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[Desktop Entry]</span><br><span class="line">Name=MyApp</span><br><span class="line">Exec=/path/to/your_app.AppImage</span><br><span class="line">Icon=/path/to/icon.png  # 替换成图标路径，或省略此行</span><br><span class="line">Type=Application</span><br><span class="line">Terminal=false</span><br></pre></td></tr></table></figure>
+</li>
+<li>保存并关闭文件，应用菜单中应能看到此应用。</li>
+</ul>
+<p>通过这两种方法，你可以轻松地在 Ubuntu 上快捷启动 AppImage 应用，无需每次使用命令行。</p>
+<h1 id="关于清空磁盘"><a class="markdownIt-Anchor" href="#关于清空磁盘"></a> 关于清空磁盘</h1>
+<blockquote>
+<p>由于我的电脑上有两个磁盘, 因此换系统的过程只清空了系统盘的内容, 对于另一个固态硬盘没有改动. 但是由于重要的文件都已经做了备份, 剩下的大部分是一些只适用于windows的东西, 因此在此决定将其清空.</p>
+<p>清空操作非常简单, 通过linux内置的命令行工具就可以完成.</p>
+<p>以下为ChatGPT的回答, 在这些方法中, 我使用了<code>fdisk</code>和<code>mkfs</code>命令. 程序正常工作.</p>
+</blockquote>
+<hr />
+<p>在 Ubuntu 系统中清空磁盘通常可以通过 <code>fdisk</code>、<code>wipe</code> 或 <code>dd</code> 等命令实现。不过，这些操作会永久删除磁盘数据，请确保没有需要保留的数据，且备份好重要内容后再进行操作。以下是一些常用的清空磁盘的方式：</p>
+<h3 id="方法-1使用-fdisk-和-mkfs"><a class="markdownIt-Anchor" href="#方法-1使用-fdisk-和-mkfs"></a> 方法 1：使用 <code>fdisk</code> 和 <code>mkfs</code></h3>
+<ol>
+<li>
+<p><strong>列出所有磁盘</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> fdisk -l</span><br></pre></td></tr></table></figure>
+<p>找到需要清空的磁盘，比如 <code>/dev/sdb</code>。</p>
+</li>
+<li>
+<p><strong>使用 fdisk 删除分区</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
+<ul>
+<li>输入 <code>d</code> 删除所有分区。</li>
+<li>使用 <code>w</code> 保存更改并退出。</li>
+</ul>
+</li>
+<li>
+<p><strong>重新格式化磁盘</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mkfs.ext4 /dev/sdb</span><br></pre></td></tr></table></figure>
+<p>这会在磁盘上创建一个新的空分区。</p>
+</li>
+</ol>
+<h3 id="方法-2使用-dd-命令"><a class="markdownIt-Anchor" href="#方法-2使用-dd-命令"></a> 方法 2：使用 <code>dd</code> 命令</h3>
+<ol>
+<li>
+<p><strong>使用 dd 将磁盘填充为全零</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=/dev/sdb bs=1M</span><br></pre></td></tr></table></figure>
+<p><code>of</code> 参数指定目标磁盘，将整个磁盘填充为零。<code>bs=1M</code> 指定数据块大小为 1MB，可以根据需求调整。</p>
+</li>
+<li>
+<p><strong>或将磁盘填充为随机数据</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">dd</span> <span class="keyword">if</span>=/dev/urandom of=/dev/sdb bs=1M</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="方法-3使用-wipe"><a class="markdownIt-Anchor" href="#方法-3使用-wipe"></a> 方法 3：使用 <code>wipe</code></h3>
+<p><code>wipe</code> 工具可以用来多次覆盖磁盘，增加数据不可恢复性：</p>
+<ol>
+<li>
+<p><strong>安装 wipe</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install wipe</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>清空磁盘</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> wipe -r /dev/sdb</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>请确认在执行这些命令时指定了正确的磁盘路径，以免误删数据。</p>
+<h1 id="不通过密码来访问密码环"><a class="markdownIt-Anchor" href="#不通过密码来访问密码环"></a> 不通过密码来访问密码环</h1>
+<blockquote>
+<p>在edge安装后, 每次打开edge都需要输入一次用户密码(这是因为edge可以存储你登陆的账户密码, 访问这些存储需要权限. )<br />
+这很麻烦, 于是决定取消这个保护.<br />
+下面的回答来自GPT. 我是通过Seahorse来完成的. 需要注意的是进入图形化界面后显示的是密码环的内容. 此时需要后退一步才能编辑这些密码环, 把&quot;密码环的密码&quot;设置为空.</p>
+</blockquote>
+<p>在 Ubuntu 中，可以通过调整密码环（Password Manager）设置，使其在登录后不需要密码访问。以下是具体步骤：</p>
+<h3 id="方法-1使用-seahorse密码和密钥管理器"><a class="markdownIt-Anchor" href="#方法-1使用-seahorse密码和密钥管理器"></a> 方法 1：使用 Seahorse（密码和密钥管理器）</h3>
+<ol>
+<li>
+<p><strong>打开 Seahorse</strong>：</p>
+<ul>
+<li>在应用程序菜单中搜索“Passwords and Keys”或直接运行 <code>seahorse</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>找到你的密码环</strong>：</p>
+<ul>
+<li>在左侧面板中，你会看到“登录”密码环（通常是默认的）。</li>
+</ul>
+</li>
+<li>
+<p><strong>右键点击“登录”密码环</strong>，选择“更改密码”。</p>
+</li>
+<li>
+<p><strong>在弹出的对话框中</strong>：</p>
+<ul>
+<li>输入当前密码。</li>
+<li>在新密码和确认密码字段中留空。</li>
+</ul>
+</li>
+<li>
+<p><strong>点击“更改”</strong>，这将删除密码环的密码。</p>
+</li>
+</ol>
+<h3 id="方法-2通过命令行修改"><a class="markdownIt-Anchor" href="#方法-2通过命令行修改"></a> 方法 2：通过命令行修改</h3>
+<p>如果你更喜欢使用命令行，可以使用以下命令：</p>
+<ol>
+<li>
+<p>打开终端。</p>
+</li>
+<li>
+<p>运行以下命令来删除密码环的密码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">secret-tool clear login</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="注意事项"><a class="markdownIt-Anchor" href="#注意事项"></a> 注意事项</h3>
+<ul>
+<li>删除密码环密码后，任何人都可以访问你的密码环，建议在个人计算机上使用此方法。</li>
+<li>确保在不需要安全访问的环境中使用此设置。</li>
+</ul>
+<p>完成这些步骤后，你就可以在不输入密码的情况下访问你的密码环了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+        <a data-aos="zoom-in" href="/2024/11/02/Ubuntu/%E6%8D%A2%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/#comments" class="article-comment-link">
+          <span class="post-comments-count valine-comment-count" data-xid="/2024/11/02/Ubuntu/%E6%8D%A2%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97/" itemprop="commentCount"></span>
+          Comments
+        </a>
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/env/" rel="tag">env</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="配置Ubuntu22.04过程中的零散知识" class="lazyload">
+        
+        <a href="/2024/11/02/Ubuntu/misc/"></a>
+        <div class="article-nav-caption">Newer</div>
+        <h3 class="article-nav-title">
+          
+            配置Ubuntu22.04过程中的零散知识
+          
+        </h3>
+      </div>
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        <img data-src="/images/24-10/24-10-16-01.png" data-sizes="auto" alt="[RL] 第三讲: 值函数估计" class="lazyload">
+      
+      <a href="/2024/11/02/2024-10/2024-10-19/"></a>
+      <div class="article-nav-caption">Older</div>
+      <h3 class="article-nav-title">
+        
+          [RL] 第三讲: 值函数估计
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+  <section id="comments" class="vcomment"></section>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8D%E9%80%9A%E8%BF%87%E5%91%BD%E4%BB%A4%E8%A1%8C-%E8%80%8C%E6%98%AF%E9%80%9A%E8%BF%87%E5%9B%BE%E6%A0%87%E5%90%AF%E5%8A%A8pychram"><span class="toc-number">1.</span> <span class="toc-text"> 不通过命令行, 而是通过图标启动pychram</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-1%E5%88%9B%E5%BB%BA-desktop-%E6%96%87%E4%BB%B6"><span class="toc-number">1.0.1.</span> <span class="toc-text"> 步骤 1：创建 .desktop 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-2%E8%AE%BE%E7%BD%AE%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%9D%83%E9%99%90"><span class="toc-number">1.0.2.</span> <span class="toc-text"> 步骤 2：设置可执行权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-3%E6%9F%A5%E6%89%BE%E5%9B%BE%E6%A0%87"><span class="toc-number">1.0.3.</span> <span class="toc-text"> 步骤 3：查找图标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-4%E5%B0%86%E5%9B%BE%E6%A0%87%E5%9B%BA%E5%AE%9A%E5%88%B0%E5%90%AF%E5%8A%A8%E5%99%A8%E5%8F%AF%E9%80%89"><span class="toc-number">1.0.4.</span> <span class="toc-text"> 步骤 4：将图标固定到启动器（可选）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Eappimage%E6%96%87%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text"> 关于.AppImage文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%B8%8B%E8%BD%BD-appimage-%E6%96%87%E4%BB%B6"><span class="toc-number">2.0.1.</span> <span class="toc-text"> 1. 下载 AppImage 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8E%88%E4%BA%88%E6%89%A7%E8%A1%8C%E6%9D%83%E9%99%90"><span class="toc-number">2.0.2.</span> <span class="toc-text"> 2. 授予执行权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%BF%90%E8%A1%8C-appimage"><span class="toc-number">2.0.3.</span> <span class="toc-text"> 3. 运行 AppImage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%8F%AF%E9%80%89%E5%88%9B%E5%BB%BA%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F"><span class="toc-number">2.0.4.</span> <span class="toc-text"> 4. （可选）创建快捷方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E9%94%99-appimages-require-fuse-to-run"><span class="toc-number">2.1.</span> <span class="toc-text"> 报错: AppImages require FUSE to run.</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-fuse"><span class="toc-number">2.1.1.</span> <span class="toc-text"> 1. 安装 FUSE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%A1%AE%E8%AE%A4-fuse-%E6%98%AF%E5%90%A6%E6%AD%A3%E7%A1%AE%E5%AE%89%E8%A3%85"><span class="toc-number">2.1.2.</span> <span class="toc-text"> 2. 确认 FUSE 是否正确安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%85%8D%E7%BD%AE%E6%9D%83%E9%99%90%E5%A6%82%E6%9E%9C%E9%9C%80%E8%A6%81"><span class="toc-number">2.1.3.</span> <span class="toc-text"> 3. 配置权限（如果需要）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8-fuse2%E6%97%A7%E7%89%88-appimage-%E9%9C%80%E6%B1%82"><span class="toc-number">2.1.4.</span> <span class="toc-text"> 4. 使用 FUSE2（旧版 AppImage 需求）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8%E7%B3%BB%E7%BB%9F%E5%A6%82%E6%9C%89%E9%9C%80%E8%A6%81"><span class="toc-number">2.1.5.</span> <span class="toc-text"> 5. 重新启动系统（如有需要）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#appimage%E7%9A%84%E5%90%AF%E5%8A%A8%E6%AF%8F%E6%AC%A1%E9%83%BD%E9%9C%80%E8%A6%81%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%90%97"><span class="toc-number">2.2.</span> <span class="toc-text"> AppImage的启动每次都需要命令行吗</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-1%E7%9B%B4%E6%8E%A5%E5%8F%8C%E5%87%BB%E5%90%AF%E5%8A%A8"><span class="toc-number">2.2.1.</span> <span class="toc-text"> 方法 1：直接双击启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-2%E9%9B%86%E6%88%90%E5%88%B0%E5%BA%94%E7%94%A8%E8%8F%9C%E5%8D%95"><span class="toc-number">2.2.2.</span> <span class="toc-text"> 方法 2：集成到应用菜单</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8-appimagelauncher%E6%8E%A8%E8%8D%90"><span class="toc-number">2.2.2.1.</span> <span class="toc-text"> 1. 使用 AppImageLauncher（推荐）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%89%8B%E5%8A%A8%E5%88%9B%E5%BB%BA-desktop-%E6%96%87%E4%BB%B6"><span class="toc-number">2.2.2.2.</span> <span class="toc-text"> 2. 手动创建 .desktop 文件</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E6%B8%85%E7%A9%BA%E7%A3%81%E7%9B%98"><span class="toc-number">3.</span> <span class="toc-text"> 关于清空磁盘</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-1%E4%BD%BF%E7%94%A8-fdisk-%E5%92%8C-mkfs"><span class="toc-number">3.0.1.</span> <span class="toc-text"> 方法 1：使用 fdisk 和 mkfs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-2%E4%BD%BF%E7%94%A8-dd-%E5%91%BD%E4%BB%A4"><span class="toc-number">3.0.2.</span> <span class="toc-text"> 方法 2：使用 dd 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-3%E4%BD%BF%E7%94%A8-wipe"><span class="toc-number">3.0.3.</span> <span class="toc-text"> 方法 3：使用 wipe</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8D%E9%80%9A%E8%BF%87%E5%AF%86%E7%A0%81%E6%9D%A5%E8%AE%BF%E9%97%AE%E5%AF%86%E7%A0%81%E7%8E%AF"><span class="toc-number">4.</span> <span class="toc-text"> 不通过密码来访问密码环</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-1%E4%BD%BF%E7%94%A8-seahorse%E5%AF%86%E7%A0%81%E5%92%8C%E5%AF%86%E9%92%A5%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-number">4.0.1.</span> <span class="toc-text"> 方法 1：使用 Seahorse（密码和密钥管理器）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-2%E9%80%9A%E8%BF%87%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%BF%AE%E6%94%B9"><span class="toc-number">4.0.2.</span> <span class="toc-text"> 方法 2：通过命令行修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">4.0.3.</span> <span class="toc-text"> 注意事项</span></a></li></ol></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">42</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">4</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">18</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2024
+      <span class="footer-info-sep"></span>
+      RIKKA421
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        67.9k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        04:17
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8D%E9%80%9A%E8%BF%87%E5%91%BD%E4%BB%A4%E8%A1%8C-%E8%80%8C%E6%98%AF%E9%80%9A%E8%BF%87%E5%9B%BE%E6%A0%87%E5%90%AF%E5%8A%A8pychram"><span class="toc-number">1.</span> <span class="toc-text"> 不通过命令行, 而是通过图标启动pychram</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-1%E5%88%9B%E5%BB%BA-desktop-%E6%96%87%E4%BB%B6"><span class="toc-number">1.0.1.</span> <span class="toc-text"> 步骤 1：创建 .desktop 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-2%E8%AE%BE%E7%BD%AE%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%9D%83%E9%99%90"><span class="toc-number">1.0.2.</span> <span class="toc-text"> 步骤 2：设置可执行权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-3%E6%9F%A5%E6%89%BE%E5%9B%BE%E6%A0%87"><span class="toc-number">1.0.3.</span> <span class="toc-text"> 步骤 3：查找图标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-4%E5%B0%86%E5%9B%BE%E6%A0%87%E5%9B%BA%E5%AE%9A%E5%88%B0%E5%90%AF%E5%8A%A8%E5%99%A8%E5%8F%AF%E9%80%89"><span class="toc-number">1.0.4.</span> <span class="toc-text"> 步骤 4：将图标固定到启动器（可选）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Eappimage%E6%96%87%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text"> 关于.AppImage文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%B8%8B%E8%BD%BD-appimage-%E6%96%87%E4%BB%B6"><span class="toc-number">2.0.1.</span> <span class="toc-text"> 1. 下载 AppImage 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8E%88%E4%BA%88%E6%89%A7%E8%A1%8C%E6%9D%83%E9%99%90"><span class="toc-number">2.0.2.</span> <span class="toc-text"> 2. 授予执行权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%BF%90%E8%A1%8C-appimage"><span class="toc-number">2.0.3.</span> <span class="toc-text"> 3. 运行 AppImage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%8F%AF%E9%80%89%E5%88%9B%E5%BB%BA%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F"><span class="toc-number">2.0.4.</span> <span class="toc-text"> 4. （可选）创建快捷方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E9%94%99-appimages-require-fuse-to-run"><span class="toc-number">2.1.</span> <span class="toc-text"> 报错: AppImages require FUSE to run.</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-fuse"><span class="toc-number">2.1.1.</span> <span class="toc-text"> 1. 安装 FUSE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%A1%AE%E8%AE%A4-fuse-%E6%98%AF%E5%90%A6%E6%AD%A3%E7%A1%AE%E5%AE%89%E8%A3%85"><span class="toc-number">2.1.2.</span> <span class="toc-text"> 2. 确认 FUSE 是否正确安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%85%8D%E7%BD%AE%E6%9D%83%E9%99%90%E5%A6%82%E6%9E%9C%E9%9C%80%E8%A6%81"><span class="toc-number">2.1.3.</span> <span class="toc-text"> 3. 配置权限（如果需要）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8-fuse2%E6%97%A7%E7%89%88-appimage-%E9%9C%80%E6%B1%82"><span class="toc-number">2.1.4.</span> <span class="toc-text"> 4. 使用 FUSE2（旧版 AppImage 需求）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8%E7%B3%BB%E7%BB%9F%E5%A6%82%E6%9C%89%E9%9C%80%E8%A6%81"><span class="toc-number">2.1.5.</span> <span class="toc-text"> 5. 重新启动系统（如有需要）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#appimage%E7%9A%84%E5%90%AF%E5%8A%A8%E6%AF%8F%E6%AC%A1%E9%83%BD%E9%9C%80%E8%A6%81%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%90%97"><span class="toc-number">2.2.</span> <span class="toc-text"> AppImage的启动每次都需要命令行吗</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-1%E7%9B%B4%E6%8E%A5%E5%8F%8C%E5%87%BB%E5%90%AF%E5%8A%A8"><span class="toc-number">2.2.1.</span> <span class="toc-text"> 方法 1：直接双击启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-2%E9%9B%86%E6%88%90%E5%88%B0%E5%BA%94%E7%94%A8%E8%8F%9C%E5%8D%95"><span class="toc-number">2.2.2.</span> <span class="toc-text"> 方法 2：集成到应用菜单</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8-appimagelauncher%E6%8E%A8%E8%8D%90"><span class="toc-number">2.2.2.1.</span> <span class="toc-text"> 1. 使用 AppImageLauncher（推荐）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%89%8B%E5%8A%A8%E5%88%9B%E5%BB%BA-desktop-%E6%96%87%E4%BB%B6"><span class="toc-number">2.2.2.2.</span> <span class="toc-text"> 2. 手动创建 .desktop 文件</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E6%B8%85%E7%A9%BA%E7%A3%81%E7%9B%98"><span class="toc-number">3.</span> <span class="toc-text"> 关于清空磁盘</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-1%E4%BD%BF%E7%94%A8-fdisk-%E5%92%8C-mkfs"><span class="toc-number">3.0.1.</span> <span class="toc-text"> 方法 1：使用 fdisk 和 mkfs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-2%E4%BD%BF%E7%94%A8-dd-%E5%91%BD%E4%BB%A4"><span class="toc-number">3.0.2.</span> <span class="toc-text"> 方法 2：使用 dd 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-3%E4%BD%BF%E7%94%A8-wipe"><span class="toc-number">3.0.3.</span> <span class="toc-text"> 方法 3：使用 wipe</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8D%E9%80%9A%E8%BF%87%E5%AF%86%E7%A0%81%E6%9D%A5%E8%AE%BF%E9%97%AE%E5%AF%86%E7%A0%81%E7%8E%AF"><span class="toc-number">4.</span> <span class="toc-text"> 不通过密码来访问密码环</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-1%E4%BD%BF%E7%94%A8-seahorse%E5%AF%86%E7%A0%81%E5%92%8C%E5%AF%86%E9%92%A5%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-number">4.0.1.</span> <span class="toc-text"> 方法 1：使用 Seahorse（密码和密钥管理器）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-2%E9%80%9A%E8%BF%87%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%BF%AE%E6%94%B9"><span class="toc-number">4.0.2.</span> <span class="toc-text"> 方法 2：通过命令行修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">4.0.3.</span> <span class="toc-text"> 注意事项</span></a></li></ol></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">42</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">4</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">18</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+  
+<script src="https://npm.webcache.cn/valine@1.5.1/dist/Valine.min.js" data-pjax></script>
+
+  <script data-pjax>
+    var GUEST_INFO = ['nick', 'mail', 'link'];
+    var guest_info = 'nick,mail,link'.split(',').filter((item) => {
+      return GUEST_INFO.indexOf(item) > -1
+    });
+    var recordIP = JSON.parse('true');
+    var highlight = JSON.parse('true');
+    var visitor = JSON.parse('false');
+
+    new Valine({
+      el: '.vcomment',
+      appId: "M4jZ0oieL94Oyjqc8LeD1oXz-gzGzoHsz",
+      appKey: "jWmwVfXAV7Iv4Bj9uWLvb4f3",
+      placeholder: "Leave your commit ;)",
+      pageSize: '10',
+      avatar: 'retro',
+      lang: 'zh-cn',
+      recordIP: recordIP,
+      highlight: highlight,
+      visitor: visitor,
+      requiredFields: guest_info,
+      path: window.location.pathname
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+

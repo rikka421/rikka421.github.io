@@ -1,0 +1,844 @@
+
+  <!DOCTYPE html>
+  <html lang="zh_cn"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    docker+Alist+rclone 将夸克网盘挂载至本地 |
+    
+    RIKKA&#39;s Blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="将夸克网盘挂载为本地磁盘  [!todo] 还没配完.   由于夸克网盘好像不支持linux, 而我的文件备份是通过夸克网盘实现的, 因此在寻找使用夸克网盘的方法. 网页端几乎什么也干不了, 文件夹与稍微大一点的文件都无法下载. 于是试图通过网盘的挂载来完成. 下面是ChatGPT的回答:   在 Ubuntu 上挂载夸克网盘的步骤和 Windows 相似，不过需要将 RaiDrive 替换为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker+Alist+rclone 将夸克网盘挂载至本地">
+<meta property="og:url" content="https://rikka421.github.io/2024/11/02/Ubuntu/docker+Alist+rclone/index.html">
+<meta property="og:site_name" content="RIKKA&#39;s Blog">
+<meta property="og:description" content="将夸克网盘挂载为本地磁盘  [!todo] 还没配完.   由于夸克网盘好像不支持linux, 而我的文件备份是通过夸克网盘实现的, 因此在寻找使用夸克网盘的方法. 网页端几乎什么也干不了, 文件夹与稍微大一点的文件都无法下载. 于是试图通过网盘的挂载来完成. 下面是ChatGPT的回答:   在 Ubuntu 上挂载夸克网盘的步骤和 Windows 相似，不过需要将 RaiDrive 替换为">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-02T06:18:49.910Z">
+<meta property="article:modified_time" content="2024-11-03T14:47:07.061Z">
+<meta property="article:author" content="RIKKA421">
+<meta property="article:tag" content="Ubuntu">
+<meta property="article:tag" content="env">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="RIKKA's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/emoji.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.9/dist/katex.min.css">
+
+    
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+        </svg>
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">Home</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">Archives</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">About</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">Friend</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    <img fetchpriority="high" src="/images/24-11/ubuntu.png" alt="docker+Alist+rclone 将夸克网盘挂载至本地">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">docker+Alist+rclone 将夸克网盘挂载至本地</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-Ubuntu/docker+Alist+rclone" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2024/11/02/Ubuntu/docker+Alist+rclone/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2024-11-02T06:18:49.910Z" itemprop="datePublished">2024-11-02</time>
+    <time style="display: none;" id="post-update-time">2024-11-03</time>
+  </a>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/WorkLog/" data-aos="zoom-in">WorkLog</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <span id="more"></span>
+<h1 id="将夸克网盘挂载为本地磁盘"><a class="markdownIt-Anchor" href="#将夸克网盘挂载为本地磁盘"></a> 将夸克网盘挂载为本地磁盘</h1>
+<blockquote>
+<p>[!todo]<br />
+还没配完.</p>
+</blockquote>
+<blockquote>
+<p>由于夸克网盘好像不支持linux, 而我的文件备份是通过夸克网盘实现的, 因此在寻找使用夸克网盘的方法.<br />
+网页端几乎什么也干不了, 文件夹与稍微大一点的文件都无法下载. 于是试图通过网盘的挂载来完成.<br />
+下面是ChatGPT的回答:</p>
+</blockquote>
+<hr />
+<p>在 Ubuntu 上挂载夸克网盘的步骤和 Windows 相似，不过需要将 RaiDrive 替换为 rclone，以下是具体操作步骤：</p>
+<h3 id="步骤-1安装-docker"><a class="markdownIt-Anchor" href="#步骤-1安装-docker"></a> 步骤 1：安装 Docker</h3>
+<ol>
+<li>
+<p><strong>更新并安装 Docker</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install docker.io -y</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>启动 Docker 并设置为开机自启</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="步骤-2运行-webdav-服务器容器"><a class="markdownIt-Anchor" href="#步骤-2运行-webdav-服务器容器"></a> 步骤 2：运行 WebDAV 服务器容器</h3>
+<ol>
+<li>
+<p><strong>拉取 WebDAV 服务器镜像</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker pull xhofe/alist</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>运行 Alist 容器</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run -d --name alist -p 5244:5244 xhofe/alist</span><br></pre></td></tr></table></figure>
+<ul>
+<li>这将启动 Alist WebDAV 服务，并将容器的 5244 端口映射到主机的 5244 端口。</li>
+</ul>
+</li>
+<li>
+<p><strong>配置 WebDAV</strong>：</p>
+<ul>
+<li>在浏览器中访问 <code>http://localhost:5244</code>。</li>
+<li>根据提示设置 Alist 管理员账号和密码，登录到管理界面。</li>
+<li>在 Alist 的设置中，添加夸克网盘账户信息并启用 WebDAV。</li>
+</ul>
+</li>
+</ol>
+<h3 id="步骤-3安装-rclone-并挂载-webdav"><a class="markdownIt-Anchor" href="#步骤-3安装-rclone-并挂载-webdav"></a> 步骤 3：安装 rclone 并挂载 WebDAV</h3>
+<ol>
+<li>
+<p><strong>安装 rclone</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install rclone -y</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>配置 rclone</strong>：<br />
+执行以下命令进入配置界面：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rclone config</span><br></pre></td></tr></table></figure>
+<ul>
+<li>输入 <code>n</code> 新建一个远程连接。</li>
+<li>输入一个名称，例如 <code>quark_webdav</code>。</li>
+<li>在存储类型选择时，输入 <code>webdav</code>。</li>
+<li>选择 <code>webdav</code> 服务类型为 <code>Other</code>。</li>
+<li>在 URL 中输入 WebDAV 地址 <code>http://localhost:5244</code>。</li>
+<li>输入在 Alist 中设置的用户名和密码。</li>
+</ul>
+</li>
+<li>
+<p><strong>挂载 WebDAV 为本地文件夹</strong>：<br />
+使用以下命令将 WebDAV 挂载到本地文件夹：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rclone mount quark_webdav:/ ~/quark_drive --vfs-cache-mode writes &amp;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>quark_webdav:/</code> 是刚才在 rclone 中配置的远程名称。</li>
+<li><code>~/quark_drive</code> 是本地挂载点目录，可以自行定义。</li>
+<li><code>--vfs-cache-mode writes</code> 确保文件写入操作顺利进行，最后的 <code>&amp;</code> 将挂载命令放入后台运行。</li>
+</ul>
+</li>
+</ol>
+<p>完成后，您可以在 <code>~/quark_drive</code> 文件夹中访问夸克网盘的内容。</p>
+<hr />
+<blockquote>
+<p>根据上面的步骤进行, 在</p>
+<p><strong>拉取 WebDAV 服务器镜像</strong>：<br />
+<code>sudo docker pull xhofe/alist</code><br />
+一步中遇到了问题. 报错显示为<code>Error response from daemon: Get &quot;https://registry-1.docker.io/v2/&quot;: net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)</code><br />
+询问GPT后推荐我尝试ping goole. 发现google ping不通. 但是, 在浏览器上正常访问google是没有问题的. 于是我怀疑是clash全局代理的问题. 进一步询问之后GPT给了如下解决方案<br />
+按照该方案执行后, 问题顺利解决. 此处我使用的是Clash Verge. 它的配置端口在 &quot;设置&quot;以及&quot;当前配置&quot;中可以找到</p>
+</blockquote>
+<p>在使用 Clash 全局代理的情况下，正常访问 Google 网页但无法 <code>ping</code> 通，是因为 <code>ping</code> 使用 ICMP 协议，而代理通常只转发 TCP 和 UDP 流量。Clash 并不会代理 ICMP 数据包，因此 <code>ping</code> 不会通过代理。</p>
+<p>如果 Docker 出现连接超时的问题，可能是 Docker 本身没有正确走代理。在这种情况下，你可以尝试以下方法将 Docker 连接走 Clash 的代理。</p>
+<h3 id="解决方案配置-docker-使用-http-代理"><a class="markdownIt-Anchor" href="#解决方案配置-docker-使用-http-代理"></a> 解决方案：配置 Docker 使用 HTTP 代理</h3>
+<ol>
+<li>
+<p><strong>找到 Clash 的代理地址和端口</strong>：</p>
+<ul>
+<li>一般来说，Clash 默认 HTTP 代理端口是 <code>7890</code>，可以在 Clash 的配置文件中确认。</li>
+<li>如果 Clash 的代理运行在本地机器上，代理地址为 <code>127.0.0.1</code> 或 <code>localhost</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>配置 Docker 的代理设置</strong>：</p>
+<p>创建或编辑 Docker 的代理配置文件 <code>/etc/systemd/system/docker.service.d/http-proxy.conf</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/systemd/system/docker.service.d</span><br><span class="line"><span class="built_in">sudo</span> nano /etc/systemd/system/docker.service.d/http-proxy.conf</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>添加以下内容</strong>（根据 Clash 代理端口更新 <code>7890</code> 为你的实际端口）：</p>
+</li>
+</ol>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Environment</span>=<span class="string">&quot;HTTP_PROXY=http://127.0.0.1:7890/&quot;</span></span><br><span class="line"><span class="attr">Environment</span>=<span class="string">&quot;HTTPS_PROXY=http://127.0.0.1:7890/&quot;</span></span><br><span class="line"><span class="attr">Environment</span>=<span class="string">&quot;NO_PROXY=localhost,127.0.0.1&quot;</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li><strong>重载并重启 Docker 服务</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="验证代理设置是否生效"><a class="markdownIt-Anchor" href="#验证代理设置是否生效"></a> 验证代理设置是否生效</h3>
+<ol>
+<li>
+<p>运行以下命令验证 Docker 是否可以正常连接：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker pull xhofe/alist</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>如果拉取成功，说明 Docker 已经通过 Clash 代理正常工作。</p>
+</li>
+</ol>
+<h1 id="关于docker"><a class="markdownIt-Anchor" href="#关于docker"></a> 关于Docker</h1>
+<blockquote>
+<p>按照步骤运行时, 发现Alist在Docker中运行后需要管理员及密码. 管理员用户是admin, 密码则需要寻找. 于是翻了翻教程, 了解了一下docker相关的操作.</p>
+<p>下面是GPT的回答</p>
+</blockquote>
+<p>要查看正在运行的 Docker 容器，你可以使用以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker ps</span><br></pre></td></tr></table></figure>
+<h3 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明</h3>
+<ul>
+<li><code>docker ps</code>：这个命令会列出当前所有正在运行的容器。</li>
+<li>默认情况下，<code>docker ps</code> 只显示运行中的容器。你会看到如下信息：
+<ul>
+<li><strong>CONTAINER ID</strong>：容器的唯一 ID。</li>
+<li><strong>IMAGE</strong>：容器使用的镜像名称。</li>
+<li><strong>COMMAND</strong>：容器启动时运行的命令。</li>
+<li><strong>CREATED</strong>：容器创建的时间。</li>
+<li><strong>STATUS</strong>：容器的当前状态（如运行中、已停止等）。</li>
+<li><strong>PORTS</strong>：容器映射到主机的端口。</li>
+<li><strong>NAMES</strong>：容器的名称。</li>
+</ul>
+</li>
+</ul>
+<h3 id="查看所有容器"><a class="markdownIt-Anchor" href="#查看所有容器"></a> 查看所有容器</h3>
+<p>如果你想查看所有容器（包括已经停止的容器），可以使用以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker ps -a</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>-a</code>（或 <code>--all</code>）：这个选项会显示所有容器，无论它们是否正在运行。</li>
+</ul>
+<h3 id="例子"><a class="markdownIt-Anchor" href="#例子"></a> 例子</h3>
+<p>运行 <code>sudo docker ps</code> 可能会得到如下输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CONTAINER ID   IMAGE           COMMAND                  CREATED       STATUS       PORTS                    NAMES</span><br><span class="line">e4f09a8365d3   xhofe/alist    &quot;/app/alist&quot;            5 minutes ago  Up 5 minutes  0.0.0.0:5244-&gt;5244/tcp   alist</span><br></pre></td></tr></table></figure>
+<h3 id="其他有用的命令"><a class="markdownIt-Anchor" href="#其他有用的命令"></a> 其他有用的命令</h3>
+<ul>
+<li>
+<p><strong>查看容器日志</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker logs &lt;container_id_or_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>进入正在运行的容器</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker <span class="built_in">exec</span> -it &lt;container_id_or_name&gt; /bin/sh</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>使用这些命令可以帮助你管理和监控 Docker 容器的状态。如果你有其他问题，请随时问我！</p>
+<h1 id="使用alist挂载夸克网盘"><a class="markdownIt-Anchor" href="#使用alist挂载夸克网盘"></a> 使用Alist挂载夸克网盘</h1>
+<blockquote>
+<p>具体的流程参考 <a target="_blank" rel="noopener" href="https://blog.csdn.net/zhangjiuding/article/details/127134391">https://blog.csdn.net/zhangjiuding/article/details/127134391</a>. 但是只能参考挂载Alist到夸克网盘的部分, 其他部分由于windows和linux的差别不能照做.</p>
+</blockquote>
+<h1 id="在这之外"><a class="markdownIt-Anchor" href="#在这之外"></a> 在这之外</h1>
+<blockquote>
+<p>总而言之, 我为了在Ubuntu上使用夸克网盘, 折腾了很久也没有搞定. 但是颇具喜剧效果的是, 在第二天用wine来解决微信问题的时候, 顺带着就把夸克的文件传输给搞定了. 真是令人感慨.</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+        <a data-aos="zoom-in" href="/2024/11/02/Ubuntu/docker+Alist+rclone/#comments" class="article-comment-link">
+          <span class="post-comments-count valine-comment-count" data-xid="/2024/11/02/Ubuntu/docker+Alist+rclone/" itemprop="commentCount"></span>
+          Comments
+        </a>
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/env/" rel="tag">env</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="Ubuntu22.04 配置 Wine" class="lazyload">
+        
+        <a href="/2024/11/02/Ubuntu/Ubuntu%2022.04%20+%20Wine/"></a>
+        <div class="article-nav-caption">Newer</div>
+        <h3 class="article-nav-title">
+          
+            Ubuntu22.04 配置 Wine
+          
+        </h3>
+      </div>
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        <img data-src="/images/24-11/ubuntu.png" data-sizes="auto" alt="Ubuntu22.04 gnome-software explore失效之谜" class="lazyload">
+      
+      <a href="/2024/11/02/Ubuntu/gnome-software%20explore/"></a>
+      <div class="article-nav-caption">Older</div>
+      <h3 class="article-nav-title">
+        
+          Ubuntu22.04 gnome-software explore失效之谜
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+  <section id="comments" class="vcomment"></section>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%86%E5%A4%B8%E5%85%8B%E7%BD%91%E7%9B%98%E6%8C%82%E8%BD%BD%E4%B8%BA%E6%9C%AC%E5%9C%B0%E7%A3%81%E7%9B%98"><span class="toc-number">1.</span> <span class="toc-text"> 将夸克网盘挂载为本地磁盘</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-1%E5%AE%89%E8%A3%85-docker"><span class="toc-number">1.0.1.</span> <span class="toc-text"> 步骤 1：安装 Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-2%E8%BF%90%E8%A1%8C-webdav-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%B9%E5%99%A8"><span class="toc-number">1.0.2.</span> <span class="toc-text"> 步骤 2：运行 WebDAV 服务器容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-3%E5%AE%89%E8%A3%85-rclone-%E5%B9%B6%E6%8C%82%E8%BD%BD-webdav"><span class="toc-number">1.0.3.</span> <span class="toc-text"> 步骤 3：安装 rclone 并挂载 WebDAV</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E9%85%8D%E7%BD%AE-docker-%E4%BD%BF%E7%94%A8-http-%E4%BB%A3%E7%90%86"><span class="toc-number">1.0.4.</span> <span class="toc-text"> 解决方案：配置 Docker 使用 HTTP 代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE%E6%98%AF%E5%90%A6%E7%94%9F%E6%95%88"><span class="toc-number">1.0.5.</span> <span class="toc-text"> 验证代理设置是否生效</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Edocker"><span class="toc-number">2.</span> <span class="toc-text"> 关于Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">2.0.1.</span> <span class="toc-text"> 说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E5%AE%B9%E5%99%A8"><span class="toc-number">2.0.2.</span> <span class="toc-text"> 查看所有容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90"><span class="toc-number">2.0.3.</span> <span class="toc-text"> 例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%9C%89%E7%94%A8%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="toc-number">2.0.4.</span> <span class="toc-text"> 其他有用的命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8alist%E6%8C%82%E8%BD%BD%E5%A4%B8%E5%85%8B%E7%BD%91%E7%9B%98"><span class="toc-number">3.</span> <span class="toc-text"> 使用Alist挂载夸克网盘</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8%E8%BF%99%E4%B9%8B%E5%A4%96"><span class="toc-number">4.</span> <span class="toc-text"> 在这之外</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">42</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">4</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">18</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2024
+      <span class="footer-info-sep"></span>
+      RIKKA421
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        67.9k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        04:17
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%86%E5%A4%B8%E5%85%8B%E7%BD%91%E7%9B%98%E6%8C%82%E8%BD%BD%E4%B8%BA%E6%9C%AC%E5%9C%B0%E7%A3%81%E7%9B%98"><span class="toc-number">1.</span> <span class="toc-text"> 将夸克网盘挂载为本地磁盘</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-1%E5%AE%89%E8%A3%85-docker"><span class="toc-number">1.0.1.</span> <span class="toc-text"> 步骤 1：安装 Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-2%E8%BF%90%E8%A1%8C-webdav-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%B9%E5%99%A8"><span class="toc-number">1.0.2.</span> <span class="toc-text"> 步骤 2：运行 WebDAV 服务器容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-3%E5%AE%89%E8%A3%85-rclone-%E5%B9%B6%E6%8C%82%E8%BD%BD-webdav"><span class="toc-number">1.0.3.</span> <span class="toc-text"> 步骤 3：安装 rclone 并挂载 WebDAV</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E9%85%8D%E7%BD%AE-docker-%E4%BD%BF%E7%94%A8-http-%E4%BB%A3%E7%90%86"><span class="toc-number">1.0.4.</span> <span class="toc-text"> 解决方案：配置 Docker 使用 HTTP 代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE%E6%98%AF%E5%90%A6%E7%94%9F%E6%95%88"><span class="toc-number">1.0.5.</span> <span class="toc-text"> 验证代理设置是否生效</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Edocker"><span class="toc-number">2.</span> <span class="toc-text"> 关于Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">2.0.1.</span> <span class="toc-text"> 说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E5%AE%B9%E5%99%A8"><span class="toc-number">2.0.2.</span> <span class="toc-text"> 查看所有容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90"><span class="toc-number">2.0.3.</span> <span class="toc-text"> 例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%9C%89%E7%94%A8%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="toc-number">2.0.4.</span> <span class="toc-text"> 其他有用的命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8alist%E6%8C%82%E8%BD%BD%E5%A4%B8%E5%85%8B%E7%BD%91%E7%9B%98"><span class="toc-number">3.</span> <span class="toc-text"> 使用Alist挂载夸克网盘</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8%E8%BF%99%E4%B9%8B%E5%A4%96"><span class="toc-number">4.</span> <span class="toc-text"> 在这之外</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">42</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">4</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">18</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+  
+<script src="https://npm.webcache.cn/valine@1.5.1/dist/Valine.min.js" data-pjax></script>
+
+  <script data-pjax>
+    var GUEST_INFO = ['nick', 'mail', 'link'];
+    var guest_info = 'nick,mail,link'.split(',').filter((item) => {
+      return GUEST_INFO.indexOf(item) > -1
+    });
+    var recordIP = JSON.parse('true');
+    var highlight = JSON.parse('true');
+    var visitor = JSON.parse('false');
+
+    new Valine({
+      el: '.vcomment',
+      appId: "M4jZ0oieL94Oyjqc8LeD1oXz-gzGzoHsz",
+      appKey: "jWmwVfXAV7Iv4Bj9uWLvb4f3",
+      placeholder: "Leave your commit ;)",
+      pageSize: '10',
+      avatar: 'retro',
+      lang: 'zh-cn',
+      recordIP: recordIP,
+      highlight: highlight,
+      visitor: visitor,
+      requiredFields: guest_info,
+      path: window.location.pathname
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+
