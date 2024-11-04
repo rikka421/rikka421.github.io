@@ -1,0 +1,779 @@
+
+  <!DOCTYPE html>
+  <html lang="zh_cn"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    笔记本续航省电攻略 Ubuntu22.04 |
+    
+    RIKKA&#39;s Blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="尝试增强游戏本续航的折腾记录.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="笔记本续航省电攻略 Ubuntu22.04">
+<meta property="og:url" content="https://rikka421.github.io/2024/11/04/Ubuntu/2024-11-04-1/index.html">
+<meta property="og:site_name" content="RIKKA&#39;s Blog">
+<meta property="og:description" content="尝试增强游戏本续航的折腾记录.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://rikka421.github.io/images/24-11/Screenshot%20from%202024-11-04%2022-28-29.png">
+<meta property="article:published_time" content="2024-11-04T13:23:22.768Z">
+<meta property="article:modified_time" content="2024-11-04T14:29:50.476Z">
+<meta property="article:author" content="RIKKA421">
+<meta property="article:tag" content="conda">
+<meta property="article:tag" content="env">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rikka421.github.io/images/24-11/Screenshot%20from%202024-11-04%2022-28-29.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="RIKKA's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/emoji.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.9/dist/katex.min.css">
+
+    
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+        </svg>
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">Home</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">Archives</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">About</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">Friend</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    <img fetchpriority="high" src="/images/24-11/ubuntu.png" alt="笔记本续航省电攻略 Ubuntu22.04">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">笔记本续航省电攻略 Ubuntu22.04</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-Ubuntu/2024-11-04-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2024/11/04/Ubuntu/2024-11-04-1/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2024-11-04T13:23:22.768Z" itemprop="datePublished">2024-11-04</time>
+    <time style="display: none;" id="post-update-time">2024-11-04</time>
+  </a>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/WorkLog/" data-aos="zoom-in">WorkLog</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <p>尝试增强游戏本续航的折腾记录.</p>
+<span id="more"></span>
+<p>环境:</p>
+<ul>
+<li>Ubuntu22.04</li>
+<li>华硕天选三</li>
+<li><code>0000:01:00.0 VGA compatible controller: NVIDIA Corporation GA107M [GeForce RTX 3050 Mobile] (rev a1)</code></li>
+</ul>
+<p><img src="/images/24-11/Screenshot%20from%202024-11-04%2022-28-29.png" alt="" /></p>
+<p>ubuntu查看显卡的命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lspci | grep -i vga</span><br></pre></td></tr></table></figure>
+<p>或者(watch -n 表示每隔n秒刷新)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nvidia-smi</span><br><span class="line">watch -n 2 nvidia-smi  #每两秒刷新一次</span><br></pre></td></tr></table></figure>
+<p>或者安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gpustat</span><br></pre></td></tr></table></figure>
+<p>进行查看</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gpustat -i</span><br><span class="line">gpustat -cpu</span><br><span class="line">gpustat --json</span><br></pre></td></tr></table></figure>
+<p>查看驱动版本号</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/driver/nvidia/version</span><br></pre></td></tr></table></figure>
+<h2 id="tlp-and-others"><a class="markdownIt-Anchor" href="#tlp-and-others"></a> TLP and others</h2>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1837446">https://cloud.tencent.com/developer/article/1837446</a><br />
+可以参考这个文章. 里面讲了很多关于提高续航的操作, 如:</p>
+<ol>
+<li>系统电源设置</li>
+<li>关闭蓝牙</li>
+<li>调低屏幕亮度</li>
+<li>安装TLP.</li>
+</ol>
+<p>其中, 前三个设置都是很常见的选择.</p>
+<p>第四个方法中, TLP的安装也比较简单. 直接进行PPA安装即可. 具体过程可参考官网的手册</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:linrunner/tlp</span><br><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+<p>tlp一般是开机自启动的, 不需要额外的设置. 之后通过</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tlp-stat -s</span><br></pre></td></tr></table></figure>
+<p>来查看相关的信息.</p>
+<p>更多操作可参考tlp的官方文档<br />
+<a target="_blank" rel="noopener" href="https://linrunner.de/tlp/usage/index.html">https://linrunner.de/tlp/usage/index.html</a></p>
+<p>可参考这篇文章来完成对TLP的进一步配置 (其实原本的配置已经很不错了. )</p>
+<p><a target="_blank" rel="noopener" href="https://www.meow-2.com/posts/linux/tlp-for-power-saving">https://www.meow-2.com/posts/linux/tlp-for-power-saving</a></p>
+<hr />
+<h2 id="bumblebee-bbswitch"><a class="markdownIt-Anchor" href="#bumblebee-bbswitch"></a> bumblebee / bbswitch</h2>
+<p>之后尝试禁用笔记本上的独显, 让它在平时不要那么耗电.</p>
+<p>在网上找了找, 找到的是基于bumblebee的解决方案比较省事.</p>
+<blockquote>
+<p>但是后来发现bb在Ubuntu22.04上好像是没有对应版本的, 所以安装会报Error. 最后还是卸掉了. 但是过程还是放在这里. 大家自行参考.</p>
+</blockquote>
+<p>BB的官方文档<br />
+<a target="_blank" rel="noopener" href="https://wiki.ubuntu.com/Bumblebee">https://wiki.ubuntu.com/Bumblebee</a></p>
+<p>里面有相关的安装方法.</p>
+<p>也可以按照下面的步骤安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:bumblebee/stable</span><br></pre></td></tr></table></figure>
+<p>会报一个这个提示.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">To report issues, please read http://wiki.Bumblebee-Project.org/Reporting-Issues</span><br><span class="line"></span><br><span class="line">You may use any nvidia driver flavor, like -updates, -experimental or -nnn ones.</span><br><span class="line"></span><br><span class="line">After installation, reboot to let changes apply.</span><br><span class="line"></span><br><span class="line">To see if it works, run during around 30s: glxspheres</span><br><span class="line">Then, run it with optirun, and compare: optirun glxspheres</span><br><span class="line"></span><br><span class="line">If you want to use primus, you need to install it and set Bridge=primus in bumblebee.conf or use optirun -b primus. You also need to install primus-libs-ia32 if you want to run 32-bit apps.</span><br><span class="line"></span><br><span class="line">Be aware that as Bumblebee is using low-level hardware informations, it is impossible to run it in a VM.</span><br><span class="line">More info: https://launchpad.net/~bumblebee/+archive/ubuntu/stable</span><br><span class="line">Adding repository.</span><br><span class="line">Press [ENTER] to continue or Ctrl-c to cancel.</span><br></pre></td></tr></table></figure>
+<p>正常Enter. 然后会在终端里出现一个图形化界面和一些说明. 此时按ctrl + 下键(PGDN), 进行下一步操作. 之后就可以正常进入下一步设定密码的流程了.</p>
+<blockquote>
+<p>参考:<br />
+关于BB运行PPA命令时, 出现一个图形化界面然后卡住的问题:<br />
+<a target="_blank" rel="noopener" href="https://askubuntu.com/questions/1063282/stuck-in-terminal-at-configuring-secure-boot">https://askubuntu.com/questions/1063282/stuck-in-terminal-at-configuring-secure-boot</a></p>
+</blockquote>
+<p>之后再</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install bumblebee bumblebee-nvidia primus linux-headers-generic</span><br></pre></td></tr></table></figure>
+<p>然后再重启电脑即可.</p>
+<p>要注意的是<code>Enable the [Universe and Multiverse](https://help.ubuntu.com/community/Repositories/Ubuntu) repositories in order to allow the bumblebee and nvidia packages to be installed</code><br />
+即, 我们需要在设置里操作一下, 允许类型为<code>Universe and Multiverse</code>的软件源进行安装. (这些软件源不那么官方, 所以从这里进行安装需要确认. )</p>
+<blockquote>
+<p>后面发现希望基于bbswitch禁用独显的方案是用不了的.</p>
+</blockquote>
+<p>基于 bbswitch 的解决方案: 不可用. 没有对应的版本<br />
+<a target="_blank" rel="noopener" href="https://www.joxrays.com/linux-ban-nvidia/">https://www.joxrays.com/linux-ban-nvidia/</a><br />
+<a target="_blank" rel="noopener" href="https://forum.ubuntu.org.cn/viewtopic.php?t=370156">https://forum.ubuntu.org.cn/viewtopic.php?t=370156</a><br />
+<a target="_blank" rel="noopener" href="https://www.cnblogs.com/lijihong/p/3628628.html">https://www.cnblogs.com/lijihong/p/3628628.html</a></p>
+<hr />
+<h2 id="其他一些尝试"><a class="markdownIt-Anchor" href="#其他一些尝试"></a> 其他一些尝试</h2>
+<p>BB好像用不了.<br />
+<a target="_blank" rel="noopener" href="https://askubuntu.com/questions/866901/what-can-i-do-if-a-repository-ppa-does-not-have-a-release-file">https://askubuntu.com/questions/866901/what-can-i-do-if-a-repository-ppa-does-not-have-a-release-file</a></p>
+<p>按照这个方法尝试禁用了3050. 发现只能管用一会.<br />
+<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2046885">https://cloud.tencent.com/developer/article/2046885</a></p>
+<p>方法流程如下:</p>
+<ol>
+<li>安装NVIDIA PRIME：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install nvidia-prime</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>切换至独显模式：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo prime-select nvidia</span><br></pre></td></tr></table></figure>
+<p>然后等待切换，提示Done的时候i即代表切换完成，然后重启系统即可</p>
+<ol start="3">
+<li>如果未来想要切换到集显模式，也可以使用：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo prime-select intel</span><br></pre></td></tr></table></figure>
+<hr />
+<p>照做之后, 发现确实切成了核显, 但是调节不了亮度了, 基于的图像引擎也不再是X11, 需要重新切回来.</p>
+<p>为了搞回来亮度, 试着设置了TLP, 发现不是TLP的问题.</p>
+<p>折腾了老半天. 猜测可能是核显的驱动有问题导致了亮度无法调节. 尝试安装核显的驱动, 到处查找, 找了很久都没有找到不错的方法. (最后发现把设备型号搞错了, 把音频文件当成显卡了. )</p>
+<p>于是重新运行命令行, 将独显启用了. 于是一切问题都解决了. 但是耗电问题没法解决.</p>
+<p>(再次研究了一会, 发现实际上是Ubuntu识别不了电脑上的集成显卡. 在BIOS中可以看到显卡的型号, 但是在禁用了Nvidia卡之后, 电脑运行的显卡就显示为<code>llvmpipe (LLVM 15.0.7, 256 bits)</code>, 说明Ubuntu根本没有识别到集成显卡, 而是当成没有显卡的情况在处理. )</p>
+<p>(所以禁用独显其实是个伪命题, 如果我没有找到能够让集成显卡发挥作用的方法的话. 总之先放在这里吧. 有时间再继续折腾. )</p>
+<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
+<p>总之现在先试试但用TLP和其他工具, 不禁用独显的耗电情况, 再考虑其他的事情吧.</p>
+<p>如果之后想要继续折腾, 下面是一些相关的信息, 也许可以尝试这些方法</p>
+<p><a target="_blank" rel="noopener" href="https://askubuntu.com/questions/1242866/cannot-turn-off-nvidia-gpu-using-bbswitch">https://askubuntu.com/questions/1242866/cannot-turn-off-nvidia-gpu-using-bbswitch</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonyc/p/9561926.html">https://www.cnblogs.com/tonyc/p/9561926.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ggaaooppeennngg/p/3652650.html">https://www.cnblogs.com/ggaaooppeennngg/p/3652650.html</a></p>
+<p>感觉折腾这个东西真是没事找事. 有钱了买个MacBook 😄 .</p>
+<h2 id="参考文章"><a class="markdownIt-Anchor" href="#参考文章"></a> 参考文章</h2>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1837446">https://cloud.tencent.com/developer/article/1837446</a><br />
+<a target="_blank" rel="noopener" href="https://linrunner.de/tlp/usage/index.html">https://linrunner.de/tlp/usage/index.html</a><br />
+<a target="_blank" rel="noopener" href="https://www.meow-2.com/posts/linux/tlp-for-power-saving">https://www.meow-2.com/posts/linux/tlp-for-power-saving</a><br />
+<a target="_blank" rel="noopener" href="https://wiki.ubuntu.com/Bumblebee">https://wiki.ubuntu.com/Bumblebee</a><br />
+<a target="_blank" rel="noopener" href="https://askubuntu.com/questions/1063282/stuck-in-terminal-at-configuring-secure-boot">https://askubuntu.com/questions/1063282/stuck-in-terminal-at-configuring-secure-boot</a><br />
+<a target="_blank" rel="noopener" href="https://www.joxrays.com/linux-ban-nvidia/">https://www.joxrays.com/linux-ban-nvidia/</a><br />
+<a target="_blank" rel="noopener" href="https://forum.ubuntu.org.cn/viewtopic.php?t=370156">https://forum.ubuntu.org.cn/viewtopic.php?t=370156</a><br />
+<a target="_blank" rel="noopener" href="https://www.cnblogs.com/lijihong/p/3628628.html">https://www.cnblogs.com/lijihong/p/3628628.html</a><br />
+<a target="_blank" rel="noopener" href="https://askubuntu.com/questions/866901/what-can-i-do-if-a-repository-ppa-does-not-have-a-release-file">https://askubuntu.com/questions/866901/what-can-i-do-if-a-repository-ppa-does-not-have-a-release-file</a><br />
+<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2046885">https://cloud.tencent.com/developer/article/2046885</a><br />
+<a target="_blank" rel="noopener" href="https://askubuntu.com/questions/1242866/cannot-turn-off-nvidia-gpu-using-bbswitch">https://askubuntu.com/questions/1242866/cannot-turn-off-nvidia-gpu-using-bbswitch</a><br />
+<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonyc/p/9561926.html">https://www.cnblogs.com/tonyc/p/9561926.html</a><br />
+<a target="_blank" rel="noopener" href="https://www.cnblogs.com/ggaaooppeennngg/p/3652650.html">https://www.cnblogs.com/ggaaooppeennngg/p/3652650.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+        <a data-aos="zoom-in" href="/2024/11/04/Ubuntu/2024-11-04-1/#comments" class="article-comment-link">
+          <span class="post-comments-count valine-comment-count" data-xid="/2024/11/04/Ubuntu/2024-11-04-1/" itemprop="commentCount"></span>
+          Comments
+        </a>
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/conda/" rel="tag">conda</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/env/" rel="tag">env</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        <img data-src="/images/24-11/Screenshot%20from%202024-11-04%2016-30-47.png" data-sizes="auto" alt="[Complier] PPT学习记录 Ch3" class="lazyload">
+      
+      <a href="/2024/11/04/2024-11/2024-11-04/"></a>
+      <div class="article-nav-caption">Older</div>
+      <h3 class="article-nav-title">
+        
+          [Complier] PPT学习记录 Ch3
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+  <section id="comments" class="vcomment"></section>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tlp-and-others"><span class="toc-number">1.</span> <span class="toc-text"> TLP and others</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bumblebee-bbswitch"><span class="toc-number">2.</span> <span class="toc-text"> bumblebee &#x2F; bbswitch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E4%B8%80%E4%BA%9B%E5%B0%9D%E8%AF%95"><span class="toc-number">3.</span> <span class="toc-text"> 其他一些尝试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text"> 总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">5.</span> <span class="toc-text"> 参考文章</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">45</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">4</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">20</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2024
+      <span class="footer-info-sep"></span>
+      RIKKA421
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        71.4k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        04:30
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tlp-and-others"><span class="toc-number">1.</span> <span class="toc-text"> TLP and others</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bumblebee-bbswitch"><span class="toc-number">2.</span> <span class="toc-text"> bumblebee &#x2F; bbswitch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E4%B8%80%E4%BA%9B%E5%B0%9D%E8%AF%95"><span class="toc-number">3.</span> <span class="toc-text"> 其他一些尝试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text"> 总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">5.</span> <span class="toc-text"> 参考文章</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">45</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">4</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">20</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+  
+<script src="https://npm.webcache.cn/valine@1.5.1/dist/Valine.min.js" data-pjax></script>
+
+  <script data-pjax>
+    var GUEST_INFO = ['nick', 'mail', 'link'];
+    var guest_info = 'nick,mail,link'.split(',').filter((item) => {
+      return GUEST_INFO.indexOf(item) > -1
+    });
+    var recordIP = JSON.parse('true');
+    var highlight = JSON.parse('true');
+    var visitor = JSON.parse('false');
+
+    new Valine({
+      el: '.vcomment',
+      appId: "M4jZ0oieL94Oyjqc8LeD1oXz-gzGzoHsz",
+      appKey: "jWmwVfXAV7Iv4Bj9uWLvb4f3",
+      placeholder: "Leave your commit ;)",
+      pageSize: '10',
+      avatar: 'retro',
+      lang: 'zh-cn',
+      recordIP: recordIP,
+      highlight: highlight,
+      visitor: visitor,
+      requiredFields: guest_info,
+      path: window.location.pathname
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+
