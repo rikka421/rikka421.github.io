@@ -1,0 +1,1016 @@
+
+  <!DOCTYPE html>
+  <html lang="zh_cn"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    [RL] stable-baselines3实现DQN, double DQN, Rainbow, DDPG, TD3, SAC, TRPO, PPO |
+    
+    RIKKA&#39;s Blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="实现DQN算法前, 打算先做一个baseline, 下面是具体的实现过程.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[RL] stable-baselines3实现DQN, double DQN, Rainbow, DDPG, TD3, SAC, TRPO, PPO">
+<meta property="og:url" content="https://rikka421.github.io/2024/11/07/2024-11/2024-11-07/index.html">
+<meta property="og:site_name" content="RIKKA&#39;s Blog">
+<meta property="og:description" content="实现DQN算法前, 打算先做一个baseline, 下面是具体的实现过程.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://rikka421.github.io/images/24-11/Screenshot%20from%202024-11-08%2000-26-42.png">
+<meta property="article:published_time" content="2024-11-07T14:16:12.987Z">
+<meta property="article:modified_time" content="2024-11-08T05:41:48.282Z">
+<meta property="article:author" content="RIKKA421">
+<meta property="article:tag" content="RL">
+<meta property="article:tag" content="stable-baselines3">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rikka421.github.io/images/24-11/Screenshot%20from%202024-11-08%2000-26-42.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="RIKKA's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/emoji.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.9/dist/katex.min.css">
+
+    
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+        </svg>
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">Home</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">Archives</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">About</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">Friend</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    <img fetchpriority="high" src="/images/24-11/Screenshot%20from%202024-11-08%2000-26-42.png" alt="[RL] stable-baselines3实现DQN, double DQN, Rainbow, DDPG, TD3, SAC, TRPO, PPO">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">[RL] stable-baselines3实现DQN, double DQN, Rainbow, DDPG, TD3, SAC, TRPO, PPO</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-2024-11/2024-11-07" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2024/11/07/2024-11/2024-11-07/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2024-11-07T14:16:12.987Z" itemprop="datePublished">2024-11-07</time>
+    <time style="display: none;" id="post-update-time">2024-11-08</time>
+  </a>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/WorkLog/" data-aos="zoom-in">WorkLog</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <p>实现DQN算法前, 打算先做一个baseline, 下面是具体的实现过程.</p>
+<span id="more"></span>
+<blockquote>
+<p>DQN, double DQN, Duel DQN, Rainbow, DDPG, TD3, SAC, TRPO, PPO</p>
+</blockquote>
+<p>通过<code>stable-baselines3</code>库和 <code>gym</code>库, 以很少的代码行数就实现了baseline算法的运行, 为之后自己手动实现这些算法提供了一个基线.</p>
+<p>在下面的代码中, 我们了实现DQN, DDPG, TD3, SAC, PPO. 所需要的库有</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PyTorch</span><br></pre></td></tr></table></figure>
+<p>pytorch是一个AI常用的库. 它不是能够直接pip的库, 没有装的朋友可以自行google教程, 或者参考文章后面一点的部分, GPT给出的回答.</p>
+<p>除此之外, 我们还需要安装如下的库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install gymnasium[all] stable-baselines3 pandas matplotlib</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!attention]<br />
+这些依赖列表可能并不完整</p>
+</blockquote>
+<ul>
+<li>在下面的代码中, 我们在离散动作环境 <code>LunarLander-v2</code>上运行了 DQN算法, 在连续动作环境<code>Pendulum-v1</code>上运行了<code>DDPG,  TD3, SAC, PPO</code> 算法. (关于这些环境的具体含义, 可自行查看gym的官方手册. <a target="_blank" rel="noopener" href="https://gymnasium.farama.org/index.html">https://gymnasium.farama.org/index.html</a> )</li>
+<li>同时, 我们启用了monitor的log并将其存储在<code>log_dir = &quot;./logs/&quot;</code>中, 用于后面plot函数中, 以图片的形式展现训练成果(plot函数中, 我们直接读取monitor.csv, 并做了一个平滑操作. 具体可查看后面GPT对于monitor.csv文件含义的解释)</li>
+<li>我们也是启用了tensorboard_log并将其存储在<code>&quot;./agent_cartpole_tensorboard/&quot;</code>, 用于在命令行中调用<code>tensorboard --logdir ./agent_cartpole_tensorboard/</code>并在网页端显示模型的训练效果(具体可查看GPT关于tensorboard的解释)</li>
+</ul>
+<p>其中, 我们尚未包含TRPO的实现, 因为它不包含在<code>stable-baselines3</code>中, 而仅含在前身 <code>stable-baselines</code>中. 这个旧版本的库需要调用<code>TensorFlow 1.x</code>的接口, 但是TensorFlow 1.x 已经停止更新和维护, 在pip上也没法直接下了. 所以真要折腾起来很麻烦, 建议直接跳过.</p>
+<p>同样, 由于<code>stable-baselines3</code>未直接包含Rainbow和 double DQN, Duel DQN的实现, 我们这里同样也不给出. 这些算法之后可能会通过<code>Dopamine</code>来完成.</p>
+<blockquote>
+<p>[!attention]<br />
+对比GPT给出的代码, 完整代码中更改了部分内容, 包括但不限于模型最终存储的位置, tensorboard_log存储的位置, <code>import gymnasium as gym</code> , 以及清空<code>tensorboard_log</code>的操作等等<br />
+这些改动有的是因为GPT给出了错误的实现 (例如直接<code>import gym</code>是不对的); 有的是因为代码的意图改变了(例如完整代码中运行的模型不止DQN, 所以应该把 <code>dqn_cartpole_tensorboard</code>改掉. ).<br />
+请大家注意这些改动, 直接复制粘贴GPT给出的代码会出现一些问题.</p>
+</blockquote>
+<hr />
+<p>以下是完整代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gymnasium <span class="keyword">as</span> gym  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">from</span> stable_baselines3 <span class="keyword">import</span> DQN, DDPG, TD3, SAC, PPO  </span><br><span class="line"><span class="keyword">from</span> stable_baselines3.common.monitor <span class="keyword">import</span> Monitor  </span><br><span class="line"><span class="keyword">import</span> os  </span><br><span class="line"><span class="keyword">import</span> shutil  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd  </span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">train</span>(<span class="params">env_name, Agent</span>):  </span><br><span class="line">    <span class="comment"># 创建 Gym 环境并添加 Monitor 以记录数据  </span></span><br><span class="line">    env = gym.make(env_name)  </span><br><span class="line">  </span><br><span class="line">    env = Monitor(env, log_dir + <span class="string">&quot;monitor.csv&quot;</span>)  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># 初始化模型，启用 TensorBoard 日志记录  </span></span><br><span class="line">    model = Agent(<span class="string">&quot;MlpPolicy&quot;</span>, env, verbose=<span class="number">1</span>, tensorboard_log=tensorboard_log)  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># 开始训练  </span></span><br><span class="line">    model.learn(total_timesteps=<span class="number">1e5</span>)  </span><br><span class="line">    model.save(log_dir + <span class="string">&quot;agent_cartpole&quot;</span>)  </span><br><span class="line">    env.close()  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>(<span class="params">env_name, Agent</span>):  </span><br><span class="line">    <span class="comment"># 加载模型  </span></span><br><span class="line">    env = gym.make(env_name)  </span><br><span class="line">    model = Agent.load(<span class="string">&quot;agent_cartpole&quot;</span>)  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># 测试模型  </span></span><br><span class="line">    state, _ = env.reset()  </span><br><span class="line">    done = <span class="literal">False</span>  </span><br><span class="line">    total_reward = <span class="number">0</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> done:  </span><br><span class="line">        action, _ = model.predict(state, deterministic=<span class="literal">True</span>)  </span><br><span class="line">        state, reward, done, _, __ = env.step(action)  </span><br><span class="line">        total_reward += reward  </span><br><span class="line">        env.render()  </span><br><span class="line">  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Total Reward:&quot;</span>, total_reward)  </span><br><span class="line">    env.close()  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">plot</span>(<span class="params">env_name, agent_name</span>):  </span><br><span class="line">    <span class="comment"># 读取 Monitor 日志文件  </span></span><br><span class="line">    monitor_data = pd.read_csv(log_dir + <span class="string">&quot;monitor.csv&quot;</span>, skiprows=<span class="number">1</span>)  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># 获取奖励数据  </span></span><br><span class="line">    rewards = monitor_data[<span class="string">&quot;r&quot;</span>]  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># 定义滑动窗口大小  </span></span><br><span class="line">    window_size = <span class="number">10</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># 计算滑动平均值  </span></span><br><span class="line">    smoothed_rewards = rewards.rolling(window=window_size).mean()  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># 绘制平滑后的奖励曲线  </span></span><br><span class="line">    plt.plot(smoothed_rewards, label=agent_name + <span class="string">&quot; &quot;</span> + env_name)  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">run_tests</span>():  </span><br><span class="line">    discrete_envs_list = [<span class="string">&quot;LunarLander-v2&quot;</span>]  </span><br><span class="line">    continuous_envs_list = [<span class="string">&quot;Pendulum-v1&quot;</span>]  </span><br><span class="line">    continuous_agents_list = [DDPG,  </span><br><span class="line">                              TD3,  </span><br><span class="line">                              SAC,  </span><br><span class="line">                              PPO]  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">for</span> env_name <span class="keyword">in</span> discrete_envs_list:  </span><br><span class="line">        Agent = DQN  </span><br><span class="line">        agent_name = <span class="built_in">str</span>(Agent)  </span><br><span class="line">        train(env_name, Agent)  </span><br><span class="line">        <span class="comment"># test(env_name, Agent)  </span></span><br><span class="line">        plot(env_name, agent_name)  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">for</span> env_name <span class="keyword">in</span> continuous_envs_list:  </span><br><span class="line">        <span class="keyword">for</span> Agent <span class="keyword">in</span> continuous_agents_list:  </span><br><span class="line">            agent_name = <span class="built_in">str</span>(Agent)  </span><br><span class="line">            train(env_name, Agent)  </span><br><span class="line">            <span class="comment"># test(env_name, Agent)  </span></span><br><span class="line">            plot(env_name, agent_name)  </span><br><span class="line">    plt.xlabel(<span class="string">&quot;Episodes&quot;</span>)  </span><br><span class="line">    plt.ylabel(<span class="string">&quot;Rewards&quot;</span>)  </span><br><span class="line">    plt.title(<span class="string">&quot;Smoothed Training Rewards over Episodes&quot;</span>)  </span><br><span class="line">    plt.legend()  </span><br><span class="line">    plt.show()  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:  </span><br><span class="line">    <span class="comment"># 设置日志保存路径  </span></span><br><span class="line">    log_dir = <span class="string">&quot;./logs/&quot;</span>  </span><br><span class="line">    tensorboard_log = <span class="string">&quot;./agent_cartpole_tensorboard/&quot;</span>  </span><br><span class="line">    <span class="keyword">if</span> os.path.exists(tensorboard_log):  </span><br><span class="line">        <span class="comment"># 清空 log_dir 目录中的所有内容  </span></span><br><span class="line">        shutil.rmtree(tensorboard_log)  </span><br><span class="line">    <span class="comment"># 创建空的 log_dir 目录  </span></span><br><span class="line">    os.makedirs(log_dir, exist_ok=<span class="literal">True</span>)  </span><br><span class="line">  </span><br><span class="line">    run_tests()</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!attention]<br />
+下面是GPT关于整个过程的回答和说明, 很多地方有错误, 请自行甄别!<br />
+例如, 代码部分有漏洞(例如gym库已经改称为gymnasium), 直接复制是跑不了的; 同时提供的解决方案也有问题, 例如, 无法直接通过更改参数的方式在<code>stable-baselines3</code>中实现Double DQN: DQN里面根本没有<code>double_q</code>这个参数.<br />
+希望尝试的朋友, 请复制上面的完整代码, 然后配合着下面GPT的说明使用; GPT的回答仅供大家进一步理解相关的细节. 请自行甄别答案是否有问题, 不要完全相信!!!</p>
+</blockquote>
+<hr />
+<h2 id="关于安装-pytorch"><a class="markdownIt-Anchor" href="#关于安装-pytorch"></a> 关于安装 PyTorch</h2>
+<p>要在 Python 中安装 PyTorch，可以通过 <code>pip</code> 安装适合你的系统和 CUDA 版本的 PyTorch。以下是安装步骤：</p>
+<h3 id="1-检查是否需要-cuda-支持"><a class="markdownIt-Anchor" href="#1-检查是否需要-cuda-支持"></a> 1. 检查是否需要 CUDA 支持</h3>
+<ul>
+<li>
+<p><strong>CPU-only</strong>：如果你不需要 GPU 加速，可以安装仅支持 CPU 的版本。</p>
+</li>
+<li>
+<p><strong>CUDA 版本</strong>：如果你的计算机有 NVIDIA GPU，并且安装了 CUDA，你需要知道 CUDA 的版本（例如 CUDA 11.7、11.8）。可以使用以下命令来确认 CUDA 版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvcc --version</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-访问-pytorch-官方安装页面"><a class="markdownIt-Anchor" href="#2-访问-pytorch-官方安装页面"></a> 2. 访问 PyTorch 官方安装页面</h3>
+<p>PyTorch 提供了一个便捷的安装指引页面，可以根据你的系统和需求生成安装命令：<a target="_blank" rel="noopener" href="https://pytorch.org/get-started/locally/">PyTorch 安装指引</a></p>
+<h3 id="3-使用-pip-安装-pytorch"><a class="markdownIt-Anchor" href="#3-使用-pip-安装-pytorch"></a> 3. 使用 <code>pip</code> 安装 PyTorch</h3>
+<p>根据你的 CUDA 版本选择相应的安装命令。</p>
+<ul>
+<li>
+<p><strong>仅使用 CPU</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install torch torchvision torchaudio</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>使用 CUDA 11.8</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>使用 CUDA 11.7</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>使用 CUDA 10.2</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu102</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="4-验证安装"><a class="markdownIt-Anchor" href="#4-验证安装"></a> 4. 验证安装</h3>
+<p>安装完成后，可以在 Python 中导入 <code>torch</code> 来验证安装是否成功：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="built_in">print</span>(torch.__version__)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;CUDA available:&quot;</span>, torch.cuda.is_available())</span><br></pre></td></tr></table></figure>
+<p>如果 <code>torch.cuda.is_available()</code> 返回 <code>True</code>，说明 PyTorch 能够检测到 CUDA 支持。</p>
+<hr />
+<h2 id="代码实现大致流程"><a class="markdownIt-Anchor" href="#代码实现大致流程"></a> 代码实现大致流程</h2>
+<p>在使用 <code>stable-baselines3</code> 时，可以通过保存训练过程中的日志，并使用 Matplotlib 绘制训练曲线。下面是具体步骤：</p>
+<h3 id="1-安装-stable-baselines3-及辅助库"><a class="markdownIt-Anchor" href="#1-安装-stable-baselines3-及辅助库"></a> 1. 安装 <code>stable-baselines3</code> 及辅助库</h3>
+<p>如果没有安装 <code>stable-baselines3</code> 和 <code>tensorboard</code>，可以通过以下命令安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install stable-baselines3 tensorboard matplotlib</span><br></pre></td></tr></table></figure>
+<h3 id="2-配置训练日志"><a class="markdownIt-Anchor" href="#2-配置训练日志"></a> 2. 配置训练日志</h3>
+<p>在训练模型时，使用 <code>Monitor</code> 和 <code>tensorboard_log</code> 选项记录训练过程。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"><span class="keyword">from</span> stable_baselines3 <span class="keyword">import</span> DQN</span><br><span class="line"><span class="keyword">from</span> stable_baselines3.common.monitor <span class="keyword">import</span> Monitor</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 Gym 环境并添加 Monitor 以记录数据</span></span><br><span class="line">env = gym.make(<span class="string">&quot;CartPole-v1&quot;</span>)</span><br><span class="line">env = Monitor(env)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化 DQN 模型，启用 TensorBoard 日志记录</span></span><br><span class="line">model = DQN(<span class="string">&quot;MlpPolicy&quot;</span>, env, verbose=<span class="number">1</span>, tensorboard_log=<span class="string">&quot;./dqn_cartpole_tensorboard/&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始训练</span></span><br><span class="line">model.learn(total_timesteps=<span class="number">10000</span>)</span><br><span class="line">env.close()</span><br></pre></td></tr></table></figure>
+<h3 id="3-使用-tensorboard-查看训练曲线"><a class="markdownIt-Anchor" href="#3-使用-tensorboard-查看训练曲线"></a> 3. 使用 TensorBoard 查看训练曲线</h3>
+<p>训练后，你可以使用 <code>tensorboard</code> 命令查看训练曲线：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensorboard --logdir ./dqn_cartpole_tensorboard/</span><br></pre></td></tr></table></figure>
+<p>在浏览器中打开链接（通常是 <a target="_blank" rel="noopener" href="http://localhost:6006">http://localhost:6006</a> ），可以查看累积奖励（episode reward）、损失等指标的变化。</p>
+<h3 id="4-使用-matplotlib-绘制训练曲线"><a class="markdownIt-Anchor" href="#4-使用-matplotlib-绘制训练曲线"></a> 4. 使用 Matplotlib 绘制训练曲线</h3>
+<p>可以从 <code>Monitor</code> 日志中读取数据，并使用 Matplotlib 绘制奖励曲线：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取 Monitor 日志文件</span></span><br><span class="line">monitor_data = pd.read_csv(<span class="string">&quot;monitor.csv&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制累积奖励曲线</span></span><br><span class="line">plt.plot(monitor_data[<span class="string">&quot;l&quot;</span>], monitor_data[<span class="string">&quot;r&quot;</span>])</span><br><span class="line">plt.xlabel(<span class="string">&quot;Episodes&quot;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&quot;Rewards&quot;</span>)</span><br><span class="line">plt.title(<span class="string">&quot;Training Rewards over Episodes&quot;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h3 id="解释"><a class="markdownIt-Anchor" href="#解释"></a> 解释</h3>
+<ul>
+<li><code>tensorboard_log</code>：设置 TensorBoard 日志目录，可以通过 TensorBoard 实时查看训练曲线。</li>
+<li><code>Monitor</code>：会记录每个 episode 的奖励和其他信息，保存为 CSV 文件。</li>
+</ul>
+<hr />
+<h2 id="关于gym环境"><a class="markdownIt-Anchor" href="#关于gym环境"></a> 关于gym环境</h2>
+<p>有一些更具挑战性的 Gym 环境可以尝试，例如：</p>
+<ol>
+<li>
+<p><strong>MountainCar-v0</strong>：一个经典的控制任务，目标是驱动小车越过山顶。这一环境比 <code>CartPole-v1</code> 难度更大，因为必须在能量有限的情况下学会摆动小车，逐渐积累足够的动能。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">env = gym.make(<span class="string">&quot;MountainCar-v0&quot;</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>LunarLander-v2</strong>：控制一个月球着陆器在给定区域安全着陆，需要精确调整推力和方向。这个任务包含更多的状态信息和更复杂的控制目标，非常适合强化学习算法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">env = gym.make(<span class="string">&quot;LunarLander-v2&quot;</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>Acrobot-v1</strong>：双摆控制任务，需要将一个链条状的双关节摆臂摆动至目标高度。因为有两个摆臂关节，动作的控制难度增加，DQN 在这个任务上会面临更大的挑战。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">env = gym.make(<span class="string">&quot;Acrobot-v1&quot;</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>Atari 游戏环境</strong>：这些环境（如 <code>Breakout-v0</code>, <code>Pong-v0</code> 等）包含大量像素输入，是强化学习研究中的经典难题。Atari 游戏的训练数据较为复杂，因此需要更大的网络和更长的训练时间。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> stable_baselines3.common.atari_wrappers <span class="keyword">import</span> AtariWrapper</span><br><span class="line">env = AtariWrapper(gym.make(<span class="string">&quot;BreakoutNoFrameskip-v4&quot;</span>))</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>MuJoCo 物理仿真环境</strong>（例如 <code>Ant-v2</code>, <code>HalfCheetah-v2</code>, <code>Humanoid-v2</code>）：这些环境模拟复杂的机器人运动，状态空间维度较高且连续动作控制较难。注意，这些环境需要安装 MuJoCo 支持，并适合使用策略梯度类算法（如 PPO、SAC 等）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">env = gym.make(<span class="string">&quot;Ant-v2&quot;</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>对于更复杂的任务（如 <code>LunarLander-v2</code> 或 MuJoCo 环境），DQN 可能需要更多的训练时间和更大的网络结构，以适应更高维度的状态空间和复杂的动作控制需求。</p>
+<p>在强化学习中，动作空间的类型会影响算法的适用性。不同算法对离散动作空间和连续动作空间的支持如下：</p>
+<h3 id="1-dqndeep-q-network"><a class="markdownIt-Anchor" href="#1-dqndeep-q-network"></a> 1. DQN（Deep Q-Network）</h3>
+<ul>
+<li><strong>支持的动作空间</strong>：<strong>离散</strong></li>
+<li><strong>解释</strong>：DQN 是基于 Q-learning 的算法，使用深度神经网络来估计 Q 值。它只能处理离散的动作空间，因为 Q-learning 方法无法直接应用于连续动作空间。</li>
+<li><strong>示例环境</strong>：CartPole、MountainCar 等。</li>
+</ul>
+<h3 id="2-ddpgdeep-deterministic-policy-gradient"><a class="markdownIt-Anchor" href="#2-ddpgdeep-deterministic-policy-gradient"></a> 2. DDPG（Deep Deterministic Policy Gradient）</h3>
+<ul>
+<li><strong>支持的动作空间</strong>：<strong>连续</strong></li>
+<li><strong>解释</strong>：DDPG 是一种基于 Actor-Critic 的算法，专门设计用于解决连续动作空间问题。它通过策略网络输出连续动作，并通过 Q 网络来评估动作的价值。</li>
+<li><strong>示例环境</strong>：Pendulum、MuJoCo 环境等。</li>
+</ul>
+<h3 id="3-td3twin-delayed-ddpg"><a class="markdownIt-Anchor" href="#3-td3twin-delayed-ddpg"></a> 3. TD3（Twin Delayed DDPG）</h3>
+<ul>
+<li><strong>支持的动作空间</strong>：<strong>连续</strong></li>
+<li><strong>解释</strong>：TD3 是对 DDPG 的改进，通过双 Q 网络、延迟更新等方法减小了 DDPG 的高估偏差。它同样适用于连续动作空间。</li>
+<li><strong>示例环境</strong>：BipedalWalker、MuJoCo 环境等。</li>
+</ul>
+<h3 id="4-sacsoft-actor-critic"><a class="markdownIt-Anchor" href="#4-sacsoft-actor-critic"></a> 4. SAC（Soft Actor-Critic）</h3>
+<ul>
+<li><strong>支持的动作空间</strong>：<strong>连续</strong></li>
+<li><strong>解释</strong>：SAC 是一种基于最大熵的策略梯度算法，适用于连续动作空间。它通过在策略中加入熵项，提升了策略的探索性和稳定性。</li>
+<li><strong>示例环境</strong>：Humanoid、Ant、HalfCheetah 等连续动作环境。</li>
+</ul>
+<h3 id="5-ppoproximal-policy-optimization"><a class="markdownIt-Anchor" href="#5-ppoproximal-policy-optimization"></a> 5. PPO（Proximal Policy Optimization）</h3>
+<ul>
+<li><strong>支持的动作空间</strong>：<strong>离散和连续</strong></li>
+<li><strong>解释</strong>：PPO 是一种基于策略梯度的算法，适用于离散和连续动作空间。它通过引入限制更新范围的优化目标，提高了策略更新的稳定性。</li>
+<li><strong>示例环境</strong>：Atari 环境（离散）、BipedalWalker（连续）等。</li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<table>
+<thead>
+<tr>
+<th>算法</th>
+<th>支持的动作空间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DQN</td>
+<td>离散</td>
+</tr>
+<tr>
+<td>DDPG</td>
+<td>连续</td>
+</tr>
+<tr>
+<td>TD3</td>
+<td>连续</td>
+</tr>
+<tr>
+<td>SAC</td>
+<td>连续</td>
+</tr>
+<tr>
+<td>PPO</td>
+<td>离散和连续</td>
+</tr>
+</tbody>
+</table>
+<p>在选择算法时，确保算法的动作空间支持与你的环境动作空间相匹配。</p>
+<hr />
+<h2 id="关于monitor"><a class="markdownIt-Anchor" href="#关于monitor"></a> 关于monitor</h2>
+<p>在 <code>stable-baselines3</code> 中，<code>Monitor</code> 默认不会直接保存日志为 CSV 文件。要保存为 CSV 文件，可以手动指定保存路径。以下是修改后的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"><span class="keyword">from</span> stable_baselines3 <span class="keyword">import</span> DQN</span><br><span class="line"><span class="keyword">from</span> stable_baselines3.common.monitor <span class="keyword">import</span> Monitor</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置日志保存路径</span></span><br><span class="line">log_dir = <span class="string">&quot;./logs/&quot;</span></span><br><span class="line">os.makedirs(log_dir, exist_ok=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 Gym 环境并添加 Monitor 以记录数据</span></span><br><span class="line">env = gym.make(<span class="string">&quot;CartPole-v1&quot;</span>)</span><br><span class="line">env = Monitor(env, log_dir + <span class="string">&quot;monitor.csv&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化 DQN 模型，启用 TensorBoard 日志记录</span></span><br><span class="line">model = DQN(<span class="string">&quot;MlpPolicy&quot;</span>, env, verbose=<span class="number">1</span>, tensorboard_log=<span class="string">&quot;./dqn_cartpole_tensorboard/&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始训练</span></span><br><span class="line">model.learn(total_timesteps=<span class="number">10000</span>)</span><br><span class="line">env.close()</span><br></pre></td></tr></table></figure>
+<h3 id="读取-csv-文件并绘制训练曲线"><a class="markdownIt-Anchor" href="#读取-csv-文件并绘制训练曲线"></a> 读取 CSV 文件并绘制训练曲线</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取 Monitor 日志文件</span></span><br><span class="line">monitor_data = pd.read_csv(log_dir + <span class="string">&quot;monitor.csv&quot;</span>, skiprows=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制累积奖励曲线</span></span><br><span class="line">plt.plot(monitor_data[<span class="string">&quot;l&quot;</span>], monitor_data[<span class="string">&quot;r&quot;</span>])</span><br><span class="line">plt.xlabel(<span class="string">&quot;Episodes&quot;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&quot;Rewards&quot;</span>)</span><br><span class="line">plt.title(<span class="string">&quot;Training Rewards over Episodes&quot;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h3 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明</h3>
+<ul>
+<li><code>Monitor(env, log_dir + &quot;monitor.csv&quot;)</code>：指定保存的日志文件路径，这样训练数据会保存到 CSV 文件中。</li>
+<li><code>skiprows=1</code>：Monitor 文件的第一行是注释，读取时需跳过。</li>
+</ul>
+<p><code>stable-baselines3</code> 的 <code>Monitor</code> 中保存的日志文件包含了训练过程中收集的每个 episode 的相关信息，主要用于分析和可视化训练效果。这些数据一般会以 CSV 格式保存，每行记录一个 episode 的信息。文件中的字段通常包括：</p>
+<ol>
+<li>
+<p><strong>r (reward)</strong>：每个 episode 累积的总奖励。这是强化学习中的关键指标之一，表示智能体在该 episode 中所获得的奖励之和。</p>
+</li>
+<li>
+<p><strong>l (length)</strong>：每个 episode 中的步数，即从 episode 开始到 episode 结束时经历的时间步总数。这个指标反映了智能体在环境中存活的时间，通常越长越好（具体取决于任务目标）。</p>
+</li>
+<li>
+<p><strong>t (time)</strong>：表示从训练开始到该 episode 结束时的总运行时间（秒）。此字段帮助了解训练的总耗时，可以用于评估模型在不同训练阶段的学习速度。</p>
+</li>
+</ol>
+<h3 id="示例日志文件"><a class="markdownIt-Anchor" href="#示例日志文件"></a> 示例日志文件</h3>
+<p>Monitor 生成的 CSV 文件（<code>monitor.csv</code>）的内容可能如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># &#123;&quot;t_start&quot;: 1625509883.23456, &quot;env_id&quot;: &quot;CartPole-v1&quot;&#125;</span><br><span class="line">r,l,t</span><br><span class="line">20.0,20,1.236</span><br><span class="line">50.0,50,3.821</span><br><span class="line">30.0,30,5.569</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>第一行</strong>：注释行，包含 <code>t_start</code>（训练开始时间）和 <code>env_id</code>（环境 ID）。</li>
+<li><strong>r 列</strong>：每个 episode 的总奖励。</li>
+<li><strong>l 列</strong>：每个 episode 的步数。</li>
+<li><strong>t 列</strong>：每个 episode 结束时的累计运行时间。</li>
+</ul>
+<hr />
+<h2 id="如何调整算法的神经网络大小"><a class="markdownIt-Anchor" href="#如何调整算法的神经网络大小"></a> 如何调整算法的神经网络大小</h2>
+<p>在 <code>stable-baselines3</code> 中，可以通过自定义 DQN 的网络结构来调整神经网络的大小。默认情况下，<code>stable-baselines3</code> 使用两层隐藏层的全连接网络，每层包含 64 个神经元。你可以通过修改 <code>policy_kwargs</code> 参数来设置自定义的网络大小。</p>
+<h3 id="1-自定义网络大小"><a class="markdownIt-Anchor" href="#1-自定义网络大小"></a> 1. 自定义网络大小</h3>
+<p>使用 <code>policy_kwargs</code> 来定义网络的隐藏层大小，例如使用更大的网络或增加隐藏层的数量。以下示例展示了如何定义一个包含三层隐藏层（每层 128 个神经元）的网络结构：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> stable_baselines3 <span class="keyword">import</span> DQN</span><br><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建环境</span></span><br><span class="line">env = gym.make(<span class="string">&quot;CartPole-v1&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义网络结构（例如：三层隐藏层，每层 128 个神经元）</span></span><br><span class="line">policy_kwargs = <span class="built_in">dict</span>(net_arch=[<span class="number">128</span>, <span class="number">128</span>, <span class="number">128</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化 DQN 模型，指定自定义的网络结构</span></span><br><span class="line">model = DQN(<span class="string">&quot;MlpPolicy&quot;</span>, env, policy_kwargs=policy_kwargs, verbose=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始训练</span></span><br><span class="line">model.learn(total_timesteps=<span class="number">10000</span>)</span><br><span class="line">env.close()</span><br></pre></td></tr></table></figure>
+<h3 id="2-更复杂的网络结构"><a class="markdownIt-Anchor" href="#2-更复杂的网络结构"></a> 2. 更复杂的网络结构</h3>
+<p>可以使用更复杂的架构，例如不同层数的隐藏层：</p>
+<ul>
+<li>如果需要不同大小的层，可以在 <code>net_arch</code> 中指定，例如 <code>[256, 128, 64]</code>。</li>
+<li><code>net_arch</code> 接受列表形式的层配置，列表中的每个数字表示每层的神经元数量。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义不同大小的隐藏层网络结构</span></span><br><span class="line">policy_kwargs = <span class="built_in">dict</span>(net_arch=[<span class="number">256</span>, <span class="number">128</span>, <span class="number">64</span>])</span><br><span class="line"></span><br><span class="line">model = DQN(<span class="string">&quot;MlpPolicy&quot;</span>, env, policy_kwargs=policy_kwargs, verbose=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="3-自定义激活函数等高级配置"><a class="markdownIt-Anchor" href="#3-自定义激活函数等高级配置"></a> 3. 自定义激活函数等高级配置</h3>
+<p>如果想进一步自定义，可以指定激活函数、正则化等。<code>policy_kwargs</code> 提供了更细致的设置选项，但 <code>stable-baselines3</code> 的 DQN 模型主要支持通过 <code>net_arch</code> 配置层结构。</p>
+<p>通过这种方式，你可以很方便地调整 DQN 的网络规模，以适应不同难度的环境或更高维度的状态空间。</p>
+<hr />
+<h2 id="各种算法的实现"><a class="markdownIt-Anchor" href="#各种算法的实现"></a> 各种算法的实现</h2>
+<p>可以使用 <code>stable-baselines3</code> 和 <code>rl-algorithms</code> 等库来实现这些算法。以下是这些算法的概述和如何实现它们的步骤。</p>
+<h3 id="1-使用-stable-baselines3-实现基础算法"><a class="markdownIt-Anchor" href="#1-使用-stable-baselines3-实现基础算法"></a> 1. 使用 <code>stable-baselines3</code> 实现基础算法</h3>
+<p><code>stable-baselines3</code> 支持多种强化学习算法，包括 DQN、DDPG、TD3、SAC、TRPO 和 PPO。以下是各算法的实现示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install stable-baselines3</span><br></pre></td></tr></table></figure>
+<h4 id="1-dqn"><a class="markdownIt-Anchor" href="#1-dqn"></a> (1) DQN</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> stable_baselines3 <span class="keyword">import</span> DQN</span><br><span class="line">model = DQN(<span class="string">&quot;MlpPolicy&quot;</span>, env, verbose=<span class="number">1</span>)</span><br><span class="line">model.learn(total_timesteps=<span class="number">10000</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="2-ddpg"><a class="markdownIt-Anchor" href="#2-ddpg"></a> (2) DDPG</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> stable_baselines3 <span class="keyword">import</span> DDPG</span><br><span class="line">model = DDPG(<span class="string">&quot;MlpPolicy&quot;</span>, env, verbose=<span class="number">1</span>)</span><br><span class="line">model.learn(total_timesteps=<span class="number">10000</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="3-td3"><a class="markdownIt-Anchor" href="#3-td3"></a> (3) TD3</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> stable_baselines3 <span class="keyword">import</span> TD3</span><br><span class="line">model = TD3(<span class="string">&quot;MlpPolicy&quot;</span>, env, verbose=<span class="number">1</span>)</span><br><span class="line">model.learn(total_timesteps=<span class="number">10000</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="4-sac"><a class="markdownIt-Anchor" href="#4-sac"></a> (4) SAC</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> stable_baselines3 <span class="keyword">import</span> SAC</span><br><span class="line">model = SAC(<span class="string">&quot;MlpPolicy&quot;</span>, env, verbose=<span class="number">1</span>)</span><br><span class="line">model.learn(total_timesteps=<span class="number">10000</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="5-trpo"><a class="markdownIt-Anchor" href="#5-trpo"></a> (5) TRPO</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> stable_baselines3 <span class="keyword">import</span> TRPO</span><br><span class="line">model = TRPO(<span class="string">&quot;MlpPolicy&quot;</span>, env, verbose=<span class="number">1</span>)</span><br><span class="line">model.learn(total_timesteps=<span class="number">10000</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="6-ppo"><a class="markdownIt-Anchor" href="#6-ppo"></a> (6) PPO</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> stable_baselines3 <span class="keyword">import</span> PPO</span><br><span class="line">model = PPO(<span class="string">&quot;MlpPolicy&quot;</span>, env, verbose=<span class="number">1</span>)</span><br><span class="line">model.learn(total_timesteps=<span class="number">10000</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="2-扩展-dqn-实现double-dqn-duel-dqn-rainbow"><a class="markdownIt-Anchor" href="#2-扩展-dqn-实现double-dqn-duel-dqn-rainbow"></a> 2. 扩展 DQN 实现（Double DQN、Duel DQN、Rainbow）</h3>
+<blockquote>
+<p>[!warning]<br />
+这些是不对的.  <code>stable-baselines3</code>并不能直接实现Double DQN. 同时<code>rl-algorithms</code>也不是一个好的rainbow实现方法. 原因在前面以及提到了</p>
+</blockquote>
+<p><code>stable-baselines3</code> 中的 DQN 主要支持基础 DQN 和 Double DQN 的实现。可以通过以下方法扩展它们：</p>
+<ul>
+<li><strong>Double DQN</strong>: 设置 <code>double_q=True</code> 即可启用 Double DQN。</li>
+<li><strong>Dueling DQN</strong>: 需要使用自定义网络，设置 <code>dueling=True</code>，并配置 <code>policy_kwargs</code>。</li>
+<li><strong>Rainbow</strong>: 由于 <code>stable-baselines3</code> 暂不直接支持 Rainbow，可以使用 <code>rl-algorithms</code> 或其他库，如 <code>dopamine</code>。</li>
+</ul>
+<h3 id="3-使用-rl-algorithms-实现-rainbow"><a class="markdownIt-Anchor" href="#3-使用-rl-algorithms-实现-rainbow"></a> 3. 使用 <code>rl-algorithms</code> 实现 Rainbow</h3>
+<p>如果希望实现更复杂的 DQN 变体（如 Rainbow），可以考虑 <code>rl-algorithms</code> 或 <code>dopamine</code> 库，这些库包含对 Rainbow 的支持。</p>
+<h3 id="4-启用-tensorboard-监控"><a class="markdownIt-Anchor" href="#4-启用-tensorboard-监控"></a> 4. 启用 TensorBoard 监控</h3>
+<p>对于所有算法，你都可以使用 <code>tensorboard_log</code> 参数来记录训练过程，并在 TensorBoard 中可视化训练效果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model = DQN(<span class="string">&quot;MlpPolicy&quot;</span>, env, verbose=<span class="number">1</span>, tensorboard_log=<span class="string">&quot;./logs/&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="5-自定义超参数和网络结构"><a class="markdownIt-Anchor" href="#5-自定义超参数和网络结构"></a> 5. 自定义超参数和网络结构</h3>
+<p>可以根据需要自定义网络结构或超参数，例如设置 <code>policy_kwargs</code> 自定义网络大小，或修改学习率、探索率等参数。</p>
+<p>通过这些步骤，基本可以实现和配置各类强化学习算法的训练，并支持自定义和监控训练过程。</p>
+<hr />
+<h2 id="关于rainbow"><a class="markdownIt-Anchor" href="#关于rainbow"></a> 关于Rainbow</h2>
+<blockquote>
+<p>Rainbow 是一个较为复杂的算法, 所以它的调用也复杂一些<br />
+GPT推荐了 rl-algorithms和 Dopamine 两种实现. 其中rl-algorithms已经被证明是不太可行的.</p>
+</blockquote>
+<p><code>rl-algorithms</code> 库包含了强化学习算法的实现，包括 DQN 的不同变体，例如 Rainbow。下面是如何使用 <code>rl-algorithms</code> 实现 Rainbow 的步骤。</p>
+<h3 id="1-安装-rl-algorithms"><a class="markdownIt-Anchor" href="#1-安装-rl-algorithms"></a> 1. 安装 <code>rl-algorithms</code></h3>
+<p>首先确保安装 <code>rl-algorithms</code>，可以直接从 GitHub 下载：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/medipixel/rl_algorithms.git</span><br><span class="line"><span class="built_in">cd</span> rl_algorithms</span><br><span class="line">pip install -e .</span><br></pre></td></tr></table></figure>
+<h3 id="2-使用-rl-algorithms-运行-rainbow-dqn"><a class="markdownIt-Anchor" href="#2-使用-rl-algorithms-运行-rainbow-dqn"></a> 2. 使用 <code>rl-algorithms</code> 运行 Rainbow DQN</h3>
+<p>在 <code>rl-algorithms</code> 中，可以通过命令行指定算法配置来运行 Rainbow DQN。<code>rl-algorithms</code> 中包含了预配置的训练脚本，可以直接使用命令来训练 Rainbow DQN。</p>
+<h4 id="使用命令行运行-rainbow-dqn"><a class="markdownIt-Anchor" href="#使用命令行运行-rainbow-dqn"></a> 使用命令行运行 Rainbow DQN</h4>
+<p>以下是一个使用 Rainbow DQN 在 Atari 环境中训练的示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python run_atari.py --cfg-path ./configs/atari/rainbow.yaml</span><br></pre></td></tr></table></figure>
+<h3 id="3-配置-rainbow-训练参数"><a class="markdownIt-Anchor" href="#3-配置-rainbow-训练参数"></a> 3. 配置 Rainbow 训练参数</h3>
+<p><code>rl-algorithms</code> 的配置文件采用 YAML 格式，位于 <code>configs/atari/rainbow.yaml</code>。可以根据需求调整文件中的超参数，比如 <code>num_atoms</code>、<code>v_min</code> 和 <code>v_max</code> 等。</p>
+<h4 id="配置文件-rainbowyaml-示例"><a class="markdownIt-Anchor" href="#配置文件-rainbowyaml-示例"></a> 配置文件 <code>rainbow.yaml</code> 示例：</h4>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">agent:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">Rainbow</span></span><br><span class="line">  <span class="attr">network:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">RainbowDQN</span></span><br><span class="line">    <span class="attr">num_atoms:</span> <span class="number">51</span>       <span class="comment"># 原子数，用于分布式 Q 值</span></span><br><span class="line">    <span class="attr">v_min:</span> <span class="number">-10.0</span>        <span class="comment"># Q 值分布的最小值</span></span><br><span class="line">    <span class="attr">v_max:</span> <span class="number">10.0</span>         <span class="comment"># Q 值分布的最大值</span></span><br><span class="line">  <span class="attr">hyper_params:</span></span><br><span class="line">    <span class="attr">gamma:</span> <span class="number">0.99</span></span><br><span class="line">    <span class="attr">batch_size:</span> <span class="number">32</span></span><br><span class="line">    <span class="attr">buffer_size:</span> <span class="number">1000000</span></span><br><span class="line">    <span class="attr">update_starts_from:</span> <span class="number">20000</span></span><br><span class="line">    <span class="attr">multiple_learning:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">train_freq:</span> <span class="number">4</span></span><br><span class="line">    <span class="attr">target_update_freq:</span> <span class="number">8000</span></span><br><span class="line">    <span class="attr">noise:</span> <span class="literal">False</span></span><br><span class="line">    <span class="attr">n_step:</span> <span class="number">3</span>           <span class="comment"># Multi-step learning 的步数</span></span><br><span class="line">    <span class="attr">prioritized_replay:</span> <span class="literal">True</span>  <span class="comment"># 是否使用优先级回放</span></span><br><span class="line">  <span class="attr">optim:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">adam</span></span><br><span class="line">    <span class="attr">lr_dqn:</span> <span class="number">0.0001</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-启用-tensorboard-日志"><a class="markdownIt-Anchor" href="#4-启用-tensorboard-日志"></a> 4. 启用 TensorBoard 日志</h3>
+<p>在训练过程中，<code>rl-algorithms</code> 会自动记录 TensorBoard 日志。日志默认保存在 <code>results</code> 文件夹中，可以使用以下命令来启动 TensorBoard：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensorboard --logdir=./results</span><br></pre></td></tr></table></figure>
+<h3 id="5-自定义训练代码"><a class="markdownIt-Anchor" href="#5-自定义训练代码"></a> 5. 自定义训练代码</h3>
+<p>如果你希望直接在代码中实现 Rainbow，可以参考以下代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rl_algorithms <span class="keyword">import</span> RainbowAgent</span><br><span class="line"><span class="keyword">from</span> rl_algorithms.common.env.atari_wrappers <span class="keyword">import</span> make_atari, wrap_deepmind</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 Atari 环境</span></span><br><span class="line">env = make_atari(<span class="string">&quot;PongNoFrameskip-v4&quot;</span>)</span><br><span class="line">env = wrap_deepmind(env, frame_stack=<span class="literal">True</span>, scale=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置 Rainbow Agent</span></span><br><span class="line">agent = RainbowAgent(</span><br><span class="line">    env=env,</span><br><span class="line">    config_path=<span class="string">&quot;./configs/atari/rainbow.yaml&quot;</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始训练</span></span><br><span class="line">agent.train()</span><br></pre></td></tr></table></figure>
+<p>通过这些步骤，即可在 <code>rl-algorithms</code> 中实现和运行 Rainbow 算法。</p>
+<hr />
+<p>要实现 Rainbow DQN 和其他复杂的强化学习算法，可以使用 <code>rl-algorithms</code> 库或 <code>Dopamine</code> 框架，<code>Dopamine</code> 提供了 Rainbow 的完整实现。以下是基于 <code>Dopamine</code> 来实现 Rainbow 的示例。</p>
+<h3 id="1-安装-dopamine"><a class="markdownIt-Anchor" href="#1-安装-dopamine"></a> 1. 安装 Dopamine</h3>
+<p><code>Dopamine</code> 是由 Google 开发的强化学习研究平台，内置了 DQN 及其变体（如 Rainbow）。首先，需要安装 <code>Dopamine</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install dopamine-rl</span><br></pre></td></tr></table></figure>
+<h3 id="2-配置-rainbow-训练"><a class="markdownIt-Anchor" href="#2-配置-rainbow-训练"></a> 2. 配置 Rainbow 训练</h3>
+<p>Dopamine 提供了直接使用 Rainbow 的方法，可以通过修改配置文件指定 Rainbow 相关参数。</p>
+<h4 id="示例代码"><a class="markdownIt-Anchor" href="#示例代码"></a> 示例代码</h4>
+<p>以下示例展示了如何在 Atari 游戏环境中使用 Dopamine 运行 Rainbow：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> dopamine.jax <span class="keyword">import</span> rainbow_agent</span><br><span class="line"><span class="keyword">from</span> dopamine.jax <span class="keyword">import</span> train</span><br><span class="line"><span class="keyword">import</span> gin</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义训练配置文件路径</span></span><br><span class="line">config_path = <span class="string">&quot;dopamine/configs/rainbow.gin&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 `gin` 配置 Rainbow DQN 参数</span></span><br><span class="line">gin.parse_config_file(config_path)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置保存路径</span></span><br><span class="line">save_path = <span class="string">&quot;./rainbow_checkpoints&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建并训练 Rainbow Agent</span></span><br><span class="line">train.train(save_path=save_path, agent_class=rainbow_agent.JaxRainbowAgent)</span><br></pre></td></tr></table></figure>
+<h3 id="3-修改配置文件"><a class="markdownIt-Anchor" href="#3-修改配置文件"></a> 3. 修改配置文件</h3>
+<p>Dopamine 的 <code>rainbow.gin</code> 配置文件位于 <code>dopamine/configs/rainbow.gin</code>，可在文件中自定义参数，例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">JaxRainbowAgent.network = @RainbowNetwork</span><br><span class="line">JaxRainbowAgent.num_atoms = <span class="number">51</span>  <span class="comment"># Categorical DQN 的原子数</span></span><br><span class="line">JaxRainbowAgent.vmax = <span class="number">10.0</span></span><br><span class="line">JaxRainbowAgent.min_replay_history = <span class="number">20000</span>  <span class="comment"># 最小回放历史大小</span></span><br><span class="line">JaxRainbowAgent.update_period = <span class="number">4</span></span><br><span class="line">JaxRainbowAgent.target_update_period = <span class="number">8000</span></span><br><span class="line">JaxRainbowAgent.gamma = <span class="number">0.99</span>  <span class="comment"># 折扣因子</span></span><br><span class="line">JaxRainbowAgent.update_horizon = <span class="number">1</span></span><br><span class="line">JaxRainbowAgent.minibatch_size = <span class="number">32</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-启用-tensorboard-可视化"><a class="markdownIt-Anchor" href="#4-启用-tensorboard-可视化"></a> 4. 启用 TensorBoard 可视化</h3>
+<p>Dopamine 也支持生成 TensorBoard 日志，日志文件会保存在 <code>save_path</code> 指定的目录中。可以运行以下命令启动 TensorBoard：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensorboard --logdir=./rainbow_checkpoints</span><br></pre></td></tr></table></figure>
+<p>然后在浏览器中打开 <code>http://localhost:6006</code>，查看训练曲线。</p>
+<h3 id="dopamine-的-rainbow-特性"><a class="markdownIt-Anchor" href="#dopamine-的-rainbow-特性"></a> Dopamine 的 Rainbow 特性</h3>
+<p>Dopamine 实现的 Rainbow 包括以下增强特性：</p>
+<ul>
+<li><strong>Double DQN</strong>：防止过高估计值函数。</li>
+<li><strong>Dueling Network</strong>：使用分离的价值和优势函数。</li>
+<li><strong>Prioritized Experience Replay</strong>：优先级回放提升效率。</li>
+<li><strong>Multi-step Learning</strong>：提高学习稳定性。</li>
+<li><strong>Categorical DQN</strong>：对 Q 值分布进行建模。</li>
+</ul>
+<p>这种配置使得 Rainbow 适合在复杂环境（如 Atari 游戏）上表现优越。</p>
+<hr />
+<h2 id="最终结果"><a class="markdownIt-Anchor" href="#最终结果"></a> 最终结果</h2>
+<p>运行 <code>1e-6</code>个时间步得到的结果. 跑下来还是需要个几十分钟的.<br />
+可以发现, 各种算法在倒立摆环境上都表现的很好</p>
+<p><img src="/images/24-11/Screenshot%20from%202024-11-08%2000-26-42.png" alt="" /></p>
+<h2 id="总结-2"><a class="markdownIt-Anchor" href="#总结-2"></a> 总结</h2>
+<ul>
+<li>用最少的代码量, 实现了DQN等基线算法, 为后面自己手写这些算法提供了一个参照.</li>
+<li><code>stable_baselines3</code>很好用, 但是很多算法也不能直接用它来实现.</li>
+<li>关于Double DQN 和 Dueling DQN以及RainBow, 后面应该会寻找别的实现方法.</li>
+<li>“GPT也可能会犯错”. 常见的错误类型是把过时的信息当真了. 应当仔细甄别GPT的回答.</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+        <a data-aos="zoom-in" href="/2024/11/07/2024-11/2024-11-07/#comments" class="article-comment-link">
+          <span class="post-comments-count valine-comment-count" data-xid="/2024/11/07/2024-11/2024-11-07/" itemprop="commentCount"></span>
+          Comments
+        </a>
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/RL/" rel="tag">RL</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/stable-baselines3/" rel="tag">stable-baselines3</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          
+          
+            <img data-src="/covers/emoji.png" data-sizes="auto" alt="[PyTorch] 关于自动求导机制以及优化器的工作原理" class="lazyload">
+          
+        
+        <a href="/2024/11/08/2024-11/2024-11-08/"></a>
+        <div class="article-nav-caption">Newer</div>
+        <h3 class="article-nav-title">
+          
+            [PyTorch] 关于自动求导机制以及优化器的工作原理
+          
+        </h3>
+      </div>
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="/covers/emoji.png" data-sizes="auto" alt="[misc] 11-06 折腾的一些杂项" class="lazyload">
+        
+      
+      <a href="/2024/11/07/2024-11/misc-11-06/"></a>
+      <div class="article-nav-caption">Older</div>
+      <h3 class="article-nav-title">
+        
+          [misc] 11-06 折腾的一些杂项
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+  <section id="comments" class="vcomment"></section>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%AE%89%E8%A3%85-pytorch"><span class="toc-number">1.</span> <span class="toc-text"> 关于安装 PyTorch</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%A3%80%E6%9F%A5%E6%98%AF%E5%90%A6%E9%9C%80%E8%A6%81-cuda-%E6%94%AF%E6%8C%81"><span class="toc-number">1.1.</span> <span class="toc-text"> 1. 检查是否需要 CUDA 支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%AE%BF%E9%97%AE-pytorch-%E5%AE%98%E6%96%B9%E5%AE%89%E8%A3%85%E9%A1%B5%E9%9D%A2"><span class="toc-number">1.2.</span> <span class="toc-text"> 2. 访问 PyTorch 官方安装页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-pip-%E5%AE%89%E8%A3%85-pytorch"><span class="toc-number">1.3.</span> <span class="toc-text"> 3. 使用 pip 安装 PyTorch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%AA%8C%E8%AF%81%E5%AE%89%E8%A3%85"><span class="toc-number">1.4.</span> <span class="toc-text"> 4. 验证安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%A4%A7%E8%87%B4%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text"> 代码实现大致流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-stable-baselines3-%E5%8F%8A%E8%BE%85%E5%8A%A9%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text"> 1. 安装 stable-baselines3 及辅助库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE%E8%AE%AD%E7%BB%83%E6%97%A5%E5%BF%97"><span class="toc-number">2.2.</span> <span class="toc-text"> 2. 配置训练日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-tensorboard-%E6%9F%A5%E7%9C%8B%E8%AE%AD%E7%BB%83%E6%9B%B2%E7%BA%BF"><span class="toc-number">2.3.</span> <span class="toc-text"> 3. 使用 TensorBoard 查看训练曲线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8-matplotlib-%E7%BB%98%E5%88%B6%E8%AE%AD%E7%BB%83%E6%9B%B2%E7%BA%BF"><span class="toc-number">2.4.</span> <span class="toc-text"> 4. 使用 Matplotlib 绘制训练曲线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A"><span class="toc-number">2.5.</span> <span class="toc-text"> 解释</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Egym%E7%8E%AF%E5%A2%83"><span class="toc-number">3.</span> <span class="toc-text"> 关于gym环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-dqndeep-q-network"><span class="toc-number">3.1.</span> <span class="toc-text"> 1. DQN（Deep Q-Network）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ddpgdeep-deterministic-policy-gradient"><span class="toc-number">3.2.</span> <span class="toc-text"> 2. DDPG（Deep Deterministic Policy Gradient）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-td3twin-delayed-ddpg"><span class="toc-number">3.3.</span> <span class="toc-text"> 3. TD3（Twin Delayed DDPG）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-sacsoft-actor-critic"><span class="toc-number">3.4.</span> <span class="toc-text"> 4. SAC（Soft Actor-Critic）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-ppoproximal-policy-optimization"><span class="toc-number">3.5.</span> <span class="toc-text"> 5. PPO（Proximal Policy Optimization）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.6.</span> <span class="toc-text"> 总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Emonitor"><span class="toc-number">4.</span> <span class="toc-text"> 关于monitor</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96-csv-%E6%96%87%E4%BB%B6%E5%B9%B6%E7%BB%98%E5%88%B6%E8%AE%AD%E7%BB%83%E6%9B%B2%E7%BA%BF"><span class="toc-number">4.1.</span> <span class="toc-text"> 读取 CSV 文件并绘制训练曲线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">4.2.</span> <span class="toc-text"> 说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="toc-number">4.3.</span> <span class="toc-text"> 示例日志文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%B0%83%E6%95%B4%E7%AE%97%E6%B3%95%E7%9A%84%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%A4%A7%E5%B0%8F"><span class="toc-number">5.</span> <span class="toc-text"> 如何调整算法的神经网络大小</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E5%A4%A7%E5%B0%8F"><span class="toc-number">5.1.</span> <span class="toc-text"> 1. 自定义网络大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%9B%B4%E5%A4%8D%E6%9D%82%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="toc-number">5.2.</span> <span class="toc-text"> 2. 更复杂的网络结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%E7%AD%89%E9%AB%98%E7%BA%A7%E9%85%8D%E7%BD%AE"><span class="toc-number">5.3.</span> <span class="toc-text"> 3. 自定义激活函数等高级配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E7%A7%8D%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">6.</span> <span class="toc-text"> 各种算法的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8-stable-baselines3-%E5%AE%9E%E7%8E%B0%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95"><span class="toc-number">6.1.</span> <span class="toc-text"> 1. 使用 stable-baselines3 实现基础算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-dqn"><span class="toc-number">6.1.1.</span> <span class="toc-text"> (1) DQN</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-ddpg"><span class="toc-number">6.1.2.</span> <span class="toc-text"> (2) DDPG</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-td3"><span class="toc-number">6.1.3.</span> <span class="toc-text"> (3) TD3</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-sac"><span class="toc-number">6.1.4.</span> <span class="toc-text"> (4) SAC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-trpo"><span class="toc-number">6.1.5.</span> <span class="toc-text"> (5) TRPO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-ppo"><span class="toc-number">6.1.6.</span> <span class="toc-text"> (6) PPO</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%89%A9%E5%B1%95-dqn-%E5%AE%9E%E7%8E%B0double-dqn-duel-dqn-rainbow"><span class="toc-number">6.2.</span> <span class="toc-text"> 2. 扩展 DQN 实现（Double DQN、Duel DQN、Rainbow）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-rl-algorithms-%E5%AE%9E%E7%8E%B0-rainbow"><span class="toc-number">6.3.</span> <span class="toc-text"> 3. 使用 rl-algorithms 实现 Rainbow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%90%AF%E7%94%A8-tensorboard-%E7%9B%91%E6%8E%A7"><span class="toc-number">6.4.</span> <span class="toc-text"> 4. 启用 TensorBoard 监控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%B6%85%E5%8F%82%E6%95%B0%E5%92%8C%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="toc-number">6.5.</span> <span class="toc-text"> 5. 自定义超参数和网络结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Erainbow"><span class="toc-number">7.</span> <span class="toc-text"> 关于Rainbow</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-rl-algorithms"><span class="toc-number">7.1.</span> <span class="toc-text"> 1. 安装 rl-algorithms</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8-rl-algorithms-%E8%BF%90%E8%A1%8C-rainbow-dqn"><span class="toc-number">7.2.</span> <span class="toc-text"> 2. 使用 rl-algorithms 运行 Rainbow DQN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%90%E8%A1%8C-rainbow-dqn"><span class="toc-number">7.2.1.</span> <span class="toc-text"> 使用命令行运行 Rainbow DQN</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%85%8D%E7%BD%AE-rainbow-%E8%AE%AD%E7%BB%83%E5%8F%82%E6%95%B0"><span class="toc-number">7.3.</span> <span class="toc-text"> 3. 配置 Rainbow 训练参数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-rainbowyaml-%E7%A4%BA%E4%BE%8B"><span class="toc-number">7.3.1.</span> <span class="toc-text"> 配置文件 rainbow.yaml 示例：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%90%AF%E7%94%A8-tensorboard-%E6%97%A5%E5%BF%97"><span class="toc-number">7.4.</span> <span class="toc-text"> 4. 启用 TensorBoard 日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AE%AD%E7%BB%83%E4%BB%A3%E7%A0%81"><span class="toc-number">7.5.</span> <span class="toc-text"> 5. 自定义训练代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-dopamine"><span class="toc-number">7.6.</span> <span class="toc-text"> 1. 安装 Dopamine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE-rainbow-%E8%AE%AD%E7%BB%83"><span class="toc-number">7.7.</span> <span class="toc-text"> 2. 配置 Rainbow 训练</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-number">7.7.1.</span> <span class="toc-text"> 示例代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">7.8.</span> <span class="toc-text"> 3. 修改配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%90%AF%E7%94%A8-tensorboard-%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-number">7.9.</span> <span class="toc-text"> 4. 启用 TensorBoard 可视化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dopamine-%E7%9A%84-rainbow-%E7%89%B9%E6%80%A7"><span class="toc-number">7.10.</span> <span class="toc-text"> Dopamine 的 Rainbow 特性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E7%BB%93%E6%9E%9C"><span class="toc-number">8.</span> <span class="toc-text"> 最终结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-2"><span class="toc-number">9.</span> <span class="toc-text"> 总结</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">53</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">5</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">23</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2024
+      <span class="footer-info-sep"></span>
+      RIKKA421
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        86k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        05:24
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%AE%89%E8%A3%85-pytorch"><span class="toc-number">1.</span> <span class="toc-text"> 关于安装 PyTorch</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%A3%80%E6%9F%A5%E6%98%AF%E5%90%A6%E9%9C%80%E8%A6%81-cuda-%E6%94%AF%E6%8C%81"><span class="toc-number">1.1.</span> <span class="toc-text"> 1. 检查是否需要 CUDA 支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%AE%BF%E9%97%AE-pytorch-%E5%AE%98%E6%96%B9%E5%AE%89%E8%A3%85%E9%A1%B5%E9%9D%A2"><span class="toc-number">1.2.</span> <span class="toc-text"> 2. 访问 PyTorch 官方安装页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-pip-%E5%AE%89%E8%A3%85-pytorch"><span class="toc-number">1.3.</span> <span class="toc-text"> 3. 使用 pip 安装 PyTorch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%AA%8C%E8%AF%81%E5%AE%89%E8%A3%85"><span class="toc-number">1.4.</span> <span class="toc-text"> 4. 验证安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%A4%A7%E8%87%B4%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text"> 代码实现大致流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-stable-baselines3-%E5%8F%8A%E8%BE%85%E5%8A%A9%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text"> 1. 安装 stable-baselines3 及辅助库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE%E8%AE%AD%E7%BB%83%E6%97%A5%E5%BF%97"><span class="toc-number">2.2.</span> <span class="toc-text"> 2. 配置训练日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-tensorboard-%E6%9F%A5%E7%9C%8B%E8%AE%AD%E7%BB%83%E6%9B%B2%E7%BA%BF"><span class="toc-number">2.3.</span> <span class="toc-text"> 3. 使用 TensorBoard 查看训练曲线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8-matplotlib-%E7%BB%98%E5%88%B6%E8%AE%AD%E7%BB%83%E6%9B%B2%E7%BA%BF"><span class="toc-number">2.4.</span> <span class="toc-text"> 4. 使用 Matplotlib 绘制训练曲线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A"><span class="toc-number">2.5.</span> <span class="toc-text"> 解释</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Egym%E7%8E%AF%E5%A2%83"><span class="toc-number">3.</span> <span class="toc-text"> 关于gym环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-dqndeep-q-network"><span class="toc-number">3.1.</span> <span class="toc-text"> 1. DQN（Deep Q-Network）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ddpgdeep-deterministic-policy-gradient"><span class="toc-number">3.2.</span> <span class="toc-text"> 2. DDPG（Deep Deterministic Policy Gradient）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-td3twin-delayed-ddpg"><span class="toc-number">3.3.</span> <span class="toc-text"> 3. TD3（Twin Delayed DDPG）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-sacsoft-actor-critic"><span class="toc-number">3.4.</span> <span class="toc-text"> 4. SAC（Soft Actor-Critic）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-ppoproximal-policy-optimization"><span class="toc-number">3.5.</span> <span class="toc-text"> 5. PPO（Proximal Policy Optimization）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.6.</span> <span class="toc-text"> 总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Emonitor"><span class="toc-number">4.</span> <span class="toc-text"> 关于monitor</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96-csv-%E6%96%87%E4%BB%B6%E5%B9%B6%E7%BB%98%E5%88%B6%E8%AE%AD%E7%BB%83%E6%9B%B2%E7%BA%BF"><span class="toc-number">4.1.</span> <span class="toc-text"> 读取 CSV 文件并绘制训练曲线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">4.2.</span> <span class="toc-text"> 说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="toc-number">4.3.</span> <span class="toc-text"> 示例日志文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%B0%83%E6%95%B4%E7%AE%97%E6%B3%95%E7%9A%84%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%A4%A7%E5%B0%8F"><span class="toc-number">5.</span> <span class="toc-text"> 如何调整算法的神经网络大小</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E5%A4%A7%E5%B0%8F"><span class="toc-number">5.1.</span> <span class="toc-text"> 1. 自定义网络大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%9B%B4%E5%A4%8D%E6%9D%82%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="toc-number">5.2.</span> <span class="toc-text"> 2. 更复杂的网络结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%E7%AD%89%E9%AB%98%E7%BA%A7%E9%85%8D%E7%BD%AE"><span class="toc-number">5.3.</span> <span class="toc-text"> 3. 自定义激活函数等高级配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E7%A7%8D%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">6.</span> <span class="toc-text"> 各种算法的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8-stable-baselines3-%E5%AE%9E%E7%8E%B0%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95"><span class="toc-number">6.1.</span> <span class="toc-text"> 1. 使用 stable-baselines3 实现基础算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-dqn"><span class="toc-number">6.1.1.</span> <span class="toc-text"> (1) DQN</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-ddpg"><span class="toc-number">6.1.2.</span> <span class="toc-text"> (2) DDPG</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-td3"><span class="toc-number">6.1.3.</span> <span class="toc-text"> (3) TD3</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-sac"><span class="toc-number">6.1.4.</span> <span class="toc-text"> (4) SAC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-trpo"><span class="toc-number">6.1.5.</span> <span class="toc-text"> (5) TRPO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-ppo"><span class="toc-number">6.1.6.</span> <span class="toc-text"> (6) PPO</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%89%A9%E5%B1%95-dqn-%E5%AE%9E%E7%8E%B0double-dqn-duel-dqn-rainbow"><span class="toc-number">6.2.</span> <span class="toc-text"> 2. 扩展 DQN 实现（Double DQN、Duel DQN、Rainbow）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-rl-algorithms-%E5%AE%9E%E7%8E%B0-rainbow"><span class="toc-number">6.3.</span> <span class="toc-text"> 3. 使用 rl-algorithms 实现 Rainbow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%90%AF%E7%94%A8-tensorboard-%E7%9B%91%E6%8E%A7"><span class="toc-number">6.4.</span> <span class="toc-text"> 4. 启用 TensorBoard 监控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%B6%85%E5%8F%82%E6%95%B0%E5%92%8C%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="toc-number">6.5.</span> <span class="toc-text"> 5. 自定义超参数和网络结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Erainbow"><span class="toc-number">7.</span> <span class="toc-text"> 关于Rainbow</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-rl-algorithms"><span class="toc-number">7.1.</span> <span class="toc-text"> 1. 安装 rl-algorithms</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8-rl-algorithms-%E8%BF%90%E8%A1%8C-rainbow-dqn"><span class="toc-number">7.2.</span> <span class="toc-text"> 2. 使用 rl-algorithms 运行 Rainbow DQN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%90%E8%A1%8C-rainbow-dqn"><span class="toc-number">7.2.1.</span> <span class="toc-text"> 使用命令行运行 Rainbow DQN</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%85%8D%E7%BD%AE-rainbow-%E8%AE%AD%E7%BB%83%E5%8F%82%E6%95%B0"><span class="toc-number">7.3.</span> <span class="toc-text"> 3. 配置 Rainbow 训练参数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-rainbowyaml-%E7%A4%BA%E4%BE%8B"><span class="toc-number">7.3.1.</span> <span class="toc-text"> 配置文件 rainbow.yaml 示例：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%90%AF%E7%94%A8-tensorboard-%E6%97%A5%E5%BF%97"><span class="toc-number">7.4.</span> <span class="toc-text"> 4. 启用 TensorBoard 日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AE%AD%E7%BB%83%E4%BB%A3%E7%A0%81"><span class="toc-number">7.5.</span> <span class="toc-text"> 5. 自定义训练代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-dopamine"><span class="toc-number">7.6.</span> <span class="toc-text"> 1. 安装 Dopamine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE-rainbow-%E8%AE%AD%E7%BB%83"><span class="toc-number">7.7.</span> <span class="toc-text"> 2. 配置 Rainbow 训练</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-number">7.7.1.</span> <span class="toc-text"> 示例代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">7.8.</span> <span class="toc-text"> 3. 修改配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%90%AF%E7%94%A8-tensorboard-%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-number">7.9.</span> <span class="toc-text"> 4. 启用 TensorBoard 可视化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dopamine-%E7%9A%84-rainbow-%E7%89%B9%E6%80%A7"><span class="toc-number">7.10.</span> <span class="toc-text"> Dopamine 的 Rainbow 特性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E7%BB%93%E6%9E%9C"><span class="toc-number">8.</span> <span class="toc-text"> 最终结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-2"><span class="toc-number">9.</span> <span class="toc-text"> 总结</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">53</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">5</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">23</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+  
+<script src="https://npm.webcache.cn/valine@1.5.1/dist/Valine.min.js" data-pjax></script>
+
+  <script data-pjax>
+    var GUEST_INFO = ['nick', 'mail', 'link'];
+    var guest_info = 'nick,mail,link'.split(',').filter((item) => {
+      return GUEST_INFO.indexOf(item) > -1
+    });
+    var recordIP = JSON.parse('true');
+    var highlight = JSON.parse('true');
+    var visitor = JSON.parse('false');
+
+    new Valine({
+      el: '.vcomment',
+      appId: "M4jZ0oieL94Oyjqc8LeD1oXz-gzGzoHsz",
+      appKey: "jWmwVfXAV7Iv4Bj9uWLvb4f3",
+      placeholder: "Leave your commit ;)",
+      pageSize: '10',
+      avatar: 'retro',
+      lang: 'zh-cn',
+      recordIP: recordIP,
+      highlight: highlight,
+      visitor: visitor,
+      requiredFields: guest_info,
+      path: window.location.pathname
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+

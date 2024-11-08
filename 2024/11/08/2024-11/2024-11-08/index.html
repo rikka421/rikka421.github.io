@@ -1,0 +1,773 @@
+
+  <!DOCTYPE html>
+  <html lang="zh_cn"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    [PyTorch] 关于自动求导机制以及优化器的工作原理 |
+    
+    RIKKA&#39;s Blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="关于自动求导机制以及优化器的工作原理. 主要是GPT的说明, 夹杂了一些自己的总结.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[PyTorch] 关于自动求导机制以及优化器的工作原理">
+<meta property="og:url" content="https://rikka421.github.io/2024/11/08/2024-11/2024-11-08/index.html">
+<meta property="og:site_name" content="RIKKA&#39;s Blog">
+<meta property="og:description" content="关于自动求导机制以及优化器的工作原理. 主要是GPT的说明, 夹杂了一些自己的总结.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-08T05:17:08.998Z">
+<meta property="article:modified_time" content="2024-11-08T05:40:43.059Z">
+<meta property="article:author" content="RIKKA421">
+<meta property="article:tag" content="RL">
+<meta property="article:tag" content="PyTorch">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="RIKKA's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/emoji.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.9/dist/katex.min.css">
+
+    
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+        </svg>
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">Home</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">Archives</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">About</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">Friend</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    
+      <img fetchpriority="high" src="/images/banner.png" alt="[PyTorch] 关于自动求导机制以及优化器的工作原理">
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">[PyTorch] 关于自动求导机制以及优化器的工作原理</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-2024-11/2024-11-08" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2024/11/08/2024-11/2024-11-08/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2024-11-08T05:17:08.998Z" itemprop="datePublished">2024-11-08</time>
+    <time style="display: none;" id="post-update-time">2024-11-08</time>
+  </a>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/LearnLog/" data-aos="zoom-in">LearnLog</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <p>关于自动求导机制以及优化器的工作原理. 主要是GPT的说明, 夹杂了一些自己的总结.</p>
+<span id="more"></span>
+<p>PyTorch 具有自动求导的机制, 使得我们在定义好神经网络和损失函数后, 只需要调用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">optimizer.zero_grad()  </span><br><span class="line">loss.backward()  </span><br><span class="line">optimizer.step()</span><br></pre></td></tr></table></figure>
+<p>就可以完成神经网络参数的更新, 非常地方便.</p>
+<p>那么, 具体的工作原理是怎么样的呢? 为什么调用一个step就可以完成一步更新?</p>
+<h3 id="大致流程"><a class="markdownIt-Anchor" href="#大致流程"></a> 大致流程</h3>
+<ol>
+<li>对于tensor中的运算, PyTorch会自动的构建一个有向图(计算图), 记录他们的运算过程. 例如, 我们可以通过计算图对损失函数loss进行溯源, 一直追溯到 <code>X, W</code>之类的tensor量.</li>
+<li>在调用 <code>loss.backward()</code>的时候, tensor就会自动完成这个溯源过程, 不断通过链式求导法则计算梯度, 并将相关的梯度存放在对应的tensor中, 例如, 将 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>L</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>X</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{\partial L}{\partial X}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2251079999999999em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">X</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">L</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> 存放在 <code>X</code> 中, 将 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>L</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>W</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{\partial L}{\partial W}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2251079999999999em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">W</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">L</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> 存放在 <code>W</code> 中等.</li>
+<li>当然, 并不是所有的梯度都会被存放. 只有那些被创建时, 设置参数 <code>requires_grad=True</code>的张量才会存放梯度. 因此, 对于样本 <code>X</code>, 它们的梯度实际上是无法访问的; 而神经网络的各种参数, 如<code>W, b</code>, 它们属于<code>torch.nn.Parameter</code>对象, 因此天然会存储相应的梯度.</li>
+<li>新计算出来的梯度会被加到之前已经有的梯度上(而不是将旧的结果清除). 因此, 在每次更新之前, 我们都需要运行 <code>optimizer.zero_grad()</code>, 将参数上旧的梯度清除. (当然, 有的时候梯度也不用清除, 而是让它们累加起来, 例如我们想运行10个minibatch, 然后将他们的梯度一起更新的情况. )</li>
+<li>对于&quot;一次运算过程&quot;, 它的梯度只能被求解一次. 例如下面的代码</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># 创建需要求导的张量  </span></span><br><span class="line">x = torch.tensor(<span class="number">2.0</span>, requires_grad=<span class="literal">True</span>)  </span><br><span class="line">y = torch.tensor(<span class="number">3.0</span>, requires_grad=<span class="literal">True</span>)  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># 定义一个简单的损失函数 </span></span><br><span class="line">L = x^<span class="number">2</span> + y^<span class="number">2L</span> = x**<span class="number">2</span> + y**<span class="number">2</span>  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># 反向传播计算梯度  </span></span><br><span class="line">L.backward()  </span><br><span class="line">L.backward()</span><br></pre></td></tr></table></figure>
+<p>就会报错. 同时, 为了说明梯度会进行累加的性质, 我们可以运行下面的代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># 创建需要求导的张量  </span></span><br><span class="line">x = torch.tensor(<span class="number">2.0</span>, requires_grad=<span class="literal">True</span>)  </span><br><span class="line">y = torch.tensor(<span class="number">3.0</span>, requires_grad=<span class="literal">True</span>)  </span><br><span class="line"><span class="comment"># 定义一个简单的损失函数 L = x^2 + y^2L = x**2 + y**2  </span></span><br><span class="line"><span class="comment"># 反向传播计算梯度  </span></span><br><span class="line">L.backward()  </span><br><span class="line"><span class="comment"># 输出 x 和 y 的梯度  </span></span><br><span class="line"><span class="built_in">print</span>(x.grad)  <span class="comment"># 输出: tensor(4.)  </span></span><br><span class="line"><span class="built_in">print</span>(y.grad)  <span class="comment"># 输出: tensor(6.)  </span></span><br><span class="line">L = x**<span class="number">2</span> + y**<span class="number">2</span>  </span><br><span class="line"><span class="comment"># 反向传播计算梯度  </span></span><br><span class="line">L.backward()  </span><br><span class="line"><span class="comment"># 输出 x 和 y 的梯度  </span></span><br><span class="line"><span class="built_in">print</span>(x.grad)  <span class="comment"># 输出: tensor(8.)  </span></span><br><span class="line"><span class="built_in">print</span>(y.grad)  <span class="comment"># 输出: tensor(12.)</span></span><br></pre></td></tr></table></figure>
+<p>可以发现, 两次运算的梯度会累加起来.</p>
+<p>因此, 我们就能够理解下面这三行代码的含义了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">optimizer.zero_grad()  <span class="comment"># 将paraments的梯度清零. 这些paraments是创建优化器时传递给它的</span></span><br><span class="line">loss.backward()        <span class="comment"># pytorch根据计算图进行反向传播. 它会计算涉及到的所有量的梯度, 并存储那些应该存储的量(例如对于参数W和b的梯度) </span></span><br><span class="line">optimizer.step()       <span class="comment"># 优化器根据paraments的梯度做梯度下降, 有可能是简单的SGD算法, 也可能是更复杂的Adam</span></span><br></pre></td></tr></table></figure>
+<p>当我们想要实现一些更复杂的功能, 例如, 在某些时候只对神经网络的一部分进行更新. 这时我们只需要为这些局部创建单独的局部优化器即可, 并单独地调用它们即可. 对于其他东西都不需要改动.</p>
+<blockquote>
+<p>下面是GPT关于这部分内容的具体说明.</p>
+</blockquote>
+<hr />
+<h2 id="关于自动求导机制"><a class="markdownIt-Anchor" href="#关于自动求导机制"></a> 关于自动求导机制</h2>
+<p>PyTorch 的自动求导机制依赖于 <strong>计算图</strong>，它能够自动计算梯度。计算图是一个有向图，其中每个节点代表一个操作（如加法、乘法等），而边则代表数据流（张量）。每次执行一个操作时，PyTorch 会动态地构建这个计算图，记录每个操作的输入、输出以及操作本身。当你调用 <code>.backward()</code> 时，PyTorch 会根据计算图自动反向传播，计算梯度。</p>
+<h3 id="工作原理"><a class="markdownIt-Anchor" href="#工作原理"></a> 工作原理</h3>
+<ol>
+<li><strong>张量（Tensor）与计算图</strong>：在 PyTorch 中，张量是支持自动求导的对象。一个张量如果被标记为 <code>requires_grad=True</code>，那么 PyTorch 会自动记录它的操作历史（即计算图）。</li>
+<li><strong>前向传播</strong>：每次做张量操作时，PyTorch 会记录这个操作并将其作为计算图的一部分。例如，如果你对两个张量做加法，PyTorch 会创建一个加法节点，记录输入和输出。</li>
+<li><strong>反向传播</strong>：当你调用 <code>.backward()</code> 时，PyTorch 会从输出节点开始，沿着计算图的反向方向传播误差（梯度）。在这个过程中，PyTorch 会自动为每个张量计算梯度，并存储在张量的 <code>.grad</code> 属性中。</li>
+</ol>
+<h3 id="举个简单的例子"><a class="markdownIt-Anchor" href="#举个简单的例子"></a> 举个简单的例子</h3>
+<p>假设我们有一个简单的标量损失函数 <code>L = x^2 + y^2</code>，其中 <code>x</code> 和 <code>y</code> 是张量，我们想计算这个损失函数相对于 <code>x</code> 和 <code>y</code> 的梯度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建需要求导的张量</span></span><br><span class="line">x = torch.tensor(<span class="number">2.0</span>, requires_grad=<span class="literal">True</span>)</span><br><span class="line">y = torch.tensor(<span class="number">3.0</span>, requires_grad=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个简单的损失函数 L = x^2 + y^2</span></span><br><span class="line">L = x**<span class="number">2</span> + y**<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 反向传播计算梯度</span></span><br><span class="line">L.backward()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出 x 和 y 的梯度</span></span><br><span class="line"><span class="built_in">print</span>(x.grad)  <span class="comment"># 输出: tensor(4.)</span></span><br><span class="line"><span class="built_in">print</span>(y.grad)  <span class="comment"># 输出: tensor(6.)</span></span><br></pre></td></tr></table></figure>
+<h3 id="解释"><a class="markdownIt-Anchor" href="#解释"></a> 解释：</h3>
+<ol>
+<li><strong>创建张量</strong>：<code>x</code> 和 <code>y</code> 被定义为 <code>requires_grad=True</code>，这表示我们希望计算它们的梯度。</li>
+<li><strong>前向传播</strong>：我们计算了 <code>L = x^2 + y^2</code>。PyTorch 在这个过程中记录了计算图，知道 <code>L</code> 是由 <code>x</code> 和 <code>y</code> 计算出来的。</li>
+<li><strong>反向传播</strong>：调用 <code>L.backward()</code> 后，PyTorch 会自动计算 <code>L</code> 对 <code>x</code> 和 <code>y</code> 的梯度。具体来说：
+<ul>
+<li><code>dL/dx = 2 * x = 4.0</code></li>
+<li><code>dL/dy = 2 * y = 6.0</code></li>
+</ul>
+</li>
+<li><strong>查看梯度</strong>：可以通过 <code>x.grad</code> 和 <code>y.grad</code> 查看对应的梯度。</li>
+</ol>
+<h3 id="更复杂的例子"><a class="markdownIt-Anchor" href="#更复杂的例子"></a> 更复杂的例子</h3>
+<p>如果涉及更复杂的计算图，PyTorch 会自动处理梯度传播：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更复杂的计算</span></span><br><span class="line">z = x * y</span><br><span class="line">z.backward()  <span class="comment"># 计算 z 对 x 和 y 的梯度</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(x.grad)  <span class="comment"># 这里输出的将是 6，因为 dz/dx = y</span></span><br><span class="line"><span class="built_in">print</span>(y.grad)  <span class="comment"># 这里输出的将是 4，因为 dz/dy = x</span></span><br></pre></td></tr></table></figure>
+<h3 id="自动求导的优势"><a class="markdownIt-Anchor" href="#自动求导的优势"></a> 自动求导的优势</h3>
+<ul>
+<li><strong>动态图</strong>：PyTorch 使用动态图机制（Eager Execution），每次前向传播都会动态构建计算图，因此更灵活，适合调试和修改。</li>
+<li><strong>梯度链式法则</strong>：通过计算图，PyTorch 能够自动应用链式法则来计算复杂函数的梯度。</li>
+<li><strong>无需手动计算梯度</strong>：在传统的机器学习方法中，需要手动计算梯度并实现反向传播，而在 PyTorch 中，这些都由自动求导机制完成。</li>
+</ul>
+<p>通过这种方式，PyTorch 能够让你非常方便地进行梯度计算，简化深度学习中的优化过程。</p>
+<hr />
+<h2 id="神经网络中-参数与优化器和自动求导的关系"><a class="markdownIt-Anchor" href="#神经网络中-参数与优化器和自动求导的关系"></a> 神经网络中, 参数与优化器和自动求导的关系</h2>
+<p>在神经网络中，<strong>参数</strong>通常是指模型中的可学习的权重和偏置，这些参数是网络在训练过程中需要优化的目标。<strong>优化器</strong>则用于根据损失函数的梯度来更新这些参数，以最小化损失。PyTorch 的自动求导和优化器协同工作，使得神经网络能够高效地进行训练。</p>
+<h3 id="1-神经网络中的参数"><a class="markdownIt-Anchor" href="#1-神经网络中的参数"></a> 1. 神经网络中的参数</h3>
+<p>在 PyTorch 中，神经网络的参数通常是 <strong><code>nn.Module</code></strong> 类的成员变量，它们是 <code>torch.nn.Parameter</code> 对象。 <code>torch.nn.Parameter</code> 是一个特殊的张量，它被标记为 <code>requires_grad=True</code>，表示该参数需要计算梯度。</p>
+<p>举个例子，假设你定义了一个简单的全连接层（<code>Linear</code>）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个简单的神经网络</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SimpleNN</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>(SimpleNN, <span class="variable language_">self</span>).__init__()</span><br><span class="line">        <span class="variable language_">self</span>.fc = nn.Linear(<span class="number">10</span>, <span class="number">5</span>)  <span class="comment"># 输入维度10，输出维度5</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.fc(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建网络实例</span></span><br><span class="line">model = SimpleNN()</span><br></pre></td></tr></table></figure>
+<p>在这里，<code>self.fc</code> 是一个 <strong>全连接层（Linear Layer）</strong>，它的参数是权重矩阵（<code>weight</code>）和偏置向量（<code>bias</code>）。PyTorch 会自动将这些参数封装为 <code>torch.nn.Parameter</code> 对象，这样它们就能够参与梯度计算和优化。</p>
+<h3 id="2-自动求导的工作原理"><a class="markdownIt-Anchor" href="#2-自动求导的工作原理"></a> 2. 自动求导的工作原理</h3>
+<p>当你执行前向传播（通过 <code>model(x)</code>）时，PyTorch 会自动构建计算图，记录每个操作。例如，对于一个全连接层，前向传播是矩阵乘法与加法操作。PyTorch 会根据这些操作计算梯度并存储在计算图中。</p>
+<p>当你调用 <code>.backward()</code> 时，PyTorch 会通过 <strong>反向传播</strong> 根据计算图自动计算所有参数的梯度。这些梯度被存储在各个张量的 <code>.grad</code> 属性中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设输入数据 x 和目标 y</span></span><br><span class="line">x = torch.randn(<span class="number">1</span>, <span class="number">10</span>)  <span class="comment"># 输入张量 (batch_size, input_dim)</span></span><br><span class="line">y = torch.randn(<span class="number">1</span>, <span class="number">5</span>)   <span class="comment"># 目标输出 (batch_size, output_dim)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 前向传播</span></span><br><span class="line">output = model(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义损失函数并计算损失</span></span><br><span class="line">loss_fn = nn.MSELoss()  <span class="comment"># 均方误差损失</span></span><br><span class="line">loss = loss_fn(output, y)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 反向传播</span></span><br><span class="line">loss.backward()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看参数的梯度</span></span><br><span class="line"><span class="built_in">print</span>(model.fc.weight.grad)  <span class="comment"># 权重的梯度</span></span><br><span class="line"><span class="built_in">print</span>(model.fc.bias.grad)    <span class="comment"># 偏置的梯度</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-优化器的工作原理"><a class="markdownIt-Anchor" href="#3-优化器的工作原理"></a> 3. 优化器的工作原理</h3>
+<p><strong>优化器（Optimizer）</strong> 是用来根据计算出的梯度来更新神经网络的参数。优化器根据指定的算法（如 SGD、Adam 等）来调整每个参数，以最小化损失函数。</p>
+<p>常见的优化器包括：</p>
+<ul>
+<li><strong>SGD（Stochastic Gradient Descent）</strong>：基本的随机梯度下降算法。</li>
+<li><strong>Adam（Adaptive Moment Estimation）</strong>：一种更复杂的优化算法，结合了动量和自适应学习率。</li>
+</ul>
+<p>使用优化器的步骤：</p>
+<ol>
+<li><strong>创建优化器</strong>：将模型的参数传给优化器。</li>
+<li><strong>更新参数</strong>：在每次训练循环中，通过 <code>.zero_grad()</code> 清除旧的梯度，进行一次前向传播计算损失，调用 <code>.backward()</code> 计算梯度，然后使用优化器的 <code>.step()</code> 更新参数。</li>
+</ol>
+<h3 id="代码示例"><a class="markdownIt-Anchor" href="#代码示例"></a> 代码示例</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 Adam 优化器</span></span><br><span class="line">optimizer = torch.optim.Adam(model.parameters(), lr=<span class="number">0.001</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练循环</span></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):  <span class="comment"># 假设训练 100 个 epoch</span></span><br><span class="line">    optimizer.zero_grad()  <span class="comment"># 清除梯度</span></span><br><span class="line">    output = model(x)      <span class="comment"># 前向传播</span></span><br><span class="line">    loss = loss_fn(output, y)  <span class="comment"># 计算损失</span></span><br><span class="line">    loss.backward()        <span class="comment"># 反向传播，计算梯度</span></span><br><span class="line">    optimizer.step()       <span class="comment"># 更新参数</span></span><br></pre></td></tr></table></figure>
+<h3 id="解释-2"><a class="markdownIt-Anchor" href="#解释-2"></a> 解释</h3>
+<ol>
+<li><strong><code>optimizer.zero_grad()</code></strong>：每次进行反向传播前，我们需要清除上一次迭代的梯度信息，因为 PyTorch 会默认将梯度累积（以便支持 RNN 等类型的网络）。调用 <code>zero_grad()</code> 可以确保在每次迭代时梯度从零开始。</li>
+<li><strong><code>loss.backward()</code></strong>：执行反向传播，计算各个参数的梯度（存储在 <code>.grad</code> 属性中）。</li>
+<li><strong><code>optimizer.step()</code></strong>：使用计算出的梯度来更新网络中的参数。具体更新方法依赖于优化算法（比如 SGD、Adam 等）。</li>
+</ol>
+<h3 id="梯度更新过程"><a class="markdownIt-Anchor" href="#梯度更新过程"></a> 梯度更新过程</h3>
+<p>假设我们使用标准的随机梯度下降（SGD），参数的更新规则为：</p>
+<p>[</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>θ</mi><mrow><mi>n</mi><mi>e</mi><mi>w</mi></mrow></msub><mo>=</mo><msub><mi>θ</mi><mrow><mi>o</mi><mi>l</mi><mi>d</mi></mrow></msub><mo>−</mo><mi>η</mi><mo>⋅</mo><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>L</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>θ</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\theta_{new} = \theta_{old} - \eta \cdot \frac{\partial L}{\partial \theta}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.63889em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">η</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:2.05744em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.37144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal">L</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<p>]</p>
+<p>其中：</p>
+<ul>
+<li>(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>o</mi><mi>l</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\theta_{old}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>) 是当前的参数，</li>
+<li>(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>n</mi><mi>e</mi><mi>w</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\theta_{new}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>) 是更新后的参数，</li>
+<li>(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>η</mi></mrow><annotation encoding="application/x-tex">\eta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">η</span></span></span></span>) 是学习率，</li>
+<li>(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>L</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>θ</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{\partial L}{\partial \theta}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2251079999999999em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">θ</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathnormal mtight">L</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>) 是损失函数相对于参数的梯度。</li>
+</ul>
+<p>例如，使用 SGD 优化器时，PyTorch 会自动计算每个参数的梯度，并根据梯度和学习率来更新参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 SGD 优化器</span></span><br><span class="line">optimizer = torch.optim.SGD(model.parameters(), lr=<span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练过程</span></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">    optimizer.zero_grad()  <span class="comment"># 清除梯度</span></span><br><span class="line">    output = model(x)      <span class="comment"># 前向传播</span></span><br><span class="line">    loss = loss_fn(output, y)  <span class="comment"># 计算损失</span></span><br><span class="line">    loss.backward()        <span class="comment"># 反向传播，计算梯度</span></span><br><span class="line">    optimizer.step()       <span class="comment"># 使用梯度更新参数</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-总结"><a class="markdownIt-Anchor" href="#4-总结"></a> 4. 总结</h3>
+<ul>
+<li><strong>参数</strong>是神经网络中的可学习对象，通常是权重和偏置，它们会随着训练不断更新。</li>
+<li><strong>自动求导</strong>是通过计算图来自动计算损失函数对每个参数的梯度。</li>
+<li><strong>优化器</strong>负责根据计算得到的梯度来更新参数，使得模型逐渐收敛，最小化损失函数。</li>
+</ul>
+<p>PyTorch 的自动求导和优化器使得训练神经网络变得非常高效且简洁，极大地简化了模型训练过程中的梯度计算和参数更新。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+        <a data-aos="zoom-in" href="/2024/11/08/2024-11/2024-11-08/#comments" class="article-comment-link">
+          <span class="post-comments-count valine-comment-count" data-xid="/2024/11/08/2024-11/2024-11-08/" itemprop="commentCount"></span>
+          Comments
+        </a>
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/PyTorch/" rel="tag">PyTorch</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/RL/" rel="tag">RL</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        <img data-src="/images/24-11/Screenshot%20from%202024-11-08%2000-26-42.png" data-sizes="auto" alt="[RL] stable-baselines3实现DQN, double DQN, Rainbow, DDPG, TD3, SAC, TRPO, PPO" class="lazyload">
+      
+      <a href="/2024/11/07/2024-11/2024-11-07/"></a>
+      <div class="article-nav-caption">Older</div>
+      <h3 class="article-nav-title">
+        
+          [RL] stable-baselines3实现DQN, double DQN, Rainbow, DDPG, TD3, SAC, TRPO, PPO
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+  <section id="comments" class="vcomment"></section>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%A7%E8%87%B4%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text"> 大致流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E8%87%AA%E5%8A%A8%E6%B1%82%E5%AF%BC%E6%9C%BA%E5%88%B6"><span class="toc-number"></span> <span class="toc-text"> 关于自动求导机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text"> 工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BE%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="toc-number">2.</span> <span class="toc-text"> 举个简单的例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A"><span class="toc-number">3.</span> <span class="toc-text"> 解释：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E5%A4%8D%E6%9D%82%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="toc-number">4.</span> <span class="toc-text"> 更复杂的例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%B1%82%E5%AF%BC%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number">5.</span> <span class="toc-text"> 自动求导的优势</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD-%E5%8F%82%E6%95%B0%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8%E5%92%8C%E8%87%AA%E5%8A%A8%E6%B1%82%E5%AF%BC%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number"></span> <span class="toc-text"> 神经网络中, 参数与优化器和自动求导的关系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E5%8F%82%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text"> 1. 神经网络中的参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%87%AA%E5%8A%A8%E6%B1%82%E5%AF%BC%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text"> 2. 自动求导的工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BC%98%E5%8C%96%E5%99%A8%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text"> 3. 优化器的工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text"> 代码示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A-2"><span class="toc-number">5.</span> <span class="toc-text"> 解释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A2%AF%E5%BA%A6%E6%9B%B4%E6%96%B0%E8%BF%87%E7%A8%8B"><span class="toc-number">6.</span> <span class="toc-text"> 梯度更新过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text"> 4. 总结</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">53</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">5</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">23</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2024
+      <span class="footer-info-sep"></span>
+      RIKKA421
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        86k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        05:24
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%A7%E8%87%B4%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text"> 大致流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E8%87%AA%E5%8A%A8%E6%B1%82%E5%AF%BC%E6%9C%BA%E5%88%B6"><span class="toc-number"></span> <span class="toc-text"> 关于自动求导机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text"> 工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BE%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="toc-number">2.</span> <span class="toc-text"> 举个简单的例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A"><span class="toc-number">3.</span> <span class="toc-text"> 解释：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E5%A4%8D%E6%9D%82%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="toc-number">4.</span> <span class="toc-text"> 更复杂的例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%B1%82%E5%AF%BC%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number">5.</span> <span class="toc-text"> 自动求导的优势</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD-%E5%8F%82%E6%95%B0%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8%E5%92%8C%E8%87%AA%E5%8A%A8%E6%B1%82%E5%AF%BC%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number"></span> <span class="toc-text"> 神经网络中, 参数与优化器和自动求导的关系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E5%8F%82%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text"> 1. 神经网络中的参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%87%AA%E5%8A%A8%E6%B1%82%E5%AF%BC%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text"> 2. 自动求导的工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BC%98%E5%8C%96%E5%99%A8%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text"> 3. 优化器的工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text"> 代码示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A-2"><span class="toc-number">5.</span> <span class="toc-text"> 解释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A2%AF%E5%BA%A6%E6%9B%B4%E6%96%B0%E8%BF%87%E7%A8%8B"><span class="toc-number">6.</span> <span class="toc-text"> 梯度更新过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text"> 4. 总结</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">53</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">5</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">23</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+  
+<script src="https://npm.webcache.cn/valine@1.5.1/dist/Valine.min.js" data-pjax></script>
+
+  <script data-pjax>
+    var GUEST_INFO = ['nick', 'mail', 'link'];
+    var guest_info = 'nick,mail,link'.split(',').filter((item) => {
+      return GUEST_INFO.indexOf(item) > -1
+    });
+    var recordIP = JSON.parse('true');
+    var highlight = JSON.parse('true');
+    var visitor = JSON.parse('false');
+
+    new Valine({
+      el: '.vcomment',
+      appId: "M4jZ0oieL94Oyjqc8LeD1oXz-gzGzoHsz",
+      appKey: "jWmwVfXAV7Iv4Bj9uWLvb4f3",
+      placeholder: "Leave your commit ;)",
+      pageSize: '10',
+      avatar: 'retro',
+      lang: 'zh-cn',
+      recordIP: recordIP,
+      highlight: highlight,
+      visitor: visitor,
+      requiredFields: guest_info,
+      path: window.location.pathname
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+
