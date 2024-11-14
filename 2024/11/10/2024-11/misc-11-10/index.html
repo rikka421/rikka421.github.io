@@ -14,7 +14,7 @@
   
   
   <title>
-    [Automata] Ch3 正则表达式与正则语言: Regular Expressions and  Languages |
+    [misc] 11-10 折腾的一些杂项 |
     
     RIKKA&#39;s Blog
   </title>
@@ -29,21 +29,18 @@
 
   
   
-    <meta name="description" content="CH3 Regular Expressions and  Languages 学习课程&quot;形式语言与自动机&quot;时做的笔记, 内容主要来自 Automata Theory, Languages, and Computation一书的第三章. 主要是关于RE的内容.">
+    <meta name="description" content="11.10的一些杂项">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[Automata] Ch3 正则表达式与正则语言: Regular Expressions and  Languages">
-<meta property="og:url" content="https://rikka421.github.io/2024/11/02/2024-10/2024-10-27-1/index.html">
+<meta property="og:title" content="[misc] 11-10 折腾的一些杂项">
+<meta property="og:url" content="https://rikka421.github.io/2024/11/10/2024-11/misc-11-10/index.html">
 <meta property="og:site_name" content="RIKKA&#39;s Blog">
-<meta property="og:description" content="CH3 Regular Expressions and  Languages 学习课程&quot;形式语言与自动机&quot;时做的笔记, 内容主要来自 Automata Theory, Languages, and Computation一书的第三章. 主要是关于RE的内容.">
+<meta property="og:description" content="11.10的一些杂项">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10/24-10-27-01.png">
-<meta property="og:image" content="https://rikka421.github.io/images/24-10/24-10-27-02.png">
-<meta property="article:published_time" content="2024-11-02T06:18:49.905Z">
-<meta property="article:modified_time" content="2024-11-03T15:18:52.037Z">
+<meta property="article:published_time" content="2024-11-10T05:48:45.394Z">
+<meta property="article:modified_time" content="2024-11-10T09:54:23.705Z">
 <meta property="article:author" content="RIKKA421">
-<meta property="article:tag" content="Automata">
+<meta property="article:tag" content="misc">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://rikka421.github.io/images/24-10/24-10-27-01.png">
   
   
     <link rel="alternate" href="/atom.xml" title="RIKKA's Blog" type="application/atom+xml">
@@ -159,7 +156,9 @@
 </div>
 <header id="header">
   
-    <img fetchpriority="high" src="/images/misc/auto_ch1.jpg" alt="[Automata] Ch3 正则表达式与正则语言: Regular Expressions and  Languages">
+    
+      <img fetchpriority="high" src="/images/banner.png" alt="[misc] 11-10 折腾的一些杂项">
+    
   
   <div id="header-outer">
     <div id="header-title">
@@ -167,7 +166,7 @@
         
         
           <a href="/" id="logo">
-            <h1 data-aos="slide-up">[Automata] Ch3 正则表达式与正则语言: Regular Expressions and  Languages</h1>
+            <h1 data-aos="slide-up">[misc] 11-10 折腾的一些杂项</h1>
           </a>
         
       
@@ -183,19 +182,19 @@
 
         <div id="content">
           
-          <section id="main"><article id="post-2024-10/2024-10-27-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+          <section id="main"><article id="post-2024-11/misc-11-10" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner" data-aos="fade-up">
     <div class="article-meta">
       <div class="article-date">
-  <a href="/2024/11/02/2024-10/2024-10-27-1/" class="article-date-link" data-aos="zoom-in">
-    <time datetime="2024-11-02T06:18:49.905Z" itemprop="datePublished">2024-11-02</time>
-    <time style="display: none;" id="post-update-time">2024-11-03</time>
+  <a href="/2024/11/10/2024-11/misc-11-10/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2024-11-10T05:48:45.394Z" itemprop="datePublished">2024-11-10</time>
+    <time style="display: none;" id="post-update-time">2024-11-10</time>
   </a>
 </div>
 
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/LearnLog/" data-aos="zoom-in">LearnLog</a>
+    <a class="article-category-link" href="/categories/WorkLog/" data-aos="zoom-in">WorkLog</a>
   </div>
 
 
@@ -206,21 +205,132 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
       
-        <h1 id="ch3-regular-expressions-and-languages"><a class="markdownIt-Anchor" href="#ch3-regular-expressions-and-languages"></a> CH3 Regular Expressions and  Languages</h1>
-<p>学习课程&quot;形式语言与自动机&quot;时做的笔记, 内容主要来自 <em>Automata Theory, Languages, and Computation</em>一书的第三章. 主要是关于RE的内容.</p>
+        <p>11.10的一些杂项</p>
 <span id="more"></span>
-<p>前面我们了解了DFA, NFA, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">ϵ</span></span></span></span>-NFA, 并对它们的等价性做了分析. 在这个过程, 我们大量地应用了归纳的定义与证明.</p>
-<p>现在, 我们将引入一种新的符号RE, 并且证明这种符号所表达的语言集合, 与DFA, NFA等自动机所表达的集合是等价的.</p>
-<h1 id="ch4-properties-of-regular-languages"><a class="markdownIt-Anchor" href="#ch4-properties-of-regular-languages"></a> CH4 Properties of Regular  Languages</h1>
-<p>The Pumping Lemma</p>
-<p><img src="/images/24-10/24-10-27-01.png" alt="" /></p>
-<p>closure property</p>
-<p><img src="/images/24-10/24-10-27-02.png" alt="" /></p>
-<p>decision properties</p>
-<ul>
-<li>语言是任意的, 没有一种通用的有穷符号能够对任意的语言进行表达.</li>
-<li>RE是可判定的, 而许多强于RE的语言是不可判定的.</li>
-</ul>
+<hr />
+<blockquote>
+<p>总体而言是为了解决樱之诗运行和字体的问题. 打算换一个正常一点的字体.<br />
+折腾了老半天, 问题没有解决. 怀疑gal自带了字体. 总之折腾前和折腾后是一个样.<br />
+不知道wine产生了什么影响, 总之在ubuntu 上能够通过 gnome tweak 来配置别的字体了. 不过还是保持原样好了 (可以全部换成微软雅黑, 之后终端的字体就会变得相当丑陋…)</p>
+</blockquote>
+<blockquote>
+<p>安装.deb文件时, 又遇到了pkg installer 闪退的问题. 不过直接用 <code>sudo dpkg -i baidunetdisk_4.17.7_amd64.deb</code>安装了.</p>
+</blockquote>
+<h2 id="关于wine-32-bit"><a class="markdownIt-Anchor" href="#关于wine-32-bit"></a> 关于wine 32-bit</h2>
+<p>参考回答<br />
+<a target="_blank" rel="noopener" href="https://askubuntu.com/questions/177192/how-do-i-create-a-32-bit-wine-prefix">https://askubuntu.com/questions/177192/how-do-i-create-a-32-bit-wine-prefix</a></p>
+<p>之后创建新的容器, 就可以选择作为32位容器了.</p>
+<h2 id="安装微软雅黑和华文中宋等"><a class="markdownIt-Anchor" href="#安装微软雅黑和华文中宋等"></a> 安装微软雅黑和华文中宋等</h2>
+<p>字体文件<br />
+<a target="_blank" rel="noopener" href="https://github.com/chengda/popular-fonts">https://github.com/chengda/popular-fonts</a><br />
+<a target="_blank" rel="noopener" href="https://www.dafontfree.io/simsun-font/">https://www.dafontfree.io/simsun-font/</a></p>
+<blockquote>
+<p>后面发现可以在用户层面做这件事, 把ttf文件都放在 <code>~/.local/share/fonts</code>就可以了<br />
+命令行</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo cp popular-fonts/* /usr/share/fonts</span><br><span class="line">fc-cache -vf</span><br><span class="line">fc-list | grep &quot;宋&quot;</span><br></pre></td></tr></table></figure>
+<p>参考文章<br />
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35165004/article/details/132738991">https://blog.csdn.net/qq_35165004/article/details/132738991</a></p>
+<h2 id="采用不同容器运行exe文件"><a class="markdownIt-Anchor" href="#采用不同容器运行exe文件"></a> 采用不同容器运行exe文件</h2>
+<p>前面为容器路径, 后面为需要运行的文件.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WINEPREFIX=~/.wine/wineqq/ wine &quot;C:\\pcqq2021.exe</span><br></pre></td></tr></table></figure>
+<h2 id="关于创建desktop文件"><a class="markdownIt-Anchor" href="#关于创建desktop文件"></a> 关于创建.desktop文件</h2>
+<p>创建文件, 格式如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1. `[Desktop Entry]`</span><br><span class="line">2. `Encoding=UTF-8`</span><br><span class="line">3. `Version=1.0`</span><br><span class="line">4. `Type=Application`</span><br><span class="line">5. `Terminal=false`</span><br><span class="line">6. `Exec=/path/to/executable`</span><br><span class="line">7. `Name=Name of Application`</span><br><span class="line">8. `Icon=/path/to/icon`</span><br></pre></td></tr></table></figure>
+<p>其中后面三行是要更改的, 分别填写路径, 名称, 图标即可. 注意路径要完整.</p>
+<p>参考<br />
+<a target="_blank" rel="noopener" href="https://linux.cn/article-9199-1.html">https://linux.cn/article-9199-1.html</a></p>
+<blockquote>
+<p>创建这个是为了方便地用32-bit运行樱之诗. 和脚本文件结合在一起即可.</p>
+</blockquote>
+<p>脚本很简单, 参考<br />
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaomifanhxx/article/details/82285881">https://blog.csdn.net/xiaomifanhxx/article/details/82285881</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">touch hello.sh</span><br><span class="line"> </span><br><span class="line">gedit hello.sh </span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"> </span><br><span class="line">echo &quot;Hello world!&quot;</span><br><span class="line"> </span><br><span class="line">chmod +x hello.sh</span><br><span class="line"> </span><br><span class="line">./hello.sh</span><br></pre></td></tr></table></figure>
+<h2 id="wine-字体"><a class="markdownIt-Anchor" href="#wine-字体"></a> wine 字体</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cd /usr/share/fonts</span><br><span class="line">cp *.ttf ~/.wine/drive_c/windows/Fonts</span><br><span class="line">cd /home/rikka/.local/share/wineprefixes/32bit-wine</span><br><span class="line">gedit system.reg</span><br></pre></td></tr></table></figure>
+<p>搜索： LogPixels</p>
+<p>将其中的：</p>
+<p>“LogPixels”=dword:00000060<br />
+改为：</p>
+<p>“LogPixels”=dword:00000070<br />
+搜索： FontSubstitutes</p>
+<p>将其中的：</p>
+<p>“MS Shell Dlg”=“Tahoma”<br />
+&quot;MS Shell Dlg 2″=“Tahoma”<br />
+改为：</p>
+<p>“MS Shell Dlg”=“SimSun”<br />
+&quot;MS Shell Dlg 2″=“SimSun”</p>
+<ol start="4">
+<li>修改 ~/.wine/drive_c/windows/win.ini<br />
+sudo vi ~/.wine/drive_c/windows/win.ini<br />
+在文件末尾加入：</li>
+</ol>
+<p>[Desktop]<br />
+menufontsize=13<br />
+messagefontsize=13<br />
+statusfontsize=13<br />
+IconTitleSize=13</p>
+<ol start="5">
+<li>把下面的代码保存为zh.reg，然后终端执行 regedit zh.reg<br />
+代码:</li>
+</ol>
+<p>REGEDIT4<br />
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\FontSubstitutes]<br />
+“Arial”=“simsun”<br />
+“Arial CE,238”=“simsun”<br />
+“Arial CYR,204”=“simsun”<br />
+“Arial Greek,161”=“simsun”<br />
+“Arial TUR,162”=“simsun”<br />
+“Courier New”=“simsun”<br />
+“Courier New CE,238”=“simsun”<br />
+“Courier New CYR,204”=“simsun”<br />
+“Courier New Greek,161”=“simsun”<br />
+“Courier New TUR,162”=“simsun”<br />
+“FixedSys”=“simsun”<br />
+“Helv”=“simsun”<br />
+“Helvetica”=“simsun”<br />
+“MS Sans Serif”=“simsun”<br />
+“MS Shell Dlg”=“simsun”<br />
+“MS Shell Dlg 2”=“simsun”<br />
+“System”=“simsun”<br />
+“Tahoma”=“simsun”<br />
+“Times”=“simsun”<br />
+“Times New Roman CE,238”=“simsun”<br />
+“Times New Roman CYR,204”=“simsun”<br />
+“Times New Roman Greek,161”=“simsun”<br />
+“Times New Roman TUR,162”=“simsun”<br />
+“Tms Rmn”=“simsun”</p>
+<p>参考自<br />
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/wto882dim/article/details/122062262">https://blog.csdn.net/wto882dim/article/details/122062262</a></p>
+<h2 id="其余参考"><a class="markdownIt-Anchor" href="#其余参考"></a> 其余参考:</h2>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ysy950803/article/details/80326832">https://blog.csdn.net/ysy950803/article/details/80326832</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tubentubentu/p/16278530.html">https://www.cnblogs.com/tubentubentu/p/16278530.html</a></p>
+<p>乱码 以及 输入框不显示字体<br />
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/cxrshiz7890/article/details/106037534">https://blog.csdn.net/cxrshiz7890/article/details/106037534</a></p>
+<p>主要参考<br />
+<a target="_blank" rel="noopener" href="https://juejin.cn/post/7103380707258400775">https://juejin.cn/post/7103380707258400775</a><br />
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/wto882dim/article/details/122062262">https://blog.csdn.net/wto882dim/article/details/122062262</a></p>
+<p>注册表更改:<br />
+<a target="_blank" rel="noopener" href="https://edyfox.codecarver.org/html/debian_testing_chinese.html">https://edyfox.codecarver.org/html/debian_testing_chinese.html</a><br />
+<a target="_blank" rel="noopener" href="https://edyfox.codecarver.org/html/Fonts-Replacements.reg">https://edyfox.codecarver.org/html/Fonts-Replacements.reg</a></p>
+<hr />
+<blockquote>
+<p>尝试解决steam上很多游戏下不了的问题.</p>
+</blockquote>
+<p>尝试更新dll库. 发现有一个dll库没法正常通过winetricks下载.</p>
+<p>下载wine32<br />
+<a target="_blank" rel="noopener" href="http://www.florentflament.com/blog/installing-wine32-on-a-64bits-debianubuntu-linux.html">http://www.florentflament.com/blog/installing-wine32-on-a-64bits-debianubuntu-linux.html</a></p>
+<p>添加环境变量 <code>WINEARCH=win32 WINEPREFIX=path_to_wineprefix winecfg</code>, 尝试启动winetricks, 报错<br />
+<a target="_blank" rel="noopener" href="https://askubuntu.com/questions/1214256/wine-winearch-set-to-win32-but-home-koha-wine-is-a-64-bit-installation">https://askubuntu.com/questions/1214256/wine-winearch-set-to-win32-but-home-koha-wine-is-a-64-bit-installation</a></p>
+<p>跟随指引建立32位的wineprefix<br />
+<a target="_blank" rel="noopener" href="https://gitlab.winehq.org/wine/wine/-/wikis/FAQ#how-do-i-create-a-32-bit-wineprefix-on-a-64-bit-system">https://gitlab.winehq.org/wine/wine/-/wikis/FAQ#how-do-i-create-a-32-bit-wineprefix-on-a-64-bit-system</a></p>
+<p>尝试启动, 依然报错. 发现添加环境变量之后可以启动.</p>
+<p>将两行环境变量添加到环境中.</p>
+<p>貌似可以正常使用了.</p>
+<hr />
+<p>很无语的一件事是dll安装之后并不会显示已经安装, 和字体有着一样的问题.</p>
+<p>这样下去没法分辨到底哪个装了哪个没装, 挺昏头的.</p>
+<p>总之就先这样吧.</p>
 
       
     </div>
@@ -228,8 +338,8 @@
       
       
       
-        <a data-aos="zoom-in" href="/2024/11/02/2024-10/2024-10-27-1/#comments" class="article-comment-link">
-          <span class="post-comments-count valine-comment-count" data-xid="/2024/11/02/2024-10/2024-10-27-1/" itemprop="commentCount"></span>
+        <a data-aos="zoom-in" href="/2024/11/10/2024-11/misc-11-10/#comments" class="article-comment-link">
+          <span class="post-comments-count valine-comment-count" data-xid="/2024/11/10/2024-11/misc-11-10/" itemprop="commentCount"></span>
           Comments
         </a>
       
@@ -238,7 +348,7 @@
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/Automata/" rel="tag">Automata</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/misc/" rel="tag">misc</a></li></ul>
 
 
     </footer>
@@ -249,13 +359,13 @@
     
       <div class="article-nav-link-wrap article-nav-link-left">
         
-          <img data-src="/images/24-10/24-10-16-01.png" data-sizes="auto" alt="[RL] 第二讲: 马尔科夫决策过程" class="lazyload">
+          <img data-src="/images/24-11/DQNs.png" data-sizes="auto" alt="[RL] PyTorch实现RL框架算法 及 DQN" class="lazyload">
         
-        <a href="/2024/11/02/2024-10/2024-10-15/"></a>
+        <a href="/2024/11/11/2024-11/2024-11-11/"></a>
         <div class="article-nav-caption">Newer</div>
         <h3 class="article-nav-title">
           
-            [RL] 第二讲: 马尔科夫决策过程
+            [RL] PyTorch实现RL框架算法 及 DQN
           
         </h3>
       </div>
@@ -263,13 +373,16 @@
     
     <div class="article-nav-link-wrap article-nav-link-right">
       
-        <img data-src="/images/24-09/24-09-29-01.png" data-sizes="auto" alt="[CF记录] Round 975" class="lazyload">
+        
+        
+          <img data-src="/covers/emoji.png" data-sizes="auto" alt="[PyTorch] 关于自动求导机制以及优化器的工作原理" class="lazyload">
+        
       
-      <a href="/2024/11/02/2024-09/2024-09-29/"></a>
+      <a href="/2024/11/08/2024-11/2024-11-08/"></a>
       <div class="article-nav-caption">Older</div>
       <h3 class="article-nav-title">
         
-          [CF记录] Round 975
+          [PyTorch] 关于自动求导机制以及优化器的工作原理
         
       </h3>
     </div>
@@ -297,7 +410,7 @@
   <h3 class="toc-title">Contents</h3>
   <div class="sidebar-toc-wrapper toc-div-class" >
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ch3-regular-expressions-and-languages"><span class="toc-number">1.</span> <span class="toc-text"> CH3 Regular Expressions and  Languages</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ch4-properties-of-regular-languages"><span class="toc-number">2.</span> <span class="toc-text"> CH4 Properties of Regular  Languages</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Ewine-32-bit"><span class="toc-number">1.</span> <span class="toc-text"> 关于wine 32-bit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91%E5%92%8C%E5%8D%8E%E6%96%87%E4%B8%AD%E5%AE%8B%E7%AD%89"><span class="toc-number">2.</span> <span class="toc-text"> 安装微软雅黑和华文中宋等</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%87%E7%94%A8%E4%B8%8D%E5%90%8C%E5%AE%B9%E5%99%A8%E8%BF%90%E8%A1%8Cexe%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text"> 采用不同容器运行exe文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%88%9B%E5%BB%BAdesktop%E6%96%87%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text"> 关于创建.desktop文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wine-%E5%AD%97%E4%BD%93"><span class="toc-number">5.</span> <span class="toc-text"> wine 字体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BD%99%E5%8F%82%E8%80%83"><span class="toc-number">6.</span> <span class="toc-text"> 其余参考:</span></a></li></ol>
       
   </div>
 </div>
@@ -310,7 +423,7 @@
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>Posts</div>
-    <div class="sidebar-state-number">53</div>
+    <div class="sidebar-state-number">59</div>
   </div>
   <div class="sidebar-state-category">
     <div>Categories</div>
@@ -400,10 +513,10 @@
     
       <div>
         <span class="icon-brush"></span>
-        86k
+        96k
         &nbsp;|&nbsp;
         <span class="icon-coffee"></span>
-        05:24
+        06:04
       </div>
     
     
@@ -433,7 +546,7 @@
   <h3 class="toc-title">Contents</h3>
   <div class="sidebar-toc-wrapper toc-div-class" >
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ch3-regular-expressions-and-languages"><span class="toc-number">1.</span> <span class="toc-text"> CH3 Regular Expressions and  Languages</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ch4-properties-of-regular-languages"><span class="toc-number">2.</span> <span class="toc-text"> CH4 Properties of Regular  Languages</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Ewine-32-bit"><span class="toc-number">1.</span> <span class="toc-text"> 关于wine 32-bit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91%E5%92%8C%E5%8D%8E%E6%96%87%E4%B8%AD%E5%AE%8B%E7%AD%89"><span class="toc-number">2.</span> <span class="toc-text"> 安装微软雅黑和华文中宋等</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%87%E7%94%A8%E4%B8%8D%E5%90%8C%E5%AE%B9%E5%99%A8%E8%BF%90%E8%A1%8Cexe%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text"> 采用不同容器运行exe文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%88%9B%E5%BB%BAdesktop%E6%96%87%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text"> 关于创建.desktop文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wine-%E5%AD%97%E4%BD%93"><span class="toc-number">5.</span> <span class="toc-text"> wine 字体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BD%99%E5%8F%82%E8%80%83"><span class="toc-number">6.</span> <span class="toc-text"> 其余参考:</span></a></li></ol>
       
   </div>
 </div>
@@ -446,7 +559,7 @@
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>Posts</div>
-    <div class="sidebar-state-number">53</div>
+    <div class="sidebar-state-number">59</div>
   </div>
   <div class="sidebar-state-category">
     <div>Categories</div>
