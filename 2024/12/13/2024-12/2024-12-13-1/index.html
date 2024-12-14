@@ -1,0 +1,829 @@
+
+  <!DOCTYPE html>
+  <html lang="zh_cn"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    [ControlSystem] Ch7 根轨迹法 |
+    
+    RIKKA&#39;s Blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="学习控制理论课程PPT的记录. 相关笔记会另开博客记录. 也可能不会开.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[ControlSystem] Ch7 根轨迹法">
+<meta property="og:url" content="https://rikka421.github.io/2024/12/13/2024-12/2024-12-13-1/index.html">
+<meta property="og:site_name" content="RIKKA&#39;s Blog">
+<meta property="og:description" content="学习控制理论课程PPT的记录. 相关笔记会另开博客记录. 也可能不会开.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://rikka421.github.io/images/24-12/Screenshot%20from%202024-12-13%2017-08-15.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-12/Screenshot%20from%202024-12-13%2017-18-25.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-12/Screenshot%20from%202024-12-13%2017-31-08.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-12/Screenshot%20from%202024-12-13%2018-06-57.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-12/Screenshot%20from%202024-12-13%2018-07-02.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-12/Screenshot%20from%202024-12-13%2018-12-50.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-12/Screenshot%20from%202024-12-13%2018-12-50.png">
+<meta property="og:image" content="https://rikka421.github.io/images/24-12/Screenshot%20from%202024-12-13%2018-30-24.png">
+<meta property="article:published_time" content="2024-12-13T09:06:11.184Z">
+<meta property="article:modified_time" content="2024-12-14T03:27:40.808Z">
+<meta property="article:author" content="RIKKA421">
+<meta property="article:tag" content="ControlSystem">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rikka421.github.io/images/24-12/Screenshot%20from%202024-12-13%2017-08-15.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="RIKKA's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/emoji.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.9/dist/katex.min.css">
+
+    
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+        </svg>
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">Home</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">Archives</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">About</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">Friend</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    <img fetchpriority="high" src="/images/24-12/Screenshot%20from%202024-12-13%2017-31-08.png" alt="[ControlSystem] Ch7 根轨迹法">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">[ControlSystem] Ch7 根轨迹法</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-2024-12/2024-12-13-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2024/12/13/2024-12/2024-12-13-1/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2024-12-13T09:06:11.184Z" itemprop="datePublished">2024-12-13</time>
+    <time style="display: none;" id="post-update-time">2024-12-14</time>
+  </a>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/LearnLog/" data-aos="zoom-in">LearnLog</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <p>学习控制理论课程PPT的记录. 相关笔记会另开博客记录. 也可能不会开.</p>
+<span id="more"></span>
+<h2 id="根轨迹的基本概念"><a class="markdownIt-Anchor" href="#根轨迹的基本概念"></a> 根轨迹的基本概念</h2>
+<p>考虑下面的二阶系统的性能<br />
+<img src="/images/24-12/Screenshot%20from%202024-12-13%2017-08-15.png" alt="" /></p>
+<p>因此, 我们考虑一般的情况, “比例控制结构”, 并给出这个结构下, 参数变化对于系统性能的影响</p>
+<ol>
+<li>给出特征方程的根, 根表示为包含参数的一般形式</li>
+<li>考察参数K从零到无穷大时, 根的轨迹变化情况</li>
+</ol>
+<p>约束条件: 考察某个极点是否会在轨迹上<br />
+在轨迹上的点必须满足</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mn>1</mn><mo>+</mo><mi>K</mi><mi>G</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mi>H</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">1 + KG(s) H(s) = 0
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mord mathnormal">G</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span></span></p>
+<p>于是, 将方程展开得到</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="normal">∣</mi><mi>K</mi><mi>G</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mi>H</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mi mathvariant="normal">∣</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">|KG(s)H(s)| = 1
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mord mathnormal">G</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span></span></p>
+<p>同时, &quot;零点角度&quot;减去&quot;极点角度&quot;为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>180</mn></mrow><annotation encoding="application/x-tex">-180</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">−</span><span class="mord">1</span><span class="mord">8</span><span class="mord">0</span></span></span></span>度. 其中零点, 极点角度为零极点指向 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span></span></span></span>的向量的角度. (此处零极点为开环零极点)</p>
+<ul>
+<li>相角条件决定了整条根轨迹, 即决定了哪些点是极点 (充要条件)</li>
+<li>幅值条件决定了极点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span></span></span></span> 的匹配增益值.<br />
+<img src="/images/24-12/Screenshot%20from%202024-12-13%2017-18-25.png" alt="" /></li>
+</ul>
+<h2 id="根轨迹绘制的基本方法"><a class="markdownIt-Anchor" href="#根轨迹绘制的基本方法"></a> 根轨迹绘制的基本方法</h2>
+<ol>
+<li>根轨迹的分支数: N阶系统有N个闭环极点. 根轨迹的分支数等于系统阶数, 也等于开环极点的个数</li>
+<li>根轨迹的对称性: 关于实轴对称 (要么都是实根, 要么都是共轭复根)</li>
+<li>根轨迹的起点: 起始于开环极点 (展开, 令 K趋于0即可得到)</li>
+<li>根轨迹的终点: 终止于开环零点</li>
+<li>实轴上的根轨迹段: 考察其右侧的开环零极点个数之和的奇偶性, 来判断相角和 (这是由于: 共轭开环零极点诱导的相角成对出现且和为360; 左侧实开环零极点相角为0. 因此只考虑右侧实零极点即可)</li>
+<li>根轨迹的分离 / 会合点: 与特征方程的重根对应. 由于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo>=</mo><mo>−</mo><mfrac><mrow><mi>Q</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">K = -\frac{Q(s)}{P(s)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.53em;vertical-align:-0.52em;"></span><span class="mord">−</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathnormal mtight">s</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">Q</span><span class="mopen mtight">(</span><span class="mord mathnormal mtight">s</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>, 因此可以得到: 匹配增益值函数分支在极点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span></span></span></span>的实定义域内单调增减, 且在分离点处取最大值, 在会合点处取最小值 (根据图像)</li>
+</ol>
+<p><img src="/images/24-12/Screenshot%20from%202024-12-13%2017-31-08.png" alt="" /></p>
+<p>因此, 我们可根据必要条件</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mi>d</mi><mi>K</mi></mrow><mrow><mi>d</mi><mi>s</mi></mrow></mfrac><mo>=</mo><mo>−</mo><mfrac><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><msup><mi>Q</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>−</mo><msup><mi>P</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mi>Q</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><mrow><msup><mi>P</mi><mn>2</mn></msup><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow></mfrac><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\frac{dK}{ds} = 
+- \frac{P(s)Q&#x27;(s)-P&#x27;(s)Q(s)}{P^2(s)} = 
+0
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.05744em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.37144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal">s</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.364892em;vertical-align:-0.936em;"></span><span class="mord">−</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.428892em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.740108em;"><span style="top:-2.9890000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mord"><span class="mord mathnormal">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mord mathnormal">Q</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span></span></p>
+<p>以及 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo>≥</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">K\geq 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span> 且为实数的约束条件, 即可得到真正的分离点和会合点 (求出对应的 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span></span></span></span> 根)</p>
+<ol start="7">
+<li>根轨迹的渐近线<br />
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>−</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">n - m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span>条根轨迹分支, 沿着一组渐近线趋于无穷远处. 它们共享一个渐近中心 (与实轴相交)</li>
+</ol>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>σ</mi><mi>A</mi></msub><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mi>n</mi><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow></munderover><mo stretchy="false">(</mo><mo>−</mo><msub><mi>p</mi><mi>i</mi></msub><mo stretchy="false">)</mo><mo>−</mo><mi>s</mi><mi>u</mi><msubsup><mi>m</mi><mi>m</mi><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow></msubsup><mo stretchy="false">(</mo><mo>−</mo><msub><mi>z</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><mrow><mi>n</mi><mo>−</mo><mi>m</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\sigma_A = \frac{\sum_{n}^{i = 1} (-p_i) - sum_{m}^{j = 1} (-z_i)}{n - m}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.423604em;vertical-align:-0.7693300000000001em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.654274em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal">m</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.6897100000000003em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.964564em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">−</span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">u</span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.824664em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">−</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.04398em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693300000000001em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<p>夹角为</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>ϕ</mi><mi>A</mi></msub><mo>=</mo><mfrac><mrow><mo stretchy="false">(</mo><mn>2</mn><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mn>180</mn></mrow><mrow><mi>n</mi><mo>−</mo><mi>m</mi></mrow></mfrac><mo separator="true">,</mo><mi>k</mi><mo>=</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><mi>n</mi><mo>−</mo><mi>m</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\phi_A  = \frac{(2 k + 1) 180}{n - m}, k = 0, 1, ..., n - m - 1
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal">ϕ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.19633em;vertical-align:-0.7693300000000001em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal">m</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mord">1</span><span class="mord">8</span><span class="mord">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693300000000001em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span></span></p>
+<p>渐近线平分360度. (180; 90, 270; 60, 180, 300; 45, 135, 225, 315; …)</p>
+<ol start="8">
+<li>根轨迹与虚轴的交点<br />
+A. 利用特征方程求解: 即, 待定系数法, 令 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><mi>j</mi><mi>w</mi></mrow><annotation encoding="application/x-tex">s = jw</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span></span></span></span>并求解特征方程, 得到对应的 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span><br />
+B. 劳斯判据求解: 确定K在稳定性改变的临界点, 在带入特征方程求得 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mi>w</mi></mrow><annotation encoding="application/x-tex">jw</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span></span></span></span>的值</li>
+</ol>
+<p>总结: 给定特征方程, 绘制轨迹图</p>
+<p>第一步: 确定起始和终止点, 即求解开环函数的零极点 (零点不存在时, 看作无穷)</p>
+<p>第二步: 确定实轴上的根轨迹段</p>
+<p>第三步: 确定分离点或会合点. 求解导数为零的根, 并代回特征方程, 舍去 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo>&lt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">K &lt; 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>的解.</p>
+<p>第四步: 确定渐近线. 根据公式确定倾角和渐进中心</p>
+<p>第五步: 确定轨迹与虚轴交点. 根据特征方程待定系数法求得.</p>
+<p>第六步: 用平滑曲线, 将分离/会合点向渐近线靠近, 并补全实轴部分.</p>
+<ol start="9">
+<li>根轨迹的入射角和出射角</li>
+</ol>
+<ul>
+<li>当开环零极点为实数时, 根轨迹沿实轴发展, 不考虑入射角 / 出射角</li>
+<li>当开环零极点为复数时, 将根轨迹离开复极点的角度称为出射角, 将趋于复极点的角度称为入射角</li>
+</ul>
+<p>当根轨迹点趋于开环零极点时, 依然满足相角和的性质, 同时轨迹点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span></span></span></span>与开环零极点的角度, 等价于趋近的点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>r</mi></msub></mrow><annotation encoding="application/x-tex">p_r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>与其他零极点的角度. 于是根据这个可求解出入射角和出射角</p>
+<p>小结: 对于典型控制结构&quot;比例控制&quot;, 我们可以绘制其根轨迹图, 从而刻画调节 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span>时, 极点位置和系统性能变化的全貌.</p>
+<h2 id="基于根轨迹的控制系统分析"><a class="markdownIt-Anchor" href="#基于根轨迹的控制系统分析"></a> 基于根轨迹的控制系统分析</h2>
+<h3 id="典型传递函数的根轨迹分析"><a class="markdownIt-Anchor" href="#典型传递函数的根轨迹分析"></a> 典型传递函数的根轨迹分析:</h3>
+<p>一二阶可直接根据方程解的一般形式得到</p>
+<p>三阶可根据渐近中心和渐近线得到.</p>
+<p><img src="/images/24-12/Screenshot%20from%202024-12-13%2018-06-57.png" alt="" /></p>
+<p><img src="/images/24-12/Screenshot%20from%202024-12-13%2018-07-02.png" alt="" /></p>
+<h3 id="例子-参数设计与分析"><a class="markdownIt-Anchor" href="#例子-参数设计与分析"></a> 例子: 参数设计与分析</h3>
+<ol>
+<li>闭环系统稳定: 要求极点位于左半平面</li>
+<li>稳定的欠阻尼系统: 包含复极点</li>
+<li>主导为二阶系统的参数取值范围 (10倍): 满足极点距离的十倍关系</li>
+</ol>
+<h3 id="广义根轨迹"><a class="markdownIt-Anchor" href="#广义根轨迹"></a> 广义根轨迹</h3>
+<p>根据等效开环函数, 将想要调节的参数放到开环传递函数上方, 且位于系数位置, 之后正常进行考察.</p>
+<h3 id="控制器对根轨迹的影响"><a class="markdownIt-Anchor" href="#控制器对根轨迹的影响"></a> 控制器对根轨迹的影响</h3>
+<p>在前端添加控制器:<br />
+<img src="/images/24-12/Screenshot%20from%202024-12-13%2018-12-50.png" alt="" /></p>
+<p>大致分为三类</p>
+<ul>
+<li>比例控制 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span></li>
+<li>微分控制 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span></span></span></span></li>
+<li>积分控制 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mi>s</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{1}{s}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">s</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></li>
+</ul>
+<p>三类控制器对二阶系统根轨迹的影响:</p>
+<p>微分型控制器 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo stretchy="false">(</mo><mi>s</mi><mo>+</mo><mi>z</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">K (s + z)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">)</span></span></span></span>, 系统变为</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mi>K</mi><mo stretchy="false">(</mo><mi>s</mi><mo>+</mo><mi>z</mi><mo stretchy="false">)</mo></mrow><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>+</mo><msub><mi>z</mi><mn>1</mn></msub><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mi>s</mi><mo>+</mo><msub><mi>z</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{K(s+z)}{(s + z_1)(s + z_2)}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.363em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.04398em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.04398em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<p>结论: 增加合适的开环零点(足够右侧), 可以使根轨迹产生向左弯曲的倾向(弯曲靠近新添加的零点, 产生复根), 有利于提高系统稳定性和阻尼系数</p>
+<p>积分型控制器 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mfrac><mi>K</mi><mrow><mi>s</mi><mo>+</mo><mi>d</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">K \frac{K}{s + d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.275662em;vertical-align:-0.403331em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.872331em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">s</span><span class="mbin mtight">+</span><span class="mord mathnormal mtight">d</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.403331em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>, 系统变为</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mi>K</mi><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>+</mo><mi>d</mi><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mi>s</mi><mo>+</mo><msub><mi>z</mi><mn>1</mn></msub><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mi>s</mi><mo>+</mo><msub><mi>z</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{K}{(s + d)(s + z_1)(s + z_2)}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.29633em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.36033em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal">d</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.04398em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.04398em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<p>结论: 增加开环极点, 可以使根轨迹产生向右弯曲的倾向(渐近线从两条变成三条, 新极点的值影响渐近中心的值), 不利于系统稳定性, 但有利于稳态精度(型次变大)</p>
+<p>综合型控制器 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mfrac><mrow><mi>K</mi><mo stretchy="false">(</mo><mi>s</mi><mo>+</mo><mi>z</mi><mo stretchy="false">)</mo></mrow><mrow><mi>s</mi><mo>+</mo><mi>d</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">K \frac{K(s+z)}{s + d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.413331em;vertical-align:-0.403331em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">s</span><span class="mbin mtight">+</span><span class="mord mathnormal mtight">d</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span><span class="mopen mtight">(</span><span class="mord mathnormal mtight">s</span><span class="mbin mtight">+</span><span class="mord mathnormal mtight" style="margin-right:0.04398em;">z</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.403331em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>, 系统变为</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mi>K</mi><mo stretchy="false">(</mo><mi>s</mi><mo>+</mo><mi>z</mi><mo stretchy="false">)</mo></mrow><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>+</mo><mi>d</mi><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mi>s</mi><mo>+</mo><msub><mi>z</mi><mn>1</mn></msub><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mi>s</mi><mo>+</mo><msub><mi>z</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{K(s+z)}{(s + d)(s + z_1)(s + z_2)}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.363em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal">d</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.04398em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.04398em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<p>结论: 左侧的零 / 极点 占上风. 当零点占上风时, 轨迹向左弯曲; 极点占上风时, 轨迹向右弯曲.</p>
+<p>各种参数改变和系统性能的关系 (根据指标的等价线来记忆)<br />
+增大比例系数：</p>
+<ul>
+<li>超调量增大，</li>
+<li>调节时间不变，</li>
+<li>稳态误差减小，</li>
+<li>稳定性不变。</li>
+</ul>
+<p>增大纯微分系数：</p>
+<ul>
+<li>出现过阻尼，</li>
+<li>调节时间变大，</li>
+<li>稳态误差不变，</li>
+<li>稳定性变差。</li>
+</ul>
+<p>增大纯积分系数：</p>
+<ul>
+<li>超调量增大，</li>
+<li>调节时间变大，</li>
+<li>型次变大，改善稳态误差，</li>
+<li>稳定性变差，直至失稳。</li>
+</ul>
+<p>PID控制器</p>
+<p><img src="/images/24-12/Screenshot%20from%202024-12-13%2018-12-50.png" alt="" /></p>
+<h2 id="基于根轨迹的控制系统设计"><a class="markdownIt-Anchor" href="#基于根轨迹的控制系统设计"></a> 基于根轨迹的控制系统设计</h2>
+<p><img src="/images/24-12/Screenshot%20from%202024-12-13%2018-30-24.png" alt="" /></p>
+<ol>
+<li>先分析性能要求, 得到零极点的可行域, 导出预期零极点</li>
+<li>得到未矫正系统根轨迹图, 分析是否能配置到预期零极点上</li>
+<li>确定控制器参数, 使主导极点配置在预期主导极点上, 同时考察此时各种指标是否符合</li>
+<li>施加前置滤波器</li>
+</ol>
+<p>课件中的三个实例.</p>
+<h2 id="matlab在根轨迹中的应用"><a class="markdownIt-Anchor" href="#matlab在根轨迹中的应用"></a> MATLAB在根轨迹中的应用</h2>
+<p>绘制根轨迹</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo stretchy="false">[</mo><mi>r</mi><mo separator="true">,</mo><mi>K</mi><mo stretchy="false">]</mo><mo>=</mo><mi>r</mi><mi>l</mi><mi>o</mi><mi>c</mi><mi>u</mi><mi>s</mi><mo stretchy="false">(</mo><mi>s</mi><mi>y</mi><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">[r, K] = rlocus(sys)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal">c</span><span class="mord mathnormal">u</span><span class="mord mathnormal">s</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span></span></p>
+<p>分析根轨迹</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>r</mi><mi>l</mi><mi>o</mi><mi>c</mi><mi>f</mi><mi>i</mi><mi>n</mi><mi>d</mi><mo stretchy="false">(</mo><mi>s</mi><mi>y</mi><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">rlocfind(sys)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal">c</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">i</span><span class="mord mathnormal">n</span><span class="mord mathnormal">d</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span></span></p>
+<p>控制器设计</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>s</mi><mi>i</mi><mi>s</mi><mi>o</mi><mi>t</mi><mi>o</mi><mi>o</mi><mi>l</mi><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">sisotool(G)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">i</span><span class="mord mathnormal">s</span><span class="mord mathnormal">o</span><span class="mord mathnormal">t</span><span class="mord mathnormal">o</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mopen">(</span><span class="mord mathnormal">G</span><span class="mclose">)</span></span></span></span></span></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+        <a data-aos="zoom-in" href="/2024/12/13/2024-12/2024-12-13-1/#comments" class="article-comment-link">
+          <span class="post-comments-count valine-comment-count" data-xid="/2024/12/13/2024-12/2024-12-13-1/" itemprop="commentCount"></span>
+          Comments
+        </a>
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/ControlSystem/" rel="tag">ControlSystem</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="/images/24-12/Screenshot%20from%202024-12-14%2000-10-47.png" data-sizes="auto" alt="[ControlSystem] Ch3 状态空间模型" class="lazyload">
+        
+        <a href="/2024/12/13/2024-12/2024-12-13-2/"></a>
+        <div class="article-nav-caption">Newer</div>
+        <h3 class="article-nav-title">
+          
+            [ControlSystem] Ch3 状态空间模型
+          
+        </h3>
+      </div>
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        <img data-src="/images/24-12/Screenshot%20from%202024-12-13%2016-53-38.png" data-sizes="auto" alt="[ControlSystem] Ch6 控制系统的稳定性" class="lazyload">
+      
+      <a href="/2024/12/13/2024-12/2024-12-13/"></a>
+      <div class="article-nav-caption">Older</div>
+      <h3 class="article-nav-title">
+        
+          [ControlSystem] Ch6 控制系统的稳定性
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+  <section id="comments" class="vcomment"></section>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B9%E8%BD%A8%E8%BF%B9%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text"> 根轨迹的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B9%E8%BD%A8%E8%BF%B9%E7%BB%98%E5%88%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text"> 根轨迹绘制的基本方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%A0%B9%E8%BD%A8%E8%BF%B9%E7%9A%84%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text"> 基于根轨迹的控制系统分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B8%E5%9E%8B%E4%BC%A0%E9%80%92%E5%87%BD%E6%95%B0%E7%9A%84%E6%A0%B9%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90"><span class="toc-number">3.1.</span> <span class="toc-text"> 典型传递函数的根轨迹分析:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90-%E5%8F%82%E6%95%B0%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90"><span class="toc-number">3.2.</span> <span class="toc-text"> 例子: 参数设计与分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%BF%E4%B9%89%E6%A0%B9%E8%BD%A8%E8%BF%B9"><span class="toc-number">3.3.</span> <span class="toc-text"> 广义根轨迹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%99%A8%E5%AF%B9%E6%A0%B9%E8%BD%A8%E8%BF%B9%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="toc-number">3.4.</span> <span class="toc-text"> 控制器对根轨迹的影响</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%A0%B9%E8%BD%A8%E8%BF%B9%E7%9A%84%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1"><span class="toc-number">4.</span> <span class="toc-text"> 基于根轨迹的控制系统设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#matlab%E5%9C%A8%E6%A0%B9%E8%BD%A8%E8%BF%B9%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">5.</span> <span class="toc-text"> MATLAB在根轨迹中的应用</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">71</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">4</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">25</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2024
+      <span class="footer-info-sep"></span>
+      RIKKA421
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        123.8k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        07:51
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B9%E8%BD%A8%E8%BF%B9%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text"> 根轨迹的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B9%E8%BD%A8%E8%BF%B9%E7%BB%98%E5%88%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text"> 根轨迹绘制的基本方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%A0%B9%E8%BD%A8%E8%BF%B9%E7%9A%84%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text"> 基于根轨迹的控制系统分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B8%E5%9E%8B%E4%BC%A0%E9%80%92%E5%87%BD%E6%95%B0%E7%9A%84%E6%A0%B9%E8%BD%A8%E8%BF%B9%E5%88%86%E6%9E%90"><span class="toc-number">3.1.</span> <span class="toc-text"> 典型传递函数的根轨迹分析:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90-%E5%8F%82%E6%95%B0%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90"><span class="toc-number">3.2.</span> <span class="toc-text"> 例子: 参数设计与分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%BF%E4%B9%89%E6%A0%B9%E8%BD%A8%E8%BF%B9"><span class="toc-number">3.3.</span> <span class="toc-text"> 广义根轨迹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%99%A8%E5%AF%B9%E6%A0%B9%E8%BD%A8%E8%BF%B9%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="toc-number">3.4.</span> <span class="toc-text"> 控制器对根轨迹的影响</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%A0%B9%E8%BD%A8%E8%BF%B9%E7%9A%84%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1"><span class="toc-number">4.</span> <span class="toc-text"> 基于根轨迹的控制系统设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#matlab%E5%9C%A8%E6%A0%B9%E8%BD%A8%E8%BF%B9%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">5.</span> <span class="toc-text"> MATLAB在根轨迹中的应用</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="RIKKA421" class="lazyload">
+  <div class="sidebar-author-name">RIKKA421</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">71</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">4</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">25</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:3550124064@qq.com itemprop="url" target="_blank" aria-label="email"></a>
+    </div>
+  
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/rikka421 itemprop="url" target="_blank" aria-label="github"></a>
+    </div>
+  
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/432171634?spm_id_from=333.937.0.0 itemprop="url" target="_blank" aria-label="bilibili"></a>
+    </div>
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Home</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Archives</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">About</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">Friend</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+  
+<script src="https://npm.webcache.cn/valine@1.5.1/dist/Valine.min.js" data-pjax></script>
+
+  <script data-pjax>
+    var GUEST_INFO = ['nick', 'mail', 'link'];
+    var guest_info = 'nick,mail,link'.split(',').filter((item) => {
+      return GUEST_INFO.indexOf(item) > -1
+    });
+    var recordIP = JSON.parse('true');
+    var highlight = JSON.parse('true');
+    var visitor = JSON.parse('false');
+
+    new Valine({
+      el: '.vcomment',
+      appId: "M4jZ0oieL94Oyjqc8LeD1oXz-gzGzoHsz",
+      appKey: "jWmwVfXAV7Iv4Bj9uWLvb4f3",
+      placeholder: "Leave your commit ;)",
+      pageSize: '10',
+      avatar: 'retro',
+      lang: 'zh-cn',
+      recordIP: recordIP,
+      highlight: highlight,
+      visitor: visitor,
+      requiredFields: guest_info,
+      path: window.location.pathname
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+
