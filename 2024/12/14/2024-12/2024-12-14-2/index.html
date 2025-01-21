@@ -37,7 +37,7 @@
 <meta property="og:description" content="学习Automata PPT的记录. 相关笔记会另开博客记录. 也可能不会开.">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-14T14:36:42.968Z">
-<meta property="article:modified_time" content="2024-12-14T15:17:20.539Z">
+<meta property="article:modified_time" content="2024-12-17T03:21:46.272Z">
 <meta property="article:author" content="RIKKA421">
 <meta property="article:tag" content="Automata">
 <meta name="twitter:card" content="summary">
@@ -188,7 +188,7 @@
       <div class="article-date">
   <a href="/2024/12/14/2024-12/2024-12-14-2/" class="article-date-link" data-aos="zoom-in">
     <time datetime="2024-12-14T14:36:42.968Z" itemprop="datePublished">2024-12-14</time>
-    <time style="display: none;" id="post-update-time">2024-12-14</time>
+    <time style="display: none;" id="post-update-time">2024-12-17</time>
   </a>
 </div>
 
@@ -263,6 +263,83 @@ If L = L(M) for some TM M that is an   algorithm, we say L is a <strong>recursiv
 <li>Every CFL is a recursive language (Use the CYK algorithm)</li>
 <li>Almost anything you can think of is recursive.</li>
 </ul>
+<h3 id="programming-trick"><a class="markdownIt-Anchor" href="#programming-trick"></a> Programming Trick</h3>
+<h4 id="multiple-tracks-多道"><a class="markdownIt-Anchor" href="#multiple-tracks-多道"></a> Multiple Tracks  (多道)</h4>
+<p>将字符表视为一个元组, 其他按元组处理.<br />
+(例如, 处理两个磁道, 此时字符表相当于一个二元组)</p>
+<h4 id="marking"><a class="markdownIt-Anchor" href="#marking"></a> Marking</h4>
+<p>用特殊字符来标记一处位置. 一般用Blank来标记, 但也可以用其他字符<br />
+(和Multiple Tracks 结合, 可以用一条纸带来标记其他纸带的某个特殊位置)</p>
+<h4 id="caching-in-the-state-缓存"><a class="markdownIt-Anchor" href="#caching-in-the-state-缓存"></a> Caching in the State (缓存)</h4>
+<ul>
+<li>状态也可以是一个向量.</li>
+<li>第一个分量用于控制, 其他分量用于存储信息 (Turing Maching with Storage)</li>
+</ul>
+<p>Simulating Infinite Tape by Semi-infinite Tape:<br />
+从起始位置出发, 将纸带分为两部分, 用两个栈进行模拟.</p>
+<p>Extension(But still only able to define the same languages.)</p>
+<ol>
+<li>Multitape TM: 多条纸带, 同时有多个指针(不同纸带上的移动是独立的)</li>
+<li>Nondeteerministic TM: 类似BFS的思想. 能够将一个类似&quot;树&quot;的结构变为线性的.</li>
+<li>Store for name-value pairs:  <code>#name * value#</code> 其中name, value 都可能是短语. 类似字典的操作, 如Lookup(通过name 查找 value); Insertion, 分类讨论. 当新插入的比旧的长时, 还需要转移其他内容</li>
+</ol>
+<p>Simulating k Tapes by One: 使用2k条纸带, 分别记录内容和指针方向; 通过精巧的设计使转移函数等价</p>
+<p>因此, 在讨论任意TM时, 我们都可以假设它足够简单<br />
+E.g., one, semi-infinite tape, deterministic.<br />
+(因为它们是等价的. )</p>
+<h2 id="closure-properties"><a class="markdownIt-Anchor" href="#closure-properties"></a> Closure Properties</h2>
+<p>Closure Properties of Recursive and RE Languages:</p>
+<ul>
+<li>Both closed under union, concatenation, star, reversal, intersection, inverse homomorphism.</li>
+<li>Recursive closed under difference, complementation.</li>
+<li>RE closed under homomorphism.</li>
+<li>此处homomorphism和 inverse homomorphism不是成对出现的.</li>
+</ul>
+<h3 id="union-intersection"><a class="markdownIt-Anchor" href="#union-intersection"></a> Union / Intersection</h3>
+<p>构造: 通过2-type TM 构造, &quot;in parallel&quot;地进行函数转移<br />
+Recursive languages: 若 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>M</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">M_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>M</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">M_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>都是algorithms, 则新的 M总会halt (halt性质的保持)<br />
+RE languages: 有可能既不halting, 也不 accepting, 永远地run下去. (例如, 原始语言是通过halting来定义accepting的)</p>
+<blockquote>
+<p>对于Recursive TM, 会返回Accept或Reject的结果; 而RE TM, 则只会返回accept的结果(当它halting), 要么就一直不halting地运行下去.<br />
+这里按理来说, RE是包含Recursive的, 而不是不交的关系. 但是PPT上好像将两者直接对立起来了</p>
+</blockquote>
+<h3 id="difference-complement"><a class="markdownIt-Anchor" href="#difference-complement"></a> Difference / Complement</h3>
+<p>由于也是集合运算, 所以是类似上面的逻辑. 不同的是, 需要考虑Recursive / RE.</p>
+<p>Recursive languages: both TM’s will eventually halt.</p>
+<ul>
+<li>Accept if M1 accepts and M2 does not.</li>
+<li>Corollary: Recursive languages are closed under complementation.<br />
+RE Languages: can’t do it; M2 may never halt, so you can’t be sure input is in the difference.</li>
+</ul>
+<blockquote>
+<p>RE的Union操作同样可能不终止, 为什么没有这个担心呢?<br />
+原因: 对于RE语言, 要点在于要将组件的&quot;尚未halting&quot;和结果的&quot;尚未halting&quot;联系起来. 而对于different, 它要求Ahalting的同时, B最终不halting, 此时结果才会halting. 但是我们无法判断B最终halting还是不halting (图灵机停机问题)<br />
+相对的, 在前面的Union和Intersection 操作, 我们不需要判断A或B “最终是否halting”, 只需要在尚未halting的时候跟着运行即可.</p>
+</blockquote>
+<h3 id="concatenation"><a class="markdownIt-Anchor" href="#concatenation"></a> Concatenation</h3>
+<p>Recursive languages: 将两个TM首尾相连即可</p>
+<p>RE: 构造2-type的非确定性图灵机. 通过非确定性猜测 <code>w = xy</code>的截断点. 然后, 将<code>x, y</code>分别放在两个type上并进行模拟.</p>
+<h3 id="star"><a class="markdownIt-Anchor" href="#star"></a> Star</h3>
+<p>Recursive: 挨个尝试将输入 &quot;break into some number of pieces&quot;的划分方法并进行验证.</p>
+<p>RE: 通过不确定性 guess many breaks</p>
+<h3 id="reversal"><a class="markdownIt-Anchor" href="#reversal"></a> Reversal</h3>
+<p>Start by reversing the input. (可以通过一个 2-type图灵机来完成)</p>
+<blockquote>
+<p>对于一个图灵机, 虽然它的纸带是无限长的, 但是它每次接收的输入长度是有限的(例如, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span>). 因此, 在做某些类似翻转和切分的操作时, 我们相信它可以在有限时间内完成. (对于无限长的输入, 显然很容易陷入不终止的情况. )</p>
+</blockquote>
+<h3 id="inverse-homomorphism"><a class="markdownIt-Anchor" href="#inverse-homomorphism"></a> Inverse Homomorphism</h3>
+<p>已有一个语言 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi></mrow><annotation encoding="application/x-tex">L</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">L</span></span></span></span>, 现在构造一个对应于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>h</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo stretchy="false">(</mo><mi>L</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">h^{-1}(L)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">L</span><span class="mclose">)</span></span></span></span>的图灵机M</p>
+<p>思想: 对于M, 它先做一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi></mrow><annotation encoding="application/x-tex">h</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">h</span></span></span></span>操作, 然后进行判断</p>
+<ul>
+<li>Apply h to input w.</li>
+<li>Simulate TM for L on  h(w).</li>
+<li>Accept w iff h(w) is in L.</li>
+<li>Works for Recursive or RE</li>
+</ul>
+<h3 id="homomorphismre"><a class="markdownIt-Anchor" href="#homomorphismre"></a> Homomorphism/RE</h3>
+<p>已有一个语言 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi></mrow><annotation encoding="application/x-tex">L</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">L</span></span></span></span>, 现在构造一个对应于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo stretchy="false">(</mo><mi>L</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">h(L)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal">L</span><span class="mclose">)</span></span></span></span>的图灵机</p>
+<p>思想: 对于M, 它先做一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>h</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">h^{-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span>操作, 然后进行判断.</p>
+<p>此处需要借助非确定性的力量, 因为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>h</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">h^{-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span>是 &quot;多到一&quot;的操作. 进行划分的方式可能有很多种. 因此 “won’t work for Recursive languages”.</p>
 
       
     </div>
@@ -326,7 +403,7 @@ If L = L(M) for some TM M that is an   algorithm, we say L is a <strong>recursiv
   <h3 class="toc-title">Contents</h3>
   <div class="sidebar-toc-wrapper toc-div-class" >
       
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#turing-machine-theory"><span class="toc-number">1.</span> <span class="toc-text"> Turing-Machine Theory</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#turing-machine-formalism"><span class="toc-number">1.1.</span> <span class="toc-text"> Turing-Machine Formalism</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#turing-machine-theory"><span class="toc-number">1.</span> <span class="toc-text"> Turing-Machine Theory</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#turing-machine-formalism"><span class="toc-number">1.1.</span> <span class="toc-text"> Turing-Machine Formalism</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#programming-trick"><span class="toc-number">1.2.</span> <span class="toc-text"> Programming Trick</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#multiple-tracks-%E5%A4%9A%E9%81%93"><span class="toc-number">1.2.1.</span> <span class="toc-text"> Multiple Tracks  (多道)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#marking"><span class="toc-number">1.2.2.</span> <span class="toc-text"> Marking</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#caching-in-the-state-%E7%BC%93%E5%AD%98"><span class="toc-number">1.2.3.</span> <span class="toc-text"> Caching in the State (缓存)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#closure-properties"><span class="toc-number">2.</span> <span class="toc-text"> Closure Properties</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#union-intersection"><span class="toc-number">2.1.</span> <span class="toc-text"> Union &#x2F; Intersection</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#difference-complement"><span class="toc-number">2.2.</span> <span class="toc-text"> Difference &#x2F; Complement</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#concatenation"><span class="toc-number">2.3.</span> <span class="toc-text"> Concatenation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#star"><span class="toc-number">2.4.</span> <span class="toc-text"> Star</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reversal"><span class="toc-number">2.5.</span> <span class="toc-text"> Reversal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inverse-homomorphism"><span class="toc-number">2.6.</span> <span class="toc-text"> Inverse Homomorphism</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#homomorphismre"><span class="toc-number">2.7.</span> <span class="toc-text"> Homomorphism&#x2F;RE</span></a></li></ol></li></ol>
       
   </div>
 </div>
@@ -416,7 +493,7 @@ If L = L(M) for some TM M that is an   algorithm, we say L is a <strong>recursiv
     
     <div>
       <span class="icon-copyright"></span>
-      2020-2024
+      2020-2025
       <span class="footer-info-sep"></span>
       RIKKA421
     </div>
@@ -429,10 +506,10 @@ If L = L(M) for some TM M that is an   algorithm, we say L is a <strong>recursiv
     
       <div>
         <span class="icon-brush"></span>
-        123.8k
+        126.9k
         &nbsp;|&nbsp;
         <span class="icon-coffee"></span>
-        07:51
+        08:03
       </div>
     
     
@@ -462,7 +539,7 @@ If L = L(M) for some TM M that is an   algorithm, we say L is a <strong>recursiv
   <h3 class="toc-title">Contents</h3>
   <div class="sidebar-toc-wrapper toc-div-class" >
       
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#turing-machine-theory"><span class="toc-number">1.</span> <span class="toc-text"> Turing-Machine Theory</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#turing-machine-formalism"><span class="toc-number">1.1.</span> <span class="toc-text"> Turing-Machine Formalism</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#turing-machine-theory"><span class="toc-number">1.</span> <span class="toc-text"> Turing-Machine Theory</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#turing-machine-formalism"><span class="toc-number">1.1.</span> <span class="toc-text"> Turing-Machine Formalism</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#programming-trick"><span class="toc-number">1.2.</span> <span class="toc-text"> Programming Trick</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#multiple-tracks-%E5%A4%9A%E9%81%93"><span class="toc-number">1.2.1.</span> <span class="toc-text"> Multiple Tracks  (多道)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#marking"><span class="toc-number">1.2.2.</span> <span class="toc-text"> Marking</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#caching-in-the-state-%E7%BC%93%E5%AD%98"><span class="toc-number">1.2.3.</span> <span class="toc-text"> Caching in the State (缓存)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#closure-properties"><span class="toc-number">2.</span> <span class="toc-text"> Closure Properties</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#union-intersection"><span class="toc-number">2.1.</span> <span class="toc-text"> Union &#x2F; Intersection</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#difference-complement"><span class="toc-number">2.2.</span> <span class="toc-text"> Difference &#x2F; Complement</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#concatenation"><span class="toc-number">2.3.</span> <span class="toc-text"> Concatenation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#star"><span class="toc-number">2.4.</span> <span class="toc-text"> Star</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reversal"><span class="toc-number">2.5.</span> <span class="toc-text"> Reversal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inverse-homomorphism"><span class="toc-number">2.6.</span> <span class="toc-text"> Inverse Homomorphism</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#homomorphismre"><span class="toc-number">2.7.</span> <span class="toc-text"> Homomorphism&#x2F;RE</span></a></li></ol></li></ol>
       
   </div>
 </div>

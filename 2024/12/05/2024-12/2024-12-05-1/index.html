@@ -37,7 +37,7 @@
 <meta property="og:description" content="使用OpenRLHF https:&#x2F;&#x2F;github.com&#x2F;OpenRLHF&#x2F;OpenRLHF?tab&#x3D;readme-ov-file 的过程.">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-05T03:12:55.383Z">
-<meta property="article:modified_time" content="2024-12-05T09:12:05.059Z">
+<meta property="article:modified_time" content="2025-01-21T12:38:57.911Z">
 <meta property="article:author" content="RIKKA421">
 <meta property="article:tag" content="RLHF">
 <meta name="twitter:card" content="summary">
@@ -188,7 +188,7 @@
       <div class="article-date">
   <a href="/2024/12/05/2024-12/2024-12-05-1/" class="article-date-link" data-aos="zoom-in">
     <time datetime="2024-12-05T03:12:55.383Z" itemprop="datePublished">2024-12-05</time>
-    <time style="display: none;" id="post-update-time">2024-12-05</time>
+    <time style="display: none;" id="post-update-time">2025-01-21</time>
   </a>
 </div>
 
@@ -236,6 +236,36 @@
 <a target="_blank" rel="noopener" href="https://github.com/adithya-s-k/omniparse/issues/36">https://github.com/adithya-s-k/omniparse/issues/36</a></p>
 <p>后面找到了一个网页 <a target="_blank" rel="noopener" href="https://til.simonwillison.net/python/installing-flash-attention">https://til.simonwillison.net/python/installing-flash-attention</a>, 上面貌似表示安装这个东西卡顿是个正常现象. (<code>For some reason attempting to install this runs a compilation process which can take multiple hours.</code>). 所以我打算给它一些时间. 只要它没有报错就让它在那跑吧.</p>
 <h2 id="二-prepare-datasets"><a class="markdownIt-Anchor" href="#二-prepare-datasets"></a> 二. Prepare Datasets</h2>
+<p>OPENRLHF整起来很没头绪. 一部分原因在于这玩意真的没什么资料, 国内的尚且不提, 国外的都没多少; 另一部分原因在于很不熟悉docker.</p>
+<p>不过今天又着手开始折腾了一下, 渐渐有点眉目了.</p>
+<h3 id="docker相关"><a class="markdownIt-Anchor" href="#docker相关"></a> Docker相关</h3>
+<p>可以直接把docker当成一个虚拟机 / 操作系统. 只不过它没有图形化界面罢了.<br />
+其中run命令就相当于安装系统, 而start命令相当于开机.</p>
+<p>使用类似</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> docker-OpenRLHF <span class="built_in">ls</span></span><br></pre></td></tr></table></figure>
+<p>就可以在运行的容器中执行命令了.</p>
+<p>通过类似</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> ./test.py docker-OpenRLHF:/workspace/codes</span><br></pre></td></tr></table></figure>
+<p>就可以在本机和容器之间传递文件</p>
+<p>当然, 也可以直接运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it docker-OpenRLHF /bin/bash</span><br></pre></td></tr></table></figure>
+<p>此处 <code>-i</code>指令使容器保持标准输入流 stdin打开, 而-t分配一个伪终端, 两者结合就生成了一个交互式Shell, 从而能够执行各种shell命令.</p>
+<p>之后我们就可以正常地在里面 <code>pip install</code>, 配好各种环境, 运行python代码等等. 只不过代码编辑的工作需要在本机上完成.</p>
+<hr />
+<h3 id="hugging-face-transformers-相关"><a class="markdownIt-Anchor" href="#hugging-face-transformers-相关"></a> Hugging Face / Transformers 相关</h3>
+<p>这两个东西密不可分. 使用方法如下:</p>
+<p>先运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install transformers</span><br></pre></td></tr></table></figure>
+<p>然后运行下面的python文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoTokenizer, AutoModelForSequenceClassification</span><br><span class="line"></span><br><span class="line">model_name = <span class="string">&quot;bert-base-uncased&quot;</span></span><br><span class="line">tokenizer = AutoTokenizer.from_pretrained(model_name)</span><br><span class="line">model = AutoModelForSequenceClassification.form_pretrained(model_name)</span><br><span class="line"></span><br><span class="line">text = <span class="string">&quot;hello world!&quot;</span></span><br><span class="line">inputs = tokenizer(text, teturn_tensors=<span class="string">&quot;pt&quot;</span>)</span><br><span class="line"></span><br><span class="line">outputs = moedl(**inputs)</span><br><span class="line"><span class="built_in">print</span>(outputs.logits)</span><br></pre></td></tr></table></figure>
+<p>如果一切正常就会看到输出.</p>
+<p>但是要是有这么顺利就好了. 我遇到的第一个问题是网络链接问题.</p>
+<hr />
+<h3 id="在docker上访问huggingface跑openrlhf"><a class="markdownIt-Anchor" href="#在docker上访问huggingface跑openrlhf"></a> 在Docker上访问huggingface跑OPENRLHF</h3>
+<p>第一个问题是很多库没装上, 例如下面两个报错</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">++ python -m openrlhf.cli.serve_rm --reward_pretrain OpenRLHF/Llama-3-8b-rm-700k --port 5000 --bf16 --flash_attn --normalize_reward --max_len 8192 --batch_size 16</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;/usr/lib/python3.10/runpy.py&quot;</span>, line 196, <span class="keyword">in</span> _run_module_as_main</span><br><span class="line">    <span class="built_in">return</span> _run_code(code, main_globals, None,</span><br><span class="line">  File <span class="string">&quot;/usr/lib/python3.10/runpy.py&quot;</span>, line 86, <span class="keyword">in</span> _run_code</span><br><span class="line">    <span class="built_in">exec</span>(code, run_globals)</span><br><span class="line">  File <span class="string">&quot;/usr/local/lib/python3.10/dist-packages/openrlhf/cli/serve_rm.py&quot;</span>, line 5, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    import uvicorn</span><br><span class="line">ModuleNotFoundError: No module named <span class="string">&#x27;uvicorn&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>ModuleNotFoundError: No module named 'fastapi'</code></p>
+<p>直接pip install 了相关的库之后就解决了.</p>
 
       
     </div>
@@ -315,7 +345,7 @@
   <h3 class="toc-title">Contents</h3>
   <div class="sidebar-toc-wrapper toc-div-class" >
       
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%B6-%E5%A4%A7%E6%88%98-nvidia-docker"><span class="toc-number">1.</span> <span class="toc-text"> 零. 大战 nvidia-docker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E5%A4%A7%E6%88%98-pip-install-openrlhf"><span class="toc-number">2.</span> <span class="toc-text"> 一. 大战 pip install openrlhf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-prepare-datasets"><span class="toc-number">3.</span> <span class="toc-text"> 二. Prepare Datasets</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%B6-%E5%A4%A7%E6%88%98-nvidia-docker"><span class="toc-number">1.</span> <span class="toc-text"> 零. 大战 nvidia-docker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E5%A4%A7%E6%88%98-pip-install-openrlhf"><span class="toc-number">2.</span> <span class="toc-text"> 一. 大战 pip install openrlhf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-prepare-datasets"><span class="toc-number">3.</span> <span class="toc-text"> 二. Prepare Datasets</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#docker%E7%9B%B8%E5%85%B3"><span class="toc-number">3.1.</span> <span class="toc-text"> Docker相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hugging-face-transformers-%E7%9B%B8%E5%85%B3"><span class="toc-number">3.2.</span> <span class="toc-text"> Hugging Face &#x2F; Transformers 相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8docker%E4%B8%8A%E8%AE%BF%E9%97%AEhuggingface%E8%B7%91openrlhf"><span class="toc-number">3.3.</span> <span class="toc-text"> 在Docker上访问huggingface跑OPENRLHF</span></a></li></ol></li></ol>
       
   </div>
 </div>
@@ -405,7 +435,7 @@
     
     <div>
       <span class="icon-copyright"></span>
-      2020-2024
+      2020-2025
       <span class="footer-info-sep"></span>
       RIKKA421
     </div>
@@ -418,10 +448,10 @@
     
       <div>
         <span class="icon-brush"></span>
-        123.8k
+        126.9k
         &nbsp;|&nbsp;
         <span class="icon-coffee"></span>
-        07:51
+        08:03
       </div>
     
     
@@ -451,7 +481,7 @@
   <h3 class="toc-title">Contents</h3>
   <div class="sidebar-toc-wrapper toc-div-class" >
       
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%B6-%E5%A4%A7%E6%88%98-nvidia-docker"><span class="toc-number">1.</span> <span class="toc-text"> 零. 大战 nvidia-docker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E5%A4%A7%E6%88%98-pip-install-openrlhf"><span class="toc-number">2.</span> <span class="toc-text"> 一. 大战 pip install openrlhf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-prepare-datasets"><span class="toc-number">3.</span> <span class="toc-text"> 二. Prepare Datasets</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%B6-%E5%A4%A7%E6%88%98-nvidia-docker"><span class="toc-number">1.</span> <span class="toc-text"> 零. 大战 nvidia-docker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E5%A4%A7%E6%88%98-pip-install-openrlhf"><span class="toc-number">2.</span> <span class="toc-text"> 一. 大战 pip install openrlhf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-prepare-datasets"><span class="toc-number">3.</span> <span class="toc-text"> 二. Prepare Datasets</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#docker%E7%9B%B8%E5%85%B3"><span class="toc-number">3.1.</span> <span class="toc-text"> Docker相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hugging-face-transformers-%E7%9B%B8%E5%85%B3"><span class="toc-number">3.2.</span> <span class="toc-text"> Hugging Face &#x2F; Transformers 相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8docker%E4%B8%8A%E8%AE%BF%E9%97%AEhuggingface%E8%B7%91openrlhf"><span class="toc-number">3.3.</span> <span class="toc-text"> 在Docker上访问huggingface跑OPENRLHF</span></a></li></ol></li></ol>
       
   </div>
 </div>
