@@ -129,29 +129,29 @@
     
       <span class="main-nav-link-wrap">
         <div class="main-nav-icon icon-taichi"></div>
-        <a class="main-nav-link" href="/">ホーム</a>
+        <a class="main-nav-link" href="/">Home</a>
       </span>
     
       <span class="main-nav-link-wrap">
         <div class="main-nav-icon icon-taichi"></div>
-        <a class="main-nav-link" href="/archives">アーカイブ</a>
+        <a class="main-nav-link" href="/archives">Archives</a>
       </span>
     
       <span class="main-nav-link-wrap">
         <div class="main-nav-icon icon-taichi"></div>
-        <a class="main-nav-link" href="/about">プロフィール</a>
+        <a class="main-nav-link" href="/about">About</a>
       </span>
     
       <span class="main-nav-link-wrap">
         <div class="main-nav-icon icon-taichi"></div>
-        <a class="main-nav-link" href="/friend">フレンド</a>
+        <a class="main-nav-link" href="/friend">Friend</a>
       </span>
     
     <a id="main-nav-toggle" class="nav-icon"></a>
   </nav>
   <nav id="sub-nav">
     
-      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSSフィード"></a>
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
     
     
     
@@ -551,7 +551,7 @@ GPT推荐了 rl-algorithms和 Dopamine 两种实现. 其中rl-algorithms已经�
       
         <a data-aos="zoom-in" href="/2024/11/07/2024-11/2024-11-07/#comments" class="article-comment-link">
           <span class="post-comments-count valine-comment-count" data-xid="/2024/11/07/2024-11/2024-11-07/" itemprop="commentCount"></span>
-          コメント
+          Comments
         </a>
       
       
@@ -576,7 +576,7 @@ GPT推荐了 rl-algorithms和 Dopamine 两种实现. 其中rl-algorithms已经�
           
         
         <a href="/2024/11/08/2024-11/2024-11-08/"></a>
-        <div class="article-nav-caption">次の記事</div>
+        <div class="article-nav-caption">Newer</div>
         <h3 class="article-nav-title">
           
             [PyTorch] 关于自动求导机制以及优化器的工作原理
@@ -593,7 +593,7 @@ GPT推荐了 rl-algorithms和 Dopamine 两种实现. 其中rl-algorithms已经�
         
       
       <a href="/2024/11/07/2024-11/misc-11-06/"></a>
-      <div class="article-nav-caption">前の記事</div>
+      <div class="article-nav-caption">Older</div>
       <h3 class="article-nav-title">
         
           [misc] 11-06 折腾的一些杂项
@@ -621,7 +621,7 @@ GPT推荐了 rl-algorithms和 Dopamine 两种实现. 其中rl-algorithms已经�
     <div class="sidebar-wrap" data-aos="fade-up">
       
         <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
-  <h3 class="toc-title">見出し</h3>
+  <h3 class="toc-title">Contents</h3>
   <div class="sidebar-toc-wrapper toc-div-class" >
       
         <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%AE%89%E8%A3%85-pytorch"><span class="toc-number">1.</span> <span class="toc-text"> 关于安装 PyTorch</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%A3%80%E6%9F%A5%E6%98%AF%E5%90%A6%E9%9C%80%E8%A6%81-cuda-%E6%94%AF%E6%8C%81"><span class="toc-number">1.1.</span> <span class="toc-text"> 1. 检查是否需要 CUDA 支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%AE%BF%E9%97%AE-pytorch-%E5%AE%98%E6%96%B9%E5%AE%89%E8%A3%85%E9%A1%B5%E9%9D%A2"><span class="toc-number">1.2.</span> <span class="toc-text"> 2. 访问 PyTorch 官方安装页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-pip-%E5%AE%89%E8%A3%85-pytorch"><span class="toc-number">1.3.</span> <span class="toc-text"> 3. 使用 pip 安装 PyTorch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%AA%8C%E8%AF%81%E5%AE%89%E8%A3%85"><span class="toc-number">1.4.</span> <span class="toc-text"> 4. 验证安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%A4%A7%E8%87%B4%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text"> 代码实现大致流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-stable-baselines3-%E5%8F%8A%E8%BE%85%E5%8A%A9%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text"> 1. 安装 stable-baselines3 及辅助库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE%E8%AE%AD%E7%BB%83%E6%97%A5%E5%BF%97"><span class="toc-number">2.2.</span> <span class="toc-text"> 2. 配置训练日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-tensorboard-%E6%9F%A5%E7%9C%8B%E8%AE%AD%E7%BB%83%E6%9B%B2%E7%BA%BF"><span class="toc-number">2.3.</span> <span class="toc-text"> 3. 使用 TensorBoard 查看训练曲线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8-matplotlib-%E7%BB%98%E5%88%B6%E8%AE%AD%E7%BB%83%E6%9B%B2%E7%BA%BF"><span class="toc-number">2.4.</span> <span class="toc-text"> 4. 使用 Matplotlib 绘制训练曲线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A"><span class="toc-number">2.5.</span> <span class="toc-text"> 解释</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Egym%E7%8E%AF%E5%A2%83"><span class="toc-number">3.</span> <span class="toc-text"> 关于gym环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-dqndeep-q-network"><span class="toc-number">3.1.</span> <span class="toc-text"> 1. DQN（Deep Q-Network）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ddpgdeep-deterministic-policy-gradient"><span class="toc-number">3.2.</span> <span class="toc-text"> 2. DDPG（Deep Deterministic Policy Gradient）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-td3twin-delayed-ddpg"><span class="toc-number">3.3.</span> <span class="toc-text"> 3. TD3（Twin Delayed DDPG）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-sacsoft-actor-critic"><span class="toc-number">3.4.</span> <span class="toc-text"> 4. SAC（Soft Actor-Critic）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-ppoproximal-policy-optimization"><span class="toc-number">3.5.</span> <span class="toc-text"> 5. PPO（Proximal Policy Optimization）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.6.</span> <span class="toc-text"> 总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Emonitor"><span class="toc-number">4.</span> <span class="toc-text"> 关于monitor</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96-csv-%E6%96%87%E4%BB%B6%E5%B9%B6%E7%BB%98%E5%88%B6%E8%AE%AD%E7%BB%83%E6%9B%B2%E7%BA%BF"><span class="toc-number">4.1.</span> <span class="toc-text"> 读取 CSV 文件并绘制训练曲线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">4.2.</span> <span class="toc-text"> 说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="toc-number">4.3.</span> <span class="toc-text"> 示例日志文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%B0%83%E6%95%B4%E7%AE%97%E6%B3%95%E7%9A%84%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%A4%A7%E5%B0%8F"><span class="toc-number">5.</span> <span class="toc-text"> 如何调整算法的神经网络大小</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E5%A4%A7%E5%B0%8F"><span class="toc-number">5.1.</span> <span class="toc-text"> 1. 自定义网络大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%9B%B4%E5%A4%8D%E6%9D%82%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="toc-number">5.2.</span> <span class="toc-text"> 2. 更复杂的网络结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%E7%AD%89%E9%AB%98%E7%BA%A7%E9%85%8D%E7%BD%AE"><span class="toc-number">5.3.</span> <span class="toc-text"> 3. 自定义激活函数等高级配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E7%A7%8D%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">6.</span> <span class="toc-text"> 各种算法的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8-stable-baselines3-%E5%AE%9E%E7%8E%B0%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95"><span class="toc-number">6.1.</span> <span class="toc-text"> 1. 使用 stable-baselines3 实现基础算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-dqn"><span class="toc-number">6.1.1.</span> <span class="toc-text"> (1) DQN</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-ddpg"><span class="toc-number">6.1.2.</span> <span class="toc-text"> (2) DDPG</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-td3"><span class="toc-number">6.1.3.</span> <span class="toc-text"> (3) TD3</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-sac"><span class="toc-number">6.1.4.</span> <span class="toc-text"> (4) SAC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-trpo"><span class="toc-number">6.1.5.</span> <span class="toc-text"> (5) TRPO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-ppo"><span class="toc-number">6.1.6.</span> <span class="toc-text"> (6) PPO</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%89%A9%E5%B1%95-dqn-%E5%AE%9E%E7%8E%B0double-dqn-duel-dqn-rainbow"><span class="toc-number">6.2.</span> <span class="toc-text"> 2. 扩展 DQN 实现（Double DQN、Duel DQN、Rainbow）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-rl-algorithms-%E5%AE%9E%E7%8E%B0-rainbow"><span class="toc-number">6.3.</span> <span class="toc-text"> 3. 使用 rl-algorithms 实现 Rainbow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%90%AF%E7%94%A8-tensorboard-%E7%9B%91%E6%8E%A7"><span class="toc-number">6.4.</span> <span class="toc-text"> 4. 启用 TensorBoard 监控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%B6%85%E5%8F%82%E6%95%B0%E5%92%8C%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="toc-number">6.5.</span> <span class="toc-text"> 5. 自定义超参数和网络结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Erainbow"><span class="toc-number">7.</span> <span class="toc-text"> 关于Rainbow</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-rl-algorithms"><span class="toc-number">7.1.</span> <span class="toc-text"> 1. 安装 rl-algorithms</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8-rl-algorithms-%E8%BF%90%E8%A1%8C-rainbow-dqn"><span class="toc-number">7.2.</span> <span class="toc-text"> 2. 使用 rl-algorithms 运行 Rainbow DQN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%90%E8%A1%8C-rainbow-dqn"><span class="toc-number">7.2.1.</span> <span class="toc-text"> 使用命令行运行 Rainbow DQN</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%85%8D%E7%BD%AE-rainbow-%E8%AE%AD%E7%BB%83%E5%8F%82%E6%95%B0"><span class="toc-number">7.3.</span> <span class="toc-text"> 3. 配置 Rainbow 训练参数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-rainbowyaml-%E7%A4%BA%E4%BE%8B"><span class="toc-number">7.3.1.</span> <span class="toc-text"> 配置文件 rainbow.yaml 示例：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%90%AF%E7%94%A8-tensorboard-%E6%97%A5%E5%BF%97"><span class="toc-number">7.4.</span> <span class="toc-text"> 4. 启用 TensorBoard 日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AE%AD%E7%BB%83%E4%BB%A3%E7%A0%81"><span class="toc-number">7.5.</span> <span class="toc-text"> 5. 自定义训练代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-dopamine"><span class="toc-number">7.6.</span> <span class="toc-text"> 1. 安装 Dopamine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE-rainbow-%E8%AE%AD%E7%BB%83"><span class="toc-number">7.7.</span> <span class="toc-text"> 2. 配置 Rainbow 训练</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-number">7.7.1.</span> <span class="toc-text"> 示例代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">7.8.</span> <span class="toc-text"> 3. 修改配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%90%AF%E7%94%A8-tensorboard-%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-number">7.9.</span> <span class="toc-text"> 4. 启用 TensorBoard 可视化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dopamine-%E7%9A%84-rainbow-%E7%89%B9%E6%80%A7"><span class="toc-number">7.10.</span> <span class="toc-text"> Dopamine 的 Rainbow 特性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E7%BB%93%E6%9E%9C"><span class="toc-number">8.</span> <span class="toc-text"> 最终结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-2"><span class="toc-number">9.</span> <span class="toc-text"> 总结</span></a></li></ol>
@@ -636,15 +636,15 @@ GPT推荐了 rl-algorithms和 Dopamine 两种实现. 其中rl-algorithms已经�
 </div>
 <div class="sidebar-state">
   <div class="sidebar-state-article">
-    <div>投稿</div>
+    <div>Posts</div>
     <div class="sidebar-state-number">73</div>
   </div>
   <div class="sidebar-state-category">
-    <div>カテゴリ</div>
+    <div>Categories</div>
     <div class="sidebar-state-number">4</div>
   </div>
   <div class="sidebar-state-tag">
-    <div>タグ</div>
+    <div>Tags</div>
     <div class="sidebar-state-number">25</div>
   </div>
 </div>
@@ -666,27 +666,27 @@ GPT推荐了 rl-algorithms和 Dopamine 两种实现. 其中rl-algorithms已经�
 <div class="sidebar-menu">
   
     <div class="sidebar-menu-link-wrap">
-      <a class="sidebar-menu-link-dummy" href="/" aria-label="ホーム"></a>
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
       <div class="sidebar-menu-icon icon-taichi"></div>
-      <div class="sidebar-menu-link">ホーム</div>
+      <div class="sidebar-menu-link">Home</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
-      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="アーカイブ"></a>
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
       <div class="sidebar-menu-icon icon-taichi"></div>
-      <div class="sidebar-menu-link">アーカイブ</div>
+      <div class="sidebar-menu-link">Archives</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
-      <a class="sidebar-menu-link-dummy" href="/about" aria-label="プロフィール"></a>
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
       <div class="sidebar-menu-icon icon-taichi"></div>
-      <div class="sidebar-menu-link">プロフィール</div>
+      <div class="sidebar-menu-link">About</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
-      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="フレンド"></a>
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
       <div class="sidebar-menu-icon icon-taichi"></div>
-      <div class="sidebar-menu-link">フレンド</div>
+      <div class="sidebar-menu-link">Friend</div>
     </div>
   
 </div>
@@ -738,10 +738,10 @@ GPT推荐了 rl-algorithms和 Dopamine 两种实现. 其中rl-algorithms已经�
     
       <div>
         <span class="icon-eye"></span>
-        <span id="busuanzi_container_site_pv">総閲覧数&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
         &nbsp;|&nbsp;
         <span class="icon-user"></span>
-        <span id="busuanzi_container_site_uv">総閲覧者数&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
       </div>
     
   </div>
@@ -757,7 +757,7 @@ GPT推荐了 rl-algorithms和 Dopamine 两种实现. 其中rl-algorithms已经�
   <div class="sidebar-wrap">
     
       <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
-  <h3 class="toc-title">見出し</h3>
+  <h3 class="toc-title">Contents</h3>
   <div class="sidebar-toc-wrapper toc-div-class" >
       
         <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%AE%89%E8%A3%85-pytorch"><span class="toc-number">1.</span> <span class="toc-text"> 关于安装 PyTorch</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%A3%80%E6%9F%A5%E6%98%AF%E5%90%A6%E9%9C%80%E8%A6%81-cuda-%E6%94%AF%E6%8C%81"><span class="toc-number">1.1.</span> <span class="toc-text"> 1. 检查是否需要 CUDA 支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%AE%BF%E9%97%AE-pytorch-%E5%AE%98%E6%96%B9%E5%AE%89%E8%A3%85%E9%A1%B5%E9%9D%A2"><span class="toc-number">1.2.</span> <span class="toc-text"> 2. 访问 PyTorch 官方安装页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-pip-%E5%AE%89%E8%A3%85-pytorch"><span class="toc-number">1.3.</span> <span class="toc-text"> 3. 使用 pip 安装 PyTorch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%AA%8C%E8%AF%81%E5%AE%89%E8%A3%85"><span class="toc-number">1.4.</span> <span class="toc-text"> 4. 验证安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%A4%A7%E8%87%B4%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text"> 代码实现大致流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-stable-baselines3-%E5%8F%8A%E8%BE%85%E5%8A%A9%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text"> 1. 安装 stable-baselines3 及辅助库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE%E8%AE%AD%E7%BB%83%E6%97%A5%E5%BF%97"><span class="toc-number">2.2.</span> <span class="toc-text"> 2. 配置训练日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-tensorboard-%E6%9F%A5%E7%9C%8B%E8%AE%AD%E7%BB%83%E6%9B%B2%E7%BA%BF"><span class="toc-number">2.3.</span> <span class="toc-text"> 3. 使用 TensorBoard 查看训练曲线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8-matplotlib-%E7%BB%98%E5%88%B6%E8%AE%AD%E7%BB%83%E6%9B%B2%E7%BA%BF"><span class="toc-number">2.4.</span> <span class="toc-text"> 4. 使用 Matplotlib 绘制训练曲线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A"><span class="toc-number">2.5.</span> <span class="toc-text"> 解释</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Egym%E7%8E%AF%E5%A2%83"><span class="toc-number">3.</span> <span class="toc-text"> 关于gym环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-dqndeep-q-network"><span class="toc-number">3.1.</span> <span class="toc-text"> 1. DQN（Deep Q-Network）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ddpgdeep-deterministic-policy-gradient"><span class="toc-number">3.2.</span> <span class="toc-text"> 2. DDPG（Deep Deterministic Policy Gradient）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-td3twin-delayed-ddpg"><span class="toc-number">3.3.</span> <span class="toc-text"> 3. TD3（Twin Delayed DDPG）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-sacsoft-actor-critic"><span class="toc-number">3.4.</span> <span class="toc-text"> 4. SAC（Soft Actor-Critic）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-ppoproximal-policy-optimization"><span class="toc-number">3.5.</span> <span class="toc-text"> 5. PPO（Proximal Policy Optimization）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.6.</span> <span class="toc-text"> 总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Emonitor"><span class="toc-number">4.</span> <span class="toc-text"> 关于monitor</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96-csv-%E6%96%87%E4%BB%B6%E5%B9%B6%E7%BB%98%E5%88%B6%E8%AE%AD%E7%BB%83%E6%9B%B2%E7%BA%BF"><span class="toc-number">4.1.</span> <span class="toc-text"> 读取 CSV 文件并绘制训练曲线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">4.2.</span> <span class="toc-text"> 说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="toc-number">4.3.</span> <span class="toc-text"> 示例日志文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%B0%83%E6%95%B4%E7%AE%97%E6%B3%95%E7%9A%84%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%A4%A7%E5%B0%8F"><span class="toc-number">5.</span> <span class="toc-text"> 如何调整算法的神经网络大小</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E5%A4%A7%E5%B0%8F"><span class="toc-number">5.1.</span> <span class="toc-text"> 1. 自定义网络大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%9B%B4%E5%A4%8D%E6%9D%82%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="toc-number">5.2.</span> <span class="toc-text"> 2. 更复杂的网络结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%E7%AD%89%E9%AB%98%E7%BA%A7%E9%85%8D%E7%BD%AE"><span class="toc-number">5.3.</span> <span class="toc-text"> 3. 自定义激活函数等高级配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E7%A7%8D%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">6.</span> <span class="toc-text"> 各种算法的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8-stable-baselines3-%E5%AE%9E%E7%8E%B0%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95"><span class="toc-number">6.1.</span> <span class="toc-text"> 1. 使用 stable-baselines3 实现基础算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-dqn"><span class="toc-number">6.1.1.</span> <span class="toc-text"> (1) DQN</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-ddpg"><span class="toc-number">6.1.2.</span> <span class="toc-text"> (2) DDPG</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-td3"><span class="toc-number">6.1.3.</span> <span class="toc-text"> (3) TD3</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-sac"><span class="toc-number">6.1.4.</span> <span class="toc-text"> (4) SAC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-trpo"><span class="toc-number">6.1.5.</span> <span class="toc-text"> (5) TRPO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-ppo"><span class="toc-number">6.1.6.</span> <span class="toc-text"> (6) PPO</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%89%A9%E5%B1%95-dqn-%E5%AE%9E%E7%8E%B0double-dqn-duel-dqn-rainbow"><span class="toc-number">6.2.</span> <span class="toc-text"> 2. 扩展 DQN 实现（Double DQN、Duel DQN、Rainbow）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-rl-algorithms-%E5%AE%9E%E7%8E%B0-rainbow"><span class="toc-number">6.3.</span> <span class="toc-text"> 3. 使用 rl-algorithms 实现 Rainbow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%90%AF%E7%94%A8-tensorboard-%E7%9B%91%E6%8E%A7"><span class="toc-number">6.4.</span> <span class="toc-text"> 4. 启用 TensorBoard 监控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%B6%85%E5%8F%82%E6%95%B0%E5%92%8C%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="toc-number">6.5.</span> <span class="toc-text"> 5. 自定义超参数和网络结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Erainbow"><span class="toc-number">7.</span> <span class="toc-text"> 关于Rainbow</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-rl-algorithms"><span class="toc-number">7.1.</span> <span class="toc-text"> 1. 安装 rl-algorithms</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8-rl-algorithms-%E8%BF%90%E8%A1%8C-rainbow-dqn"><span class="toc-number">7.2.</span> <span class="toc-text"> 2. 使用 rl-algorithms 运行 Rainbow DQN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%90%E8%A1%8C-rainbow-dqn"><span class="toc-number">7.2.1.</span> <span class="toc-text"> 使用命令行运行 Rainbow DQN</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%85%8D%E7%BD%AE-rainbow-%E8%AE%AD%E7%BB%83%E5%8F%82%E6%95%B0"><span class="toc-number">7.3.</span> <span class="toc-text"> 3. 配置 Rainbow 训练参数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-rainbowyaml-%E7%A4%BA%E4%BE%8B"><span class="toc-number">7.3.1.</span> <span class="toc-text"> 配置文件 rainbow.yaml 示例：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%90%AF%E7%94%A8-tensorboard-%E6%97%A5%E5%BF%97"><span class="toc-number">7.4.</span> <span class="toc-text"> 4. 启用 TensorBoard 日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AE%AD%E7%BB%83%E4%BB%A3%E7%A0%81"><span class="toc-number">7.5.</span> <span class="toc-text"> 5. 自定义训练代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-dopamine"><span class="toc-number">7.6.</span> <span class="toc-text"> 1. 安装 Dopamine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE-rainbow-%E8%AE%AD%E7%BB%83"><span class="toc-number">7.7.</span> <span class="toc-text"> 2. 配置 Rainbow 训练</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-number">7.7.1.</span> <span class="toc-text"> 示例代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">7.8.</span> <span class="toc-text"> 3. 修改配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%90%AF%E7%94%A8-tensorboard-%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-number">7.9.</span> <span class="toc-text"> 4. 启用 TensorBoard 可视化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dopamine-%E7%9A%84-rainbow-%E7%89%B9%E6%80%A7"><span class="toc-number">7.10.</span> <span class="toc-text"> Dopamine 的 Rainbow 特性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E7%BB%93%E6%9E%9C"><span class="toc-number">8.</span> <span class="toc-text"> 最终结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-2"><span class="toc-number">9.</span> <span class="toc-text"> 总结</span></a></li></ol>
@@ -772,15 +772,15 @@ GPT推荐了 rl-algorithms和 Dopamine 两种实现. 其中rl-algorithms已经�
 </div>
 <div class="sidebar-state">
   <div class="sidebar-state-article">
-    <div>投稿</div>
+    <div>Posts</div>
     <div class="sidebar-state-number">73</div>
   </div>
   <div class="sidebar-state-category">
-    <div>カテゴリ</div>
+    <div>Categories</div>
     <div class="sidebar-state-number">4</div>
   </div>
   <div class="sidebar-state-tag">
-    <div>タグ</div>
+    <div>Tags</div>
     <div class="sidebar-state-number">25</div>
   </div>
 </div>
@@ -802,27 +802,27 @@ GPT推荐了 rl-algorithms和 Dopamine 两种实现. 其中rl-algorithms已经�
 <div class="sidebar-menu">
   
     <div class="sidebar-menu-link-wrap">
-      <a class="sidebar-menu-link-dummy" href="/" aria-label="ホーム"></a>
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
       <div class="sidebar-menu-icon icon-taichi"></div>
-      <div class="sidebar-menu-link">ホーム</div>
+      <div class="sidebar-menu-link">Home</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
-      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="アーカイブ"></a>
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
       <div class="sidebar-menu-icon icon-taichi"></div>
-      <div class="sidebar-menu-link">アーカイブ</div>
+      <div class="sidebar-menu-link">Archives</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
-      <a class="sidebar-menu-link-dummy" href="/about" aria-label="プロフィール"></a>
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
       <div class="sidebar-menu-icon icon-taichi"></div>
-      <div class="sidebar-menu-link">プロフィール</div>
+      <div class="sidebar-menu-link">About</div>
     </div>
   
     <div class="sidebar-menu-link-wrap">
-      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="フレンド"></a>
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
       <div class="sidebar-menu-icon icon-taichi"></div>
-      <div class="sidebar-menu-link">フレンド</div>
+      <div class="sidebar-menu-link">Friend</div>
     </div>
   
 </div>
