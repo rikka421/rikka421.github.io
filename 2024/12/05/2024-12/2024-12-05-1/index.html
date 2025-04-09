@@ -14,7 +14,7 @@
   
   
   <title>
-    [RLHF] OpenRLHF食用指南 |
+    [RLHF] OpenRLHF食用指南 (并非指南) |
     
     RIKKA&#39;s Blog
   </title>
@@ -31,13 +31,13 @@
   
     <meta name="description" content="使用OpenRLHF https:&#x2F;&#x2F;github.com&#x2F;OpenRLHF&#x2F;OpenRLHF?tab&#x3D;readme-ov-file 的过程.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[RLHF] OpenRLHF食用指南">
+<meta property="og:title" content="[RLHF] OpenRLHF食用指南 (并非指南)">
 <meta property="og:url" content="https://rikka421.github.io/2024/12/05/2024-12/2024-12-05-1/index.html">
 <meta property="og:site_name" content="RIKKA&#39;s Blog">
 <meta property="og:description" content="使用OpenRLHF https:&#x2F;&#x2F;github.com&#x2F;OpenRLHF&#x2F;OpenRLHF?tab&#x3D;readme-ov-file 的过程.">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-05T03:12:55.383Z">
-<meta property="article:modified_time" content="2025-01-22T06:29:54.798Z">
+<meta property="article:modified_time" content="2025-04-09T13:03:04.199Z">
 <meta property="article:author" content="RIKKA421">
 <meta property="article:tag" content="RLHF">
 <meta name="twitter:card" content="summary">
@@ -157,7 +157,7 @@
 <header id="header">
   
     
-      <img fetchpriority="high" src="/images/banner.png" alt="[RLHF] OpenRLHF食用指南">
+      <img fetchpriority="high" src="/images/banner.png" alt="[RLHF] OpenRLHF食用指南 (并非指南)">
     
   
   <div id="header-outer">
@@ -166,7 +166,7 @@
         
         
           <a href="/" id="logo">
-            <h1 data-aos="slide-up">[RLHF] OpenRLHF食用指南</h1>
+            <h1 data-aos="slide-up">[RLHF] OpenRLHF食用指南 (并非指南)</h1>
           </a>
         
       
@@ -188,7 +188,7 @@
       <div class="article-date">
   <a href="/2024/12/05/2024-12/2024-12-05-1/" class="article-date-link" data-aos="zoom-in">
     <time datetime="2024-12-05T03:12:55.383Z" itemprop="datePublished">2024-12-05</time>
-    <time style="display: none;" id="post-update-time">2025-01-22</time>
+    <time style="display: none;" id="post-update-time">2025-04-09</time>
   </a>
 </div>
 
@@ -271,7 +271,7 @@
 </ol>
 <p>于是加了个环境变量作为镜像源, 问题立刻解决</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">root@285efd5f88fe:/workspace# export HF_ENDPOINT=https://hf-mirror.com</span><br><span class="line">root@285efd5f88fe:/workspace# python codes/test.py</span><br><span class="line">tokenizer_config.json: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 48.0/48.0 [00:00&lt;00:00, 291kB/s]</span><br><span class="line">config.json: 570B [00:00, 1.30MB/s]</span><br><span class="line">vocab.txt: 232kB [00:00, 901kB/s] </span><br><span class="line">tokenizer.json: 466kB [00:00, 1.11MB/s]</span><br><span class="line">model.safetensors: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 440M/440M [06:27&lt;00:00, 1.14MB/s]</span><br><span class="line">Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: [&#x27;classifier.bias&#x27;, &#x27;classifier.weight&#x27;]</span><br><span class="line">You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.</span><br><span class="line">Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: [&#x27;classifier.bias&#x27;, &#x27;classifier.weight&#x27;]</span><br><span class="line">You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.</span><br><span class="line">tensor([[-0.1272,  0.0683]], grad_fn=&lt;AddmmBackward0&gt;)</span><br></pre></td></tr></table></figure>
-<p>至此实例的模型都能跑了, 但是在网站上寻找到的模型还不知道要怎么用. 此处尝试使用 `` 模型, 遇到了各种报错.</p>
+<p>至此实例的模型都能跑了, 但是在网站上寻找到的模型还不知道要怎么用. 此处试了一个模型, 遇到了各种报错.</p>
 <p>开始是一前一后两个库缺失的报错, 分别pip上去了.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install tiktoken</span><br><span class="line">pip install blobfile</span><br></pre></td></tr></table></figure>
 <p>之后还是不行, 报错信息显示问题似乎出在模型的内部. 于是打算先跑个别的模型看看.</p>
@@ -285,6 +285,10 @@
 <p><code>ModuleNotFoundError: No module named 'fastapi'</code></p>
 <p>直接pip install 了相关的库之后就解决了.</p>
 <p>之后还是没跑成功.</p>
+<hr />
+<blockquote>
+<p>后续我也忘了究竟跑没跑起来了, 总之OPENRLHF貌似是一个陷阱. 对于初学者而言还是尝试别的框架比较好, 例如<code>unslot</code></p>
+</blockquote>
 
       
     </div>
